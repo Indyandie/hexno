@@ -1,5 +1,6 @@
-const port = 8000
+import { srvFl } from './deps.js'
 
+const port = 8000
 
 async function handler(req) {
 
