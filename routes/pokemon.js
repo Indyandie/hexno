@@ -9,7 +9,7 @@ export const pokemon = {
 
 export const pokeHTMX = {
   GET: {
-    route: '/pokemon/htmx',
+    route: '/pokemon-htmx',
     handler: htmxPoke
   }
 }

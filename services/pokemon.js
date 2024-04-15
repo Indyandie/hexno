@@ -13,14 +13,18 @@ export const htmxPokemon = async () => {
     return `<li id="pokemon-${poke.order}">
   <header>${poke.name}</header>
   <p>
-    <ol>
-      <li>weight: ${poke.weight}<li>
-      <li>height: ${poke.height}<li>
-      <li>types: ${poke.types}<li>
-    </ol>
+    <ul>
+      <li>weight: ${poke.weight}</li>
+      <li>height: ${poke.height}</li>
+      <li>types: ${poke.types}</li>
+    </ul>
   <p>
 </li>`
   })
-  return JSON.stringify(htmx.join("\n"))
+  htmx.unshift("<ul>")
+  htmx.push("<ul>")
+  const pokelist = JSON.stringify(htmx.join("\n"))
+  // return "<ol>" + pokelist
+  return pokelist
 }
 
