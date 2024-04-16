@@ -1,0 +1,9 @@
+{
+  "tasks": {
+    "start": "deno run --allow-net --allow-write --allow-read mod.js"
+  },
+  "imports": {
+    "csv": "https://deno.land/std@0.207.0/csv/mod.ts",
+    "flSrv": "https://deno.land/std@0.207.0/http/file_server.ts"
+  }
+}
