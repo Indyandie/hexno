@@ -10,21 +10,12 @@ export async function getPokemon() {
 export const htmxPokemon = async () => {
   const pokemon = await getPokemon()
   const htmx = pokemon.map((poke) => {
-    return `<li id="pokemon-${poke.order}">
-  <header>${poke.name}</header>
-  <p>
-    <ul>
-      <li>weight: ${poke.weight}</li>
-      <li>height: ${poke.height}</li>
-      <li>types: ${poke.types}</li>
-    </ul>
-  <p>
-</li>`
+    return `<li id="pokemon-${poke.order}"><header>${poke.name}</header><p><ul><li>weight: ${poke.weight}</li><li>height: ${poke.height}</li><li>types: ${poke.types}</li></ul><p></li>`
   })
-  htmx.unshift("<ul>")
-  htmx.push("<ul>")
-  const pokelist = JSON.stringify(htmx.join("\n"))
+  htmx.unshift('<ul>')
+  htmx.push('<ul>')
+  const pokelist = JSON.stringify(htmx.join(''))
   // return "<ol>" + pokelist
-  return pokelist
+  return pokelist.replace(/\\"/g, '"')
 }
 
