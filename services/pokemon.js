@@ -16,6 +16,6 @@ export const htmxPokemon = async () => {
   htmx.push('<ul>')
   const pokelist = JSON.stringify(htmx.join(''))
   // return "<ol>" + pokelist
-  return pokelist.replace(/\\"/g, '"')
+  return pokelist.replace(/\\"/g, '"').slice(1, -1)
 }
 
