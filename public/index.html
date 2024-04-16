@@ -6,10 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>HTMX</title>
-  <link rel="stylesheet" href="style.css">
+  <script src="/public/js/htmx.js"></script>
 </head>
 
 <body>
+  <main>
+    <h1>HTMX</h1>
+    <button hx-get="/pokemon-htmx" hx-trigger="click" hx-target="main" hx-swap="outerHTML">
+      Get <code>htmx</code> fragment.
+    </button>
+  </main>
 </body>
 
 </html>
