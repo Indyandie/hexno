@@ -29,8 +29,9 @@ let pokeCSV = csvStringify(pokemap, {
     'weight',
     'height',
     'types',
+    'sprite',
   ]
 })
 
-await Deno.writeTextFile("db.csv", pokeCSV)
+await Deno.writeTextFile("./models/pokemon.csv", pokeCSV)
 
