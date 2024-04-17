@@ -1,6 +1,7 @@
 {
   "tasks": {
-    "start": "deno run --allow-net --allow-write --allow-read mod.js"
+    "start": "deno run --allow-net --allow-write --allow-read mod.js",
+    "seed": "deno run --allow-net --allow-write seed.js"
   },
   "imports": {
     "csv": "https://deno.land/std@0.207.0/csv/mod.ts",
