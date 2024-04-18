@@ -1,7 +1,7 @@
-import { getPokemon, htmxPokemon } from '../services/pokemon.js'
+import { getAllPokemon, htmxPokemon } from '../services/pokemon.js'
 
 export const listPokemon= async (req, params) => new Response(
-  JSON.stringify(await getPokemon())
+  JSON.stringify(await getAllPokemon())
 )
 
 export const htmxPoke = async (req) => new Response( 
