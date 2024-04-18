@@ -12,7 +12,7 @@ export const getPokemon = async (id) => {
   return pokemon[id - 1]
 }
 
-export const htmxPokemon = async () => {
+export const htmxAllPokemon = async () => {
   const pokemon = await getAllPokemon()
   const htmx = pokemon.map((poke) => {
     return `<li id="pokemon-${poke.id}"><header>${poke.name}</header><img src="${poke.sprite} alt="${poke.name}"  /><p><ul><li>weight: ${poke.weight}</li><li>height: ${poke.height}</li><li>types: ${poke.types}</li></ul></p></li>`
