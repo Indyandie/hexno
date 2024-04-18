@@ -5,7 +5,7 @@ async function fetchPokeData(url) {
   const text = await resp.text()
   const data = JSON.parse(text)
   const pokeData = {
-    order: data.order,
+    id: data.id,
     name: data.name,
     weight: data.weight,
     height: data.height,
@@ -24,7 +24,7 @@ let pokemap = await Promise.all(pokelist.map(poke => fetchPokeData(poke.url)))
 
 let pokeCSV = csvStringify(pokemap, {
   columns: [
-    'order',
+    'id',
     'name',
     'weight',
     'height',
