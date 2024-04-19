@@ -1,4 +1,4 @@
-import { getAllPokemon, getPokemon, htmxAllPokemon } from '../services/pokemon.js'
+import { getAllPokemon, getPokemon, htmxAllPokemon, htmxPokemon } from '../services/pokemon.js'
 
 export const listPokemon = async () => new Response(
   JSON.stringify(await getAllPokemon()),
@@ -10,7 +10,7 @@ export const listPokemon = async () => new Response(
 )
 
 export const getPokemonById = async (req, match) => {
-  const pokeId= match.pathname.groups.id
+  const pokeId = match.pathname.groups.id
 
   return new Response(
     JSON.stringify(await getPokemon(pokeId)),
@@ -22,7 +22,7 @@ export const getPokemonById = async (req, match) => {
   )
 }
 
-export const htmxPoke = async () => new Response(
+export const htmxAllPokemonCtrl = async () => new Response(
   await htmxAllPokemon(),
   {
     headers: {
@@ -31,3 +31,18 @@ export const htmxPoke = async () => new Response(
   }
 
 )
+
+export const htmxPokemonCtrl = async (req, match) => {
+  const pokeId = match.pathname.groups.id
+
+  return new Response(
+    await htmxPokemon(pokeId),
+    {
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8'
+      }
+    }
+
+  )
+}
+

@@ -1,4 +1,4 @@
-import { listPokemon, getPokemonById, htmxPoke } from '../controllers/pokemon.js'
+import { listPokemon, getPokemonById, htmxAllPokemonCtrl, htmxPokemonCtrl } from '../controllers/pokemon.js'
 
 export const pokemon = {
   GET: {
@@ -17,6 +17,14 @@ export const pokemonList = {
 export const pokeHTMX = {
   GET: {
     route: '/pokemon-htmx',
-    handler: htmxPoke
+    handler: htmxAllPokemonCtrl
   }
 }
+
+export const htmxPokeRouter = {
+  GET: {
+    route: '/pokemon-htmx/:id',
+    handler: htmxPokemonCtrl
+  }
+}
+
