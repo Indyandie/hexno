@@ -25,8 +25,10 @@ export class Router {
 
   async route(req) {
     for (const r of this.routes[req.method]) {
-      if (r.pattern.test(req.url)) {
-        return await r.handler(req);
+      const match = r.pattern.exec(req.url)
+
+      if(match) {
+        return await r.handler(req, match);
       }
     }
 
