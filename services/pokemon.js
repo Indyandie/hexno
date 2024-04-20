@@ -8,8 +8,14 @@ export const getAllPokemon = async () => {
 }
 
 export const getPokemon = async (id) => {
-  const pokemon = await getAllPokemon()
-  return pokemon[id - 1]
+  let pokemon = await getAllPokemon()
+  pokemon = pokemon[id - 1]
+
+  if(pokemon) {
+    return pokemon
+  }
+  
+  return false
 }
 
 export const htmxAllPokemon = async () => {
@@ -24,8 +30,11 @@ export const htmxAllPokemon = async () => {
 
 export const htmxPokemon = async (id) => {
   const pokemon = await getPokemon(id)
-  const htmx = await `<article><h2>${pokemon.name}</h2><img src="${pokemon.sprite}" alt="${pokemon.name}"/><table><tr><th>weight</th><td>${pokemon.weight}</td></tr><tr><th>height</th><td>${pokemon.height}</td></tr><tr><th>type</th><td>${pokemon.type}</td></tr></table></article>`
+  if (pokemon) {
+    const htmx = await `<article><h2>${pokemon.name}</h2><img src="${pokemon.sprite}" alt="${pokemon.name}"/><table><tr><th>weight</th><td>${pokemon.weight}</td></tr><tr><th>height</th><td>${pokemon.height}</td></tr><tr><th>type</th><td>${pokemon.type}</td></tr></table></article>`
 
-  return htmx
+    return htmx
+  }
+  return false
 }
 
