@@ -8,7 +8,7 @@ export class Router {
   }
 
   add(method, pathname, handler) {
-    this.routes[method].push({ pattern: new URLPattern({pathname}), handler });
+    this.routes[method].push({ pattern: new URLPattern({ pathname }), handler });
   }
 
   get(pathname, handler) {
@@ -24,15 +24,34 @@ export class Router {
   }
 
   async route(req) {
-    for (const r of this.routes[req.method]) {
-      const match = r.pattern.exec(req.url)
+    const method = this.routes[req.method]
+    if (method) {
+      if (method.length > 0) {
+        for (const r of method) {
+          const match = r.pattern.exec(req.url)
 
-      if(match) {
-        return await r.handler(req, match);
+          if (match) {
+            return await r.handler(req, match);
+          }
+        }
+      } else {
+        return new Response(
+          null,
+          {
+            status: 404,
+            statusText: "Not Found",
+          })
       }
+    } else {
+      return new Response(
+        null,
+        {
+          status: 405,
+          statusText: "Not allowed",
+        }
+      );
     }
 
-    return new Response(null, { status: 404 });
   }
 }
 
