@@ -27,10 +27,10 @@ id,name,weight,height,types,sprite
 26,raichu,300,8,electric,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/26.png
 27,sandshrew,120,6,ground,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/27.png
 28,sandslash,295,10,ground,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/28.png
-29,nidoran-f,70,4,poison,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/29.png
+29,nidoran_f,70,4,poison,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/29.png
 30,nidorina,200,8,poison,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/30.png
 31,nidoqueen,600,13,poison,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/31.png
-32,nidoran-m,90,5,poison,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/32.png
+32,nidoran_m,90,5,poison,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/32.png
 33,nidorino,195,9,poison,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/33.png
 34,nidoking,620,14,poison,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/34.png
 35,clefairy,75,6,fairy,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/35.png
@@ -120,7 +120,7 @@ id,name,weight,height,types,sprite
 119,seaking,390,13,water,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/119.png
 120,staryu,345,8,water,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/120.png
 121,starmie,800,11,water,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/121.png
-122,mr-mime,545,13,psychic,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/122.png
+122,mr_mime,545,13,psychic,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/122.png
 123,scyther,560,15,bug,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/123.png
 124,jynx,406,14,ice,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/124.png
 125,electabuzz,300,11,electric,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/125.png
@@ -248,5 +248,5 @@ id,name,weight,height,types,sprite
 247,pupitar,1520,12,rock,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/247.png
 248,tyranitar,2020,20,rock,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/248.png
 249,lugia,2160,52,psychic,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/249.png
-250,ho-oh,1990,38,fire,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/250.png
+250,ho_oh,1990,38,fire,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/250.png
 251,celebi,50,6,psychic,https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/251.png

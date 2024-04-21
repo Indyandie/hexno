@@ -33,5 +33,7 @@ let pokeCSV = csvStringify(pokemap, {
   ]
 })
 
+pokeCSV = pokeCSV.replace(/-/g, "_")
+
 await Deno.writeTextFile("./models/pokemon.csv", pokeCSV)
 
