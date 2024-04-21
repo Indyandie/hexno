@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="auto">
 
 <head>
   <meta charset="UTF-8">
@@ -11,10 +11,12 @@
 
 <body>
   <main>
-    <h1>HTMX</h1>
-    <button hx-get="/pokemon-htmx" hx-trigger="click" hx-target="main" hx-swap="outerHTML">
-      Get <code>htmx</code> fragment.
-    </button>
+    <header>
+      <h1>Pokemon</h1>
+    </header>
+    <section class="pokelist">
+      <div hx-get="/pokemon-htmx" hx-trigger="load"></div>
+    </section>
   </main>
 </body>
 
