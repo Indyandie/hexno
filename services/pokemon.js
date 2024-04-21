@@ -20,7 +20,7 @@ export const getPokemon = async (id) => {
 
 export const htmxAllPokemon = async () => {
   const pokemon = await getAllPokemon()
-  const htmx = pokemon.map((poke) => (`<li id="pokemon-${poke.id}"><header>${poke.name}</header><img src="${poke.sprite}" alt="${poke.name}"  /><p><ul><li>weight: ${poke.weight}</li><li>height: ${poke.height}</li><li>types: ${poke.types}</li></ul></p></li>`))
+  const htmx = pokemon.map((poke) => (`<li id="pokemon-${poke.id} show-dialog-${poke.name}"><button class="show-dialog-${poke.name}"><figure><img src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></button><dialog class="${poke.name}"><article hx-get="/pokemon-htmx/${poke.id}" hx-trigger="intersect"></article><button autofocus>Close</button></dialog><script>const ${poke.name}Dialog = document.querySelector("dialog.${poke.name}"); const ${poke.name}ShowButton = document.querySelector("button.show-dialog-${poke.name}"); const ${poke.name}CloseButton = document.querySelector("dialog.${poke.name} button"); ${poke.name}ShowButton.addEventListener("click", () => {${poke.name}Dialog.showModal();}); ${poke.name}CloseButton.addEventListener("click", () => {${poke.name}Dialog.close();});</script></li>`))
   htmx.unshift('<ul>')
   htmx.push('<ul>')
 
@@ -29,9 +29,9 @@ export const htmxAllPokemon = async () => {
 }
 
 export const htmxPokemon = async (id) => {
-  const pokemon = await getPokemon(id)
-  if (pokemon) {
-    const htmx = await `<article><h2>${pokemon.name}</h2><img src="${pokemon.sprite}" alt="${pokemon.name}"/><table><tr><th>weight</th><td>${pokemon.weight}</td></tr><tr><th>height</th><td>${pokemon.height}</td></tr><tr><th>type</th><td>${pokemon.type}</td></tr></table></article>`
+  const poke = await getPokemon(id)
+  if (poke) {
+    const htmx = await `<article><h2>${poke.name}</h2><img src="${poke.sprite}" alt="${poke.name}"/><table><tr><th>weight</th><td>${poke.weight}</td></tr><tr><th>height</th><td>${poke.height}</td></tr><tr><th>type</th><td>${poke.types}</td></tr></table></article>`
 
     return htmx
   }
