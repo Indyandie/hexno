@@ -32,16 +32,44 @@ async function fetchPokeData(url) {
   return pokeData;
 }
 
-let pokelist = await fetch(
-  "https://pokeapi.co/api/v2/pokemon?limit=251&offset=0",
-);
-pokelist = await pokelist.text();
-pokelist = JSON.parse(pokelist).results;
+/**
+ * @typedef {object} PokemonItem
+ * @property {number} name
+ * @property {string} url - URL
+ */
+
+/**
+ * Get list of pokemon.
+ * @param {number} totalPokemon - Total number of pokemon.
+ * @return {PokemonItem[]} Array of PokemonItem
+ */
+async function getPokemonList(totalPokemon) {
+  if (!totalPokemon) {
+    totalPokemon = 150;
+  }
+
+  let pokeList = await fetch(
+    `https://pokeapi.co/api/v2/pokemon?limit=${totalPokemon}`,
+  );
+
+  pokeList = await pokeList.text();
+  pokeList = JSON.parse(pokeList).results;
+
+  return pokeList;
+}
+
+/**
+ * @param {PokemonList} pokeList
+ */
+const pokeList = await getPokemonList(500);
 
 let pokemap = await Promise.all(
-  pokelist.map((poke) => fetchPokeData(poke.url)),
+  await pokeList.map((poke) => fetchPokeData(poke.url)),
 );
 
+/**
+ * @param {string} pokeCSV - CSV string
+ */
 let pokeCSV = csvStringify(pokemap, {
   columns: [
     "id",
@@ -55,4 +83,5 @@ let pokeCSV = csvStringify(pokemap, {
 
 pokeCSV = pokeCSV.replace(/-/g, "_");
 
+/** Write pokemon date to `/models/pokemon.csv` file */
 await Deno.writeTextFile("./models/pokemon.csv", pokeCSV);
