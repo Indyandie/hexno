@@ -3,7 +3,11 @@ import { router } from "./routes/index.js";
 
 const port = 8000;
 
-async function reqHandler(req, param) {
+/**
+  @param {Request} req
+  @returns {Promise<Response>}
+  */
+async function reqHandler(req) {
   const url = new URL(req.url);
 
   if (url.pathname.startsWith("/public")) {
