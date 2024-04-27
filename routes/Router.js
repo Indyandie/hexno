@@ -1,34 +1,37 @@
 export class Router {
   constructor() {
     this.routes = {
-      'GET': [],
-      'POST': [],
-      'PUT': []
+      "GET": [],
+      "POST": [],
+      "PUT": [],
     };
   }
 
   add(method, pathname, handler) {
-    this.routes[method].push({ pattern: new URLPattern({ pathname }), handler });
+    this.routes[method].push({
+      pattern: new URLPattern({ pathname }),
+      handler,
+    });
   }
 
   get(pathname, handler) {
-    this.add('GET', pathname, handler)
+    this.add("GET", pathname, handler);
   }
 
   post(pathname, handler) {
-    this.add('POST', pathname, handler)
+    this.add("POST", pathname, handler);
   }
 
   put(pathname, handler) {
-    this.add('PUT', pathname, handler)
+    this.add("PUT", pathname, handler);
   }
 
   async route(req) {
-    const method = this.routes[req.method]
+    const method = this.routes[req.method];
     if (method) {
       if (method.length > 0) {
         for (const r of method) {
-          const match = r.pattern.exec(req.url)
+          const match = r.pattern.exec(req.url);
 
           if (match) {
             return await r.handler(req, match);
@@ -40,7 +43,8 @@ export class Router {
           {
             status: 404,
             statusText: "Not Found",
-          })
+          },
+        );
       }
     } else {
       return new Response(
@@ -48,10 +52,8 @@ export class Router {
         {
           status: 405,
           statusText: "Not allowed",
-        }
+        },
       );
     }
-
   }
 }
-
