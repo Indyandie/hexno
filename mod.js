@@ -4,9 +4,9 @@ import { router } from "./routes/index.js";
 const port = 8000;
 
 /**
-  @param {Request} req
-  @returns {Promise<Response>}
-  */
+ * @param {Request} req
+ * @returns {Promise<Response>}
+ */
 async function reqHandler(req) {
   const url = new URL(req.url);
 
