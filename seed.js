@@ -83,5 +83,7 @@ let pokeCSV = csvStringify(pokemap, {
 
 pokeCSV = pokeCSV.replace(/-/g, "_");
 
-/** Write pokemon date to `/models/pokemon.csv` file */
+/**
+ * Write pokemon data to `/models/pokemon.csv` file
+ */
 await Deno.writeTextFile("./models/pokemon.csv", pokeCSV);
