@@ -1,7 +1,7 @@
-import { csvParse, csvStringify } from "./deps.js";
+import { csvStringify } from "./deps.js";
 
 /**
- * @typedef {object} Pokemon
+ * @typedef {Object} Pokemon
  * @property {number} id
  * @property {string} name
  * @property {number} weight
@@ -14,7 +14,7 @@ import { csvParse, csvStringify } from "./deps.js";
 /**
  * Fetch pokemon data and return filter object.
  * @param {string} url - https://pokeapi.co/api/v2/pokemon/:id
- * @return {Pokemon} pokemon: id, name, weight, height, types, sprite, cries
+ * @returns {Pokemon} pokemon: id, name, weight, height, types, sprite, cries
  */
 async function fetchPokeData(url) {
   const resp = await fetch(url);
@@ -33,7 +33,7 @@ async function fetchPokeData(url) {
 }
 
 /**
- * @typedef {object} PokemonItem
+ * @typedef {Object} PokemonItem
  * @property {number} name
  * @property {string} url - URL
  */
@@ -41,7 +41,7 @@ async function fetchPokeData(url) {
 /**
  * Get list of pokemon.
  * @param {number} totalPokemon - Total number of pokemon.
- * @return {PokemonItem[]} Array of PokemonItem
+ * @returns {PokemonItem[]} Array of PokemonItem
  */
 async function getPokemonList(totalPokemon) {
   if (!totalPokemon) {
@@ -59,12 +59,12 @@ async function getPokemonList(totalPokemon) {
 }
 
 /**
- * @param {PokemonList} pokeList
+ * @param {PokemonItem[]} pokeList
  */
-const pokeList = await getPokemonList(500);
+const pokeList = getPokemonList(500);
 
-let pokemap = await Promise.all(
-  await pokeList.map((poke) => fetchPokeData(poke.url)),
+const pokemap = await Promise.all(
+  pokeList.map((poke) => fetchPokeData(poke.url)),
 );
 
 /**
