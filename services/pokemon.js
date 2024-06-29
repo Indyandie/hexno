@@ -1,19 +1,20 @@
 import { csvParse } from '../deps.js'
 
-export const getAllPokemon = async () => {
-  return csvParse(await Deno.readTextFile('./models/pokemon.csv'), {
+export const getAllPokemon = async (query) => {
+  const pokemon = csvParse(await Deno.readTextFile('./models/pokemon.csv'), {
     skipFirstRow: true,
     strip: true,
   })
-}
 
-export const filterPokemon = async (query) => {
-  const pokemon = await getAllPokemon()
-  const regex = new RegExp(query)
+  if (query) {
+    const regex = new RegExp(query)
 
-  return pokemon.filter((poke) => {
-    return poke.name.match(regex)
-  })
+    return pokemon.filter((poke) => {
+      return poke.name.match(regex)
+    })
+  }
+
+  return await pokemon
 }
 
 export const getPokemon = async (id) => {
