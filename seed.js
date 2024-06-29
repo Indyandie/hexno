@@ -1,4 +1,4 @@
-import { csvStringify } from "./deps.js";
+import { stringify as csvStringify } from 'csv'
 
 /**
  * @typedef {Object} Pokemon
@@ -17,19 +17,19 @@ import { csvStringify } from "./deps.js";
  * @returns {Pokemon} pokemon: id, name, weight, height, types, sprite, cries
  */
 async function fetchPokeData(url) {
-  const resp = await fetch(url);
-  const text = await resp.text();
-  const data = JSON.parse(text);
+  const resp = await fetch(url)
+  const text = await resp.text()
+  const data = JSON.parse(text)
   const pokeData = {
     id: data.id,
     name: data.name,
     weight: data.weight,
     height: data.height,
     types: data.types[0].type.name,
-    sprite: data.sprites["front_default"],
+    sprite: data.sprites['front_default'],
     cries: data.cries.latest,
-  };
-  return pokeData;
+  }
+  return pokeData
 }
 
 /**
@@ -45,45 +45,45 @@ async function fetchPokeData(url) {
  */
 async function getPokemonList(totalPokemon) {
   if (!totalPokemon) {
-    totalPokemon = 150;
+    totalPokemon = 151
   }
 
   let pokeList = await fetch(
     `https://pokeapi.co/api/v2/pokemon?limit=${totalPokemon}`,
-  );
+  )
 
-  pokeList = await pokeList.text();
-  pokeList = JSON.parse(pokeList).results;
+  pokeList = await pokeList.text()
+  pokeList = JSON.parse(pokeList).results
 
-  return pokeList;
+  return pokeList
 }
 
 /**
  * @param {PokemonItem[]} pokeList
  */
-const pokeList = getPokemonList(500);
+const pokeList = await getPokemonList(151)
 
 const pokemap = await Promise.all(
   pokeList.map((poke) => fetchPokeData(poke.url)),
-);
+)
 
 /**
  * @param {string} pokeCSV - CSV string
  */
-let pokeCSV = csvStringify(pokemap, {
+let pokeCSV = csvStringify(await pokemap, {
   columns: [
-    "id",
-    "name",
-    "weight",
-    "height",
-    "types",
-    "sprite",
+    'id',
+    'name',
+    'weight',
+    'height',
+    'types',
+    'sprite',
   ],
-});
+})
 
-pokeCSV = pokeCSV.replace(/-/g, "_");
+pokeCSV = pokeCSV.replace(/-/g, '_')
 
 /**
  * Write pokemon data to `/models/pokemon.csv` file
  */
-await Deno.writeTextFile("./models/pokemon.csv", pokeCSV);
+await Deno.writeTextFile('./models/pokemon.csv', pokeCSV)
