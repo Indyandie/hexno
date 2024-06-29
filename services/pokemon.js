@@ -7,6 +7,15 @@ export const getAllPokemon = async () => {
   })
 }
 
+export const filterPokemon = async (query) => {
+  let pokemon = await getAllPokemon()
+  const regex = new RegExp(query)
+
+  return pokemon.filter((poke) => {
+    return poke.name.match(regex)
+  })
+}
+
 export const getPokemon = async (id) => {
   let pokemon = await getAllPokemon()
   pokemon = pokemon[id - 1]
