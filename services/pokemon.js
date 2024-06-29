@@ -28,8 +28,9 @@ export const getPokemon = async (id) => {
   return false
 }
 
-export const htmxAllPokemon = async () => {
-  const pokemon = await getAllPokemon()
+export const htmxAllPokemon = async (query) => {
+  const pokemon = query ? await getAllPokemon(query) : await getAllPokemon()
+
   const htmx = pokemon.map((
     poke,
   ) => (`<li id="pokemon-${poke.id}"><button id="show-dialog-${poke.name}"><figure><img src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></button><dialog id="${poke.name}Dialog"><article hx-get="/pokemon-htmx/${poke.id}" hx-trigger="intersect"></article><button autofocus>Close</button></dialog><script>const ${poke.name}Dialog = document.querySelector("#${poke.name}Dialog");const ${poke.name}ShowButton = document.querySelector("#show-dialog-${poke.name}");const ${poke.name}CloseButton = document.querySelector("#${poke.name}Dialog button");${poke.name}ShowButton.addEventListener("click", () => {${poke.name}Dialog.showModal();});${poke.name}CloseButton.addEventListener("click", () => {${poke.name}Dialog.close();});</script>`))
@@ -40,6 +41,7 @@ export const htmxAllPokemon = async () => {
     1,
     -1,
   )
+
   return pokelist
 }
 
