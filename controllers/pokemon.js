@@ -1,5 +1,4 @@
 import {
-  filterPokemon,
   getAllPokemon,
   getPokemon,
   htmxAllPokemon,
@@ -14,15 +13,19 @@ const status404 = new Response(
   },
 )
 
-export const listPokemon = async () =>
-  new Response(
-    JSON.stringify(await getAllPokemon()),
+export const listPokemon = async (req) => {
+  const url = new URL(req.url)
+  const query = url.searchParams.get('q')
+
+  return new Response(
+    JSON.stringify(await getAllPokemon(query)),
     {
       headers: {
         'content-type': 'text/json; charset=utf-8',
       },
     },
   )
+}
 
 export const getPokemonById = async (req, match) => {
   const pokeId = match.pathname.groups.id
@@ -42,15 +45,19 @@ export const getPokemonById = async (req, match) => {
   )
 }
 
-export const htmxAllPokemonCtrl = async () =>
-  new Response(
-    await htmxAllPokemon(),
+export const htmxAllPokemonCtrl = async (req) => {
+  const url = new URL(req.url)
+  const query = url.searchParams.get('q')
+
+  return new Response(
+    await htmxAllPokemon(query),
     {
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
       },
     },
   )
+}
 
 export const htmxPokemonCtrl = async (req, match) => {
   const pokeId = match.pathname.groups.id
