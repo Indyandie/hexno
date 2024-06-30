@@ -21,7 +21,7 @@ import { csvParse } from '../deps.js'
  * @param {string} [query] - filter pokemon by name
  * @returns {Pokemon[]} array of pokemon: id, name, weight, height, types, sprite, cries
  */
-export const getAllPokemon = async (query) => {
+export const listPokemon = async (query) => {
   const pokemon = csvParse(await Deno.readTextFile('./models/pokemon.csv'), {
     skipFirstRow: true,
     strip: true,
@@ -44,7 +44,7 @@ export const getAllPokemon = async (query) => {
  * @returns {(Pokemon|false)}
  */
 export const getPokemon = async (id) => {
-  let pokemon = await getAllPokemon()
+  let pokemon = await listPokemon()
   pokemon = pokemon[id - 1]
 
   if (pokemon) {
@@ -59,17 +59,18 @@ export const getPokemon = async (id) => {
  * @param {string} [query] - filter pokemon by name
  * @returns {(html|false)} HTML fragment
  */
-export const htmxAllPokemon = async (query) => {
-  const pokemon = query ? await getAllPokemon(query) : await getAllPokemon()
+export const htmlListPokemon = async (query) => {
+  // lsp keeps telling me await has no effect but when I remove it things break...
+  const pokemon = query ? await listPokemon(query) : await listPokemon()
   const now = Date.now()
 
-  const htmx = pokemon.map((
+  const html = pokemon.map((
     poke,
   ) => (`<li id="pokemon-${poke.id}"><button id="show-dialog-${poke.name}"><figure><img src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></button><dialog id="${poke.name}Dialog${now}"><article hx-get="/hx/pokemon/${poke.id}" hx-trigger="intersect"></article><button autofocus>Close</button></dialog><script>const ${poke.name}Dialog${now} = document.querySelector("#${poke.name}Dialog${now}");const ${poke.name}${now}ShowButton = document.querySelector("#show-dialog-${poke.name}");const ${poke.name}${now}CloseButton = document.querySelector("#${poke.name}Dialog${now} button");${poke.name}${now}ShowButton.addEventListener("click", () => {${poke.name}Dialog${now}.showModal();});${poke.name}${now}CloseButton.addEventListener("click", () => {${poke.name}Dialog${now}.close();});</script>`))
-  htmx.unshift('<ul id="pokemon-results">')
-  htmx.push('</ul>')
+  html.unshift('<ul id="pokemon-results">')
+  html.push('</ul>')
 
-  const pokelist = JSON.stringify(htmx.join('')).replace(/\\"/g, '"').slice(
+  const pokelist = JSON.stringify(html.join('')).replace(/\\"/g, '"').slice(
     1,
     -1,
   )
@@ -82,13 +83,10 @@ export const htmxAllPokemon = async (query) => {
  * @param {number} id - pokemon id
  * @returns {(html|false)} HTML fragment
  */
-export const htmxPokemon = async (id) => {
+export const htmlGetPokemon = async (id) => {
   const poke = await getPokemon(id)
   if (poke) {
-    const htmx =
-      await `<article><h1><a href="/pokemon/${poke.id}">${poke.name}</a></h1><img src="${poke.sprite}" alt="${poke.name}"/><table><tr><th>weight</th><td>${poke.weight}</td></tr><tr><th>height</th><td>${poke.height}</td></tr><tr><th>type</th><td>${poke.types}</td></tr></table></article>`
-
-    return htmx
+    return await `<article><h1><a href="/pokemon/${poke.id}">${poke.name}</a></h1><img src="${poke.sprite}" alt="${poke.name}"/><table><tr><th>weight</th><td>${poke.weight}</td></tr><tr><th>height</th><td>${poke.height}</td></tr><tr><th>type</th><td>${poke.types}</td></tr></table></article>`
   }
   return false
 }

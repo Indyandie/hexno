@@ -1,30 +1,34 @@
-import { listPokemon, getPokemonById, htmxAllPokemonCtrl, htmxPokemonCtrl } from '../controllers/pokemon.js'
+import {
+  getPokemonCtrl,
+  hxGetPokemonCtrl,
+  hxListPokemonCtrl,
+  listPokemonCtrl,
+} from '../controllers/pokemon.js'
 
-export const pokemon = {
+export const apiGetPokemonRtr = {
   GET: {
     route: '/api/pokemon/:id',
-    handler: getPokemonById
-  }
+    handler: getPokemonCtrl,
+  },
 }
 
-export const pokemonList = {
+export const apiListPokemonRtr = {
   GET: {
     route: '/api/pokemon',
-    handler: listPokemon
-  }
+    handler: listPokemonCtrl,
+  },
 }
 
-export const pokeHTMX = {
+export const hxListPokemonRtr = {
   GET: {
     route: '/hx/pokemon',
-    handler: htmxAllPokemonCtrl
-  }
+    handler: hxListPokemonCtrl,
+  },
 }
 
-export const htmxPokeRouter = {
+export const hxGetPokemonRtr = {
   GET: {
     route: '/hx/pokemon/:id',
-    handler: htmxPokemonCtrl
-  }
+    handler: hxGetPokemonCtrl,
+  },
 }
-

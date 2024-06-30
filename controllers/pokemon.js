@@ -1,8 +1,8 @@
 import {
-  getAllPokemon,
   getPokemon,
-  htmxAllPokemon,
-  htmxPokemon,
+  htmlGetPokemon,
+  htmlListPokemon,
+  listPokemon,
 } from '../services/pokemon.js'
 
 const status404 = new Response(
@@ -13,12 +13,12 @@ const status404 = new Response(
   },
 )
 
-export const listPokemon = async (req) => {
+export const listPokemonCtrl = async (req) => {
   const url = new URL(req.url)
   const query = url.searchParams.get('q')
 
   return new Response(
-    JSON.stringify(await getAllPokemon(query)),
+    JSON.stringify(await listPokemon(query)),
     {
       headers: {
         'content-type': 'text/json; charset=utf-8',
@@ -27,7 +27,7 @@ export const listPokemon = async (req) => {
   )
 }
 
-export const getPokemonById = async (req, match) => {
+export const getPokemonCtrl = async (req, match) => {
   const pokeId = match.pathname.groups.id
   const pokeRes = await getPokemon(pokeId)
 
@@ -45,12 +45,12 @@ export const getPokemonById = async (req, match) => {
   )
 }
 
-export const htmxAllPokemonCtrl = async (req) => {
+export const hxListPokemonCtrl = async (req) => {
   const url = new URL(req.url)
   const query = url.searchParams.get('q')
 
   return new Response(
-    await htmxAllPokemon(query),
+    await htmlListPokemon(query),
     {
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
@@ -59,9 +59,9 @@ export const htmxAllPokemonCtrl = async (req) => {
   )
 }
 
-export const htmxPokemonCtrl = async (req, match) => {
+export const hxGetPokemonCtrl = async (req, match) => {
   const pokeId = match.pathname.groups.id
-  const pokeRes = await htmxPokemon(pokeId)
+  const pokeRes = await htmlGetPokemon(pokeId)
 
   if (!pokeRes) {
     return status404
