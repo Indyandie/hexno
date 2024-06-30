@@ -2,28 +2,28 @@ import { listPokemon, getPokemonById, htmxAllPokemonCtrl, htmxPokemonCtrl } from
 
 export const pokemon = {
   GET: {
-    route: '/pokemon/:id',
+    route: '/api/pokemon/:id',
     handler: getPokemonById
   }
 }
 
 export const pokemonList = {
   GET: {
-    route: '/pokemon',
+    route: '/api/pokemon',
     handler: listPokemon
   }
 }
 
 export const pokeHTMX = {
   GET: {
-    route: '/pokemon-htmx',
+    route: '/hx/pokemon',
     handler: htmxAllPokemonCtrl
   }
 }
 
 export const htmxPokeRouter = {
   GET: {
-    route: '/pokemon-htmx/:id',
+    route: '/hx/pokemon/:id',
     handler: htmxPokemonCtrl
   }
 }

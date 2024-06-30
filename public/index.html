@@ -12,7 +12,7 @@
     <script src="/public/js/htmx.min.js"></script>
   </head>
 
-  <body hx-boost="true">
+  <body>
     <main>
       <header>
         <h1>Pokemon</h1>
@@ -21,12 +21,12 @@
         <h2>Search</h2>
         <input
           type="text"
-          hx-get="/pokemon-htmx"
+          hx-get="/hx/pokemon"
           hx-target=".pokelist div"
           name="q"
           hx-vals
         />
-        <div hx-get="/pokemon-htmx" hx-trigger="load"></div>
+        <div hx-get="/hx/pokemon" hx-trigger="load"></div>
       </section>
     </main>
   </body>
