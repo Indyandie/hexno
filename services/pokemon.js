@@ -1,5 +1,26 @@
 import { csvParse } from '../deps.js'
 
+/**
+ * An HTML fragment.
+ * @typedef {string} html - HTML fragment
+ */
+
+/**
+ * @typedef {Object} Pokemon
+ * @property {number} id
+ * @property {string} name
+ * @property {number} weight
+ * @property {number} height
+ * @property {string} types
+ * @property {string} sprite - URL
+ * @property {string} cries - URL
+ */
+
+/**
+ * Read the data from `./models/pokemon.csv`, converts it into an object, and returns it. If a `query` is passed the object is filter by the pokemon name.
+ * @param {string} [query] - filter pokemon by name
+ * @returns {Pokemon[]} array of pokemon: id, name, weight, height, types, sprite, cries
+ */
 export const getAllPokemon = async (query) => {
   const pokemon = csvParse(await Deno.readTextFile('./models/pokemon.csv'), {
     skipFirstRow: true,
@@ -17,6 +38,11 @@ export const getAllPokemon = async (query) => {
   return await pokemon
 }
 
+/**
+ * Get a pokemon by `id`.
+ * @param {number} id - pokemon id
+ * @returns {(Pokemon|false)}
+ */
 export const getPokemon = async (id) => {
   let pokemon = await getAllPokemon()
   pokemon = pokemon[id - 1]
@@ -28,6 +54,11 @@ export const getPokemon = async (id) => {
   return false
 }
 
+/**
+ * Get all pokemon an return an unorder list with embedded dialogs.
+ * @param {string} [query] - filter pokemon by name
+ * @returns {(html|false)} HTML fragment
+ */
 export const htmxAllPokemon = async (query) => {
   const pokemon = query ? await getAllPokemon(query) : await getAllPokemon()
   const now = Date.now()
@@ -46,6 +77,11 @@ export const htmxAllPokemon = async (query) => {
   return pokelist
 }
 
+/**
+ * Get a pokemon an return an article.
+ * @param {number} id - pokemon id
+ * @returns {(html|false)} HTML fragment
+ */
 export const htmxPokemon = async (id) => {
   const poke = await getPokemon(id)
   if (poke) {
