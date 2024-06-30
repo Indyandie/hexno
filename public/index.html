@@ -22,11 +22,12 @@
         <input
           type="text"
           hx-get="/hx/pokemon"
-          hx-target=".pokelist div"
+          hx-target="#pokemon-results"
+          hx-swap="outerHTML"
           name="q"
           hx-vals
         />
-        <div hx-get="/hx/pokemon" hx-trigger="load"></div>
+        <div hx-get="/hx/pokemon" hx-swap="outerHTML" hx-trigger="load"></div>
       </section>
     </main>
   </body>
