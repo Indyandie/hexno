@@ -9,6 +9,7 @@ import { stringify as csvStringify } from 'csv'
  * @property {string} types
  * @property {string} sprite - URL
  * @property {string} cries - URL
+ * @property {boolean} official - Official pokemon
  */
 
 /**
@@ -28,6 +29,7 @@ async function fetchPokeData(url) {
     types: data.types[0].type.name,
     sprite: data.sprites['front_default'],
     cries: data.cries.latest,
+    official: true,
   }
   return pokeData
 }
@@ -78,6 +80,8 @@ let pokeCSV = csvStringify(await pokemap, {
     'height',
     'types',
     'sprite',
+    'cries',
+    'official',
   ],
 })
 

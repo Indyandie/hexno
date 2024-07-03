@@ -135,6 +135,8 @@ export async function createPokemon(pokemon) {
   }
 
   pokemon.id = pokelist.length + 1
+  pokemon.official = false
+  pokemon.cries = null
   const poketest = [...pokelist, pokemon]
   const csvpoketest = csvStringify(poketest, {
     columns: [
@@ -187,8 +189,9 @@ export const htmlListPokemon = async (query) => {
  */
 export const htmlGetPokemon = async (id) => {
   const poke = await getPokemon(id)
+  const cries = poke.cries ? `<tr><th>cries</th><td><audio controls autoplay src="${poke.cries}"></audio></td></tr>` : ''
   if (poke) {
-    return await `<article><h1><a href="/pokemon/${poke.id}">${poke.name}</a></h1><img src="${poke.sprite}" alt="${poke.name}"/><table><tr><th>weight</th><td>${poke.weight}</td></tr><tr><th>height</th><td>${poke.height}</td></tr><tr><th>type</th><td>${poke.types}</td></tr></table></article>`
+    return await `<article><h1><a href="/pokemon/${poke.id}">${poke.name}</a></h1><img src="${poke.sprite}" alt="${poke.name}" /><table><tr><th>weight</th><td>${poke.weight}</td></tr><tr><th>height</th><td>${poke.height}</td></tr><tr><th>type</th><td>${poke.types}</td></tr>${cries}</table></article>`
   }
   return false
 }
