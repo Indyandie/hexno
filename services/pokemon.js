@@ -1,4 +1,4 @@
-import { csvParse } from '../deps.js'
+import { csvParse, csvStringify } from '../deps.js'
 
 /**
  * An HTML fragment.
@@ -52,6 +52,108 @@ export const getPokemon = async (id) => {
   }
 
   return false
+}
+
+/**
+ * @typedef {Object} NewPokemon
+ * @property {string} name
+ * @property {number} weight
+ * @property {number} height
+ * @property {string} types
+ * @property {string} sprite - URL
+ * @property {string} cries - URL
+ */
+
+/**
+ * Validate Pokemon data and save it to `./models/pokemon.csv`.
+ * @param {NewPokemon} pokemon - New pokemon
+ * @returns {boolean} success (`true`), fail (false)
+ */
+export async function createPokemon(pokemon) {
+  /**
+   * Pokemon object to validate new pokemon.
+   * @type {NewPokemon}
+   */
+  const protomon = {
+    name: 'string',
+    weight: 1,
+    height: 1,
+    types: 'string',
+    sprite: 'url',
+  }
+
+  const pokelist = await listPokemon()
+
+  const duplicates = pokelist.some(
+    (poke) => poke.name === pokemon.name,
+  )
+
+  if (duplicates) {
+    return {
+      code: 409,
+      prop: 'name',
+      message: `duplicate: ${pokemon.name} already exist`,
+    }
+  }
+
+  for (const prop in protomon) {
+    const protoType = typeof protomon[prop]
+    let pokeType
+
+    if (protoType === 'number') {
+      const pokeInt = pokemon[prop]
+      const testInt = parseInt(pokeInt)
+      if (testInt != pokeInt) {
+        return {
+          code: 400,
+          prop: prop,
+          message: `${prop} is not a number`,
+        }
+      }
+      pokeType = typeof parseInt(pokemon[prop])
+    } else {
+      pokeType = typeof pokemon[prop]
+    }
+
+    if (protoType !== pokeType) {
+      return {
+        code: 400,
+        prop: prop,
+        message: `${prop}: expected ${protoType}, received ${pokeType}`,
+      }
+    }
+  }
+
+  try {
+    new URL(pokemon.sprite)
+  } catch {
+    return {
+      code: 422,
+      prop: 'sprite',
+      message: `Invalid URL, ${pokemon.sprite}`,
+    }
+  }
+
+  pokemon.id = pokelist.length + 1
+  const poketest = [...pokelist, pokemon]
+  const csvpoketest = csvStringify(poketest, {
+    columns: [
+      'id',
+      'name',
+      'weight',
+      'height',
+      'types',
+      'sprite',
+    ],
+  })
+
+  await Deno.writeTextFile('./models/pokemon.csv', csvpoketest)
+
+  return {
+    code: 201,
+    id: pokemon.id,
+    pokemon: poketest[pokemon.id - 1],
+  }
 }
 
 /**
