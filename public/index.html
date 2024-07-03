@@ -27,6 +27,36 @@
           name="q"
           hx-vals
         />
+        <button
+          hx-get="/pokemon/new"
+          hx-target="body"
+          hx-push-url="true"
+          id="show-dialog-new-pokemon"
+        >
+          New Pokemon
+        </button>
+        <!-- <dialog id="new-pokemon-dialog"> -->
+        <!-- <form action="/api/pokemon" method="post"> -->
+        <!-- <h1>New Pokemon</h1> -->
+        <!-- <input type="text" name="name" /> -->
+        <!-- <button type="submit">Save</button> -->
+        <!-- </form> -->
+        <!-- </dialog> -->
+        <!-- <script> -->
+        <!-- const newPokeDialog = document.querySelector("#new-pokemon-dialog"); -->
+        <!-- const newPokeShowButton = document.querySelector( -->
+        <!-- "#show-dialog-new-pokemon", -->
+        <!-- ); -->
+        <!-- const newPokeCloseButton = document.querySelector( -->
+        <!-- "#new-pokemon-dialog button", -->
+        <!-- ); -->
+        <!-- newPokeShowButton.addEventListener("click", () => { -->
+        <!-- newPokeDialog.showModal(); -->
+        <!-- }); -->
+        <!-- newPokeCloseButton.addEventListener("click", () => { -->
+        <!-- newPokeDialog.close(); -->
+        <!-- }); -->
+        <!-- </script> -->
         <div hx-get="/hx/pokemon" hx-swap="outerHTML" hx-trigger="load"></div>
       </section>
     </main>
