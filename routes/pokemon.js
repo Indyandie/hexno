@@ -3,6 +3,7 @@ import {
   hxGetPokemonCtrl,
   hxListPokemonCtrl,
   listPokemonCtrl,
+  newPokemonCtrl,
 } from '../controllers/pokemon.js'
 
 export const apiGetPokemonRtr = {
@@ -12,10 +13,17 @@ export const apiGetPokemonRtr = {
   },
 }
 
-export const apiListPokemonRtr = {
+export const apiPokemonRtr = {
   GET: {
     route: '/api/pokemon',
     handler: listPokemonCtrl,
+  },
+}
+
+export const newPokemonRtr = {
+  POST: {
+    route: '/pokemon/new',
+    handler: newPokemonCtrl,
   },
 }
 
