@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" dir="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>New Pokemon</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>"
+    />
+    <script src="/public/js/htmx.min.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <section class="pokelist">
+        <h1>New Pokemon</h1>
+        <form action="/pokemon/new" method="POST">
+          <div>
+            <label for="name">name</label>
+            <br />
+            <input type="text" name="name" required />
+          </div>
+          <div>
+            <label for="weight">weight</label>
+            <br />
+            <input type="number" min="1" name="weight" required />
+          </div>
+          <div>
+            <label for="height">height</label>
+            <br />
+            <input type="number" min="1" name="height" required />
+          </div>
+          <div>
+            <label for="types">types</label>
+            <br />
+            <input type="text" name="types" list="pokemon-types" required />
+            <datalist id="pokemon-types">
+              <option value="normal"></option>
+              <option value="grass"></option>
+              <option value="water"></option>
+              <option value="fire"></option>
+              <option value="rock"></option>
+            </datalist>
+          </div>
+          <div>
+            <label for="sprite">sprite</label>
+            <br />
+            <input type="url" name="sprite" required />
+          </div>
+          <button type="submit">Save</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
