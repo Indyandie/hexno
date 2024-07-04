@@ -261,11 +261,20 @@ export const htmlListPokemon = async (query) => {
  */
 export const htmlGetPokemon = async (id) => {
   const poke = await getPokemon(id)
-  const cries = poke.cries
-    ? `<tr><th>cries</th><td><audio controls controlslist="nodownload"><source src="${poke.cries}" type="audio/ogg"></source><p>audio is not supported</p></audio></td></tr>`
-    : ''
+
   if (poke) {
-    return await `<article><h1><a href="/pokemon/${poke.id}">${poke.name}</a></h1><img src="${poke.sprite}" alt="${poke.name}" /><table><tr><th>weight</th><td>${poke.weight}</td></tr><tr><th>height</th><td>${poke.height}</td></tr><tr><th>type</th><td>${poke.types}</td></tr>${cries}</table></article>`
+    const { id, name, cries, weight, height, types, sprite, official } = poke
+    const deleteForm = !official
+      ? `<form method="POST" action="/pokemon/delete/${id}" >
+        <button type="sumbit">delete</button>
+      </form>`
+      : ''
+
+    const criesTr = cries
+      ? `<tr><th>cries</th><td><audio controls controlslist="nodownload"><source src="${cries}" type="audio/ogg"></source><p>audio is not supported</p></audio></td></tr>`
+      : ''
+
+    return await `<article><h1><a href="/pokemon/${id}">${name}</a></h1><img src="${sprite}" alt="${name}" /><table><tr><th>weight</th><td>${weight}</td></tr><tr><th>height</th><td>${height}</td></tr><tr><th>type</th><td>${types}</td></tr>${criesTr}</table>${deleteForm}</article>`
   }
   return false
 }
