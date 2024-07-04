@@ -157,7 +157,7 @@ export async function newPokemonCtrl(req) {
 }
 
 export const getPokemonCtrl = async (_req, match) => {
-  const pokeId = match.pathname.groups.id
+  const pokeId = parseInt(match.pathname.groups.id)
   const pokeRes = await getPokemon(pokeId)
 
   if (!pokeRes) {
@@ -189,7 +189,7 @@ export const hxListPokemonCtrl = async (req) => {
 }
 
 export const hxGetPokemonCtrl = async (_req, match) => {
-  const pokeId = match.pathname.groups.id
+  const pokeId = parseInt(match.pathname.groups.id)
   const pokeRes = await htmlGetPokemon(pokeId)
 
   if (!pokeRes) {

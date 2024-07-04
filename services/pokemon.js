@@ -22,11 +22,18 @@ import { csvParse, csvStringify } from '../deps.js'
  * @returns {Pokemon[]} array of pokemon: id, name, weight, height, types, sprite, cries
  */
 export const listPokemon = async (query) => {
-  const pokemon = csvParse(await Deno.readTextFile('./models/pokemon.csv'), {
+  let pokemon = csvParse(await Deno.readTextFile('./models/pokemon.csv'), {
     skipFirstRow: true,
     strip: true,
   })
 
+  pokemon = pokemon.map((poke) => {
+    poke.id = parseInt(poke.id)
+    poke.weight = parseInt(poke.weight)
+    poke.height = parseInt(poke.height)
+    poke.official = poke.official === "true" ? true : false
+    return poke
+  })
   if (query) {
     const regex = new RegExp(query)
 
