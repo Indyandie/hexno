@@ -45,7 +45,7 @@ export const listPokemon = async (query) => {
  */
 export const getPokemon = async (id) => {
   let pokemon = await listPokemon()
-  pokemon = pokemon[id - 1]
+  pokemon = pokemon.find((poke) => poke.id === id)
 
   if (pokemon) {
     return pokemon
@@ -154,7 +154,7 @@ export async function createPokemon(pokemon) {
   return {
     code: 201,
     id: pokemon.id,
-    pokemon: poketest[pokemon.id - 1],
+    pokemon: await getPokemon(pokemon.id),
   }
 }
 
