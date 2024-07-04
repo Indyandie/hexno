@@ -153,6 +153,8 @@ export async function createPokemon(pokemon) {
       'height',
       'types',
       'sprite',
+      'cries',
+      'official',
     ],
   })
 
