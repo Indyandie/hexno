@@ -1,4 +1,5 @@
 import {
+  deletePokemonCtrl,
   getPokemonCtrl,
   hxGetPokemonCtrl,
   hxListPokemonCtrl,
@@ -10,6 +11,10 @@ export const apiGetPokemonRtr = {
   GET: {
     route: '/api/pokemon/:id',
     handler: getPokemonCtrl,
+  },
+  DELETE: {
+    route: '/api/pokemon/:id',
+    handler: deletePokemonCtrl,
   },
 }
 

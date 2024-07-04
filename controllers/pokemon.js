@@ -1,5 +1,6 @@
 import {
   createPokemon,
+  deletePokemon,
   getPokemon,
   htmlGetPokemon,
   htmlListPokemon,
@@ -167,6 +168,26 @@ export const getPokemonCtrl = async (_req, match) => {
   return new Response(
     JSON.stringify(pokeRes),
     {
+      headers: {
+        'Content-Type': 'text/json; charset=utf-8',
+      },
+    },
+  )
+}
+
+export const deletePokemonCtrl = async (_req, match) => {
+  const pokeId = parseInt(match.pathname.groups.id)
+  const pokeRes = await deletePokemon(pokeId)
+  const { code, message } = pokeRes
+
+  // if (!pokeRes) {
+  //   return status404
+  // }
+
+  return new Response(
+    JSON.stringify({ message }),
+    {
+      status: code,
       headers: {
         'Content-Type': 'text/json; charset=utf-8',
       },
