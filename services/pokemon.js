@@ -108,8 +108,8 @@ export const deletePokemon = async (id) => {
         'weight',
         'height',
         'types',
-        'cries',
         'sprite',
+        'cries',
         'official',
       ],
     })
