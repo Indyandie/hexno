@@ -156,7 +156,7 @@ export async function newPokemonCtrl(req) {
   }
 }
 
-export const getPokemonCtrl = async (req, match) => {
+export const getPokemonCtrl = async (_req, match) => {
   const pokeId = match.pathname.groups.id
   const pokeRes = await getPokemon(pokeId)
 
@@ -188,7 +188,7 @@ export const hxListPokemonCtrl = async (req) => {
   )
 }
 
-export const hxGetPokemonCtrl = async (req, match) => {
+export const hxGetPokemonCtrl = async (_req, match) => {
   const pokeId = match.pathname.groups.id
   const pokeRes = await htmlGetPokemon(pokeId)
 
