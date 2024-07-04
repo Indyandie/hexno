@@ -189,7 +189,9 @@ export const htmlListPokemon = async (query) => {
  */
 export const htmlGetPokemon = async (id) => {
   const poke = await getPokemon(id)
-  const cries = poke.cries ? `<tr><th>cries</th><td><audio controls autoplay src="${poke.cries}"></audio></td></tr>` : ''
+  const cries = poke.cries
+    ? `<tr><th>cries</th><td><audio controls controlslist="nodownload"><source src="${poke.cries}" type="audio/ogg"></source><p>audio is not supported</p></audio></td></tr>`
+    : ''
   if (poke) {
     return await `<article><h1><a href="/pokemon/${poke.id}">${poke.name}</a></h1><img src="${poke.sprite}" alt="${poke.name}" /><table><tr><th>weight</th><td>${poke.weight}</td></tr><tr><th>height</th><td>${poke.height}</td></tr><tr><th>type</th><td>${poke.types}</td></tr>${cries}</table></article>`
   }
