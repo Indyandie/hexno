@@ -4,6 +4,7 @@ export class Router {
       'GET': [],
       'POST': [],
       'PUT': [],
+      'DELETE': [],
     }
   }
 
@@ -24,6 +25,10 @@ export class Router {
 
   put(pathname, handler) {
     this.add('PUT', pathname, handler)
+  }
+
+  delete(pathname, handler) {
+    this.add('DELETE', pathname, handler)
   }
 
   async route(req) {
