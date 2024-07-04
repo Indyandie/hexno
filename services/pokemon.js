@@ -134,7 +134,7 @@ export async function createPokemon(pokemon) {
     }
   }
 
-  pokemon.id = pokelist.length + 1
+  pokemon.id = pokelist.length + 1000
   pokemon.official = false
   pokemon.cries = null
   const poketest = [...pokelist, pokemon]
