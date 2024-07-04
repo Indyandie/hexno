@@ -65,11 +65,13 @@ export const getPokemon = async (id) => {
 export const deletePokemon = async (id) => {
   let pokemon = await listPokemon()
   let test = pokemon.some((poke) => poke.id === id)
+  const checkOfficial = await getPokemon(id)
 
   if (!test) {
     return {
       code: 404,
       message: 'Pokemon does not exist',
+      pokemon: checkOfficial,
     }
   }
 
@@ -85,17 +87,17 @@ export const deletePokemon = async (id) => {
   test = pokemon.some((poke) => poke.id === id)
 
   if (test) {
-    const checkOfficial = await getPokemon(id)
-
     if (checkOfficial.official) {
       return {
         code: 400,
         message: 'Cannot delete official pokemon',
+        pokemon: checkOfficial,
       }
     } else {
       return {
         code: 400,
         message: 'Unknown error',
+        pokemon: checkOfficial,
       }
     }
   } else {
@@ -106,6 +108,7 @@ export const deletePokemon = async (id) => {
         'weight',
         'height',
         'types',
+        'cries',
         'sprite',
         'official',
       ],
@@ -116,6 +119,7 @@ export const deletePokemon = async (id) => {
     return {
       code: 200,
       message: 'Pokemon deleted',
+      pokemon: checkOfficial,
     }
   }
 }
