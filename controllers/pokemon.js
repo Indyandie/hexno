@@ -264,14 +264,14 @@ export const getPokemonCtrl = async (_req, match) => {
 export const deletePokemonCtrl = async (_req, match) => {
   const pokeId = parseInt(match.pathname.groups.id)
   const pokeRes = await deletePokemon(pokeId)
-  const { code, message } = pokeRes
+  const { code, message, pokemon } = pokeRes
 
-  // if (!pokeRes) {
-  //   return status404
-  // }
+  if (!pokeRes) {
+    return status404
+  }
 
   return new Response(
-    JSON.stringify({ message }),
+    JSON.stringify({ message, pokemon }),
     {
       status: code,
       headers: {
@@ -312,3 +312,4 @@ export const hxGetPokemonCtrl = async (_req, match) => {
     },
   )
 }
+
