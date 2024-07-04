@@ -31,9 +31,10 @@ export const listPokemon = async (query) => {
     poke.id = parseInt(poke.id)
     poke.weight = parseInt(poke.weight)
     poke.height = parseInt(poke.height)
-    poke.official = poke.official === "true" ? true : false
+    poke.official = poke.official === 'true' ? true : false
     return poke
   })
+
   if (query) {
     const regex = new RegExp(query)
 
@@ -59,6 +60,64 @@ export const getPokemon = async (id) => {
   }
 
   return false
+}
+
+export const deletePokemon = async (id) => {
+  let pokemon = await listPokemon()
+  let test = pokemon.some((poke) => poke.id === id)
+
+  if (!test) {
+    return {
+      code: 404,
+      message: 'Pokemon does not exist',
+    }
+  }
+
+  pokemon = pokemon.filter((poke) => {
+    if (poke.id !== id) {
+      return true
+    } else if (poke.official) {
+      return true
+    }
+    return false
+  })
+
+  test = pokemon.some((poke) => poke.id === id)
+
+  if (test) {
+    const checkOfficial = await getPokemon(id)
+
+    if (checkOfficial.official) {
+      return {
+        code: 400,
+        message: 'Cannot delete official pokemon',
+      }
+    } else {
+      return {
+        code: 400,
+        message: 'Unknown error',
+      }
+    }
+  } else {
+    const csvpoketest = csvStringify(pokemon, {
+      columns: [
+        'id',
+        'name',
+        'weight',
+        'height',
+        'types',
+        'sprite',
+        'official',
+      ],
+    })
+
+    await Deno.writeTextFile('./models/pokemon.csv', csvpoketest)
+
+    return {
+      code: 200,
+      message: 'Pokemon deleted',
+    }
+  }
 }
 
 /**
