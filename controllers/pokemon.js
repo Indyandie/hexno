@@ -157,6 +157,92 @@ export async function newPokemonCtrl(req) {
   }
 }
 
+export async function webDeletePokemonCtrl(req, match) {
+  const pokeId = parseInt(match.pathname.groups.id)
+  const pokeRes = await deletePokemon(pokeId)
+  const url = new URL(req.url)
+  const origin = url.origin
+
+  const { code, message, pokemon } = pokeRes
+
+  if (!pokeRes) {
+    return status404
+  }
+
+  if (code === 200) {
+    const { id, name } = pokemon
+    const body = `<!doctype html>
+<html lang="en" dir="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Refresh" content="0, url='/'" >
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Deleted: ${name} [${id}]</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>"
+    />
+    <script src="/public/js/htmx.min.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <code>
+        ${JSON.stringify(pokemon, null, '<br>')}
+      </code>
+    </main>
+  </body>
+</html>`
+
+    return new Response(
+      body,
+      {
+        status: code,
+        // status: 302,
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Location': `${origin}/pokemon/${id}`,
+        },
+      },
+    )
+  } else {
+    const body = `<!doctype html>
+<html lang="en" dir="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>New Pokemon</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>"
+    />
+    <script src="/public/js/htmx.min.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>Client Error</h1>
+      <code>${url}</code>
+      <p>${message}</p>
+    </main>
+  </body>
+</html>`
+
+    return new Response(
+      body,
+      {
+        status: code,
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Location': origin,
+        },
+      },
+    )
+  }
+}
+
 export const getPokemonCtrl = async (_req, match) => {
   const pokeId = parseInt(match.pathname.groups.id)
   const pokeRes = await getPokemon(pokeId)
