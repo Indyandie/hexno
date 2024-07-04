@@ -5,6 +5,7 @@ import {
   hxGetPokemonRtr,
   hxListPokemonRtr,
   newPokemonRtr,
+  webDeleletePokemonRtr,
 } from './pokemon.js'
 import { srvFl } from '../deps.js'
 
@@ -23,6 +24,10 @@ const newPoke = (req) => {
 router.get('/', home)
 router.get('/pokemon/new', newPoke)
 router.post(newPokemonRtr.POST.route, newPokemonRtr.POST.handler)
+router.post(
+  webDeleletePokemonRtr.POST.route,
+  webDeleletePokemonRtr.POST.handler,
+)
 router.get('/pokemon/:id', poke)
 router.get(apiGetPokemonRtr.GET.route, apiGetPokemonRtr.GET.handler)
 router.delete(apiGetPokemonRtr.DELETE.route, apiGetPokemonRtr.DELETE.handler)
