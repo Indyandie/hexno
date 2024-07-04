@@ -313,3 +313,20 @@ export const hxGetPokemonCtrl = async (_req, match) => {
   )
 }
 
+// export const hxDeletePokemonCtrl = async (_req, match) => {
+//   const pokeId = parseInt(match.pathname.groups.id)
+//   const pokeRes = await htmlGetPokemon(pokeId)
+
+//   if (!pokeRes) {
+//     return status404
+//   }
+
+//   return new Response(
+//     pokeRes,
+//     {
+//       headers: {
+//         'Content-Type': 'text/html; charset=utf-8',
+//       },
+//     },
+//   )
+// }
