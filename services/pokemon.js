@@ -12,8 +12,8 @@ import { csvParse, csvStringify } from '../deps.js'
  * @property {number} weight
  * @property {number} height
  * @property {string} types
- * @property {string} sprite - URL
- * @property {string} cries - URL
+ * @property {string} sprite - image URL
+ * @property {string} cries - audio URL
  */
 
 /**
