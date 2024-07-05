@@ -115,12 +115,6 @@ export const deletePokemon = async (id) => {
       pokemon: checkPokemon,
     }
   }
-
-  return {
-    code: 400,
-    message: 'Unknown error',
-    pokemon: checkPokemon,
-  }
 }
 
 /**

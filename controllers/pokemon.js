@@ -115,7 +115,6 @@ export async function webNewPokemonCtrl(req) {
       body,
       {
         status: 201,
-        // status: 302,
         headers: {
           'Content-Type': 'text/html; charset=utf-8',
           'Location': `${origin}/pokemon/${id}`,
