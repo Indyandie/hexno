@@ -154,6 +154,15 @@ export async function createPokemon(pokemon) {
 
   pokemon.name = pokemon.name.replace(/\s+/g, '_')
 
+  if (!pokemon.name.match(/^[a-zA-Z](\w|\d|\s)+$/)) {
+    return {
+      code: 422,
+      prop: 'name',
+      message:
+        `Invalid (${pokemon.name}). Must be an alphanumerical string that start with a letter. Regex: <code>/^\w(\w\d\s)+$/</code>`,
+    }
+  }
+
   const pokelist = await listPokemon()
 
   const duplicates = pokelist.some(
