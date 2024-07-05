@@ -62,6 +62,11 @@ export const getPokemon = async (id) => {
   return false
 }
 
+/**
+ * Delete a pokemon by `id`.
+ * @param {number} id - pokemon id
+ * @returns {Object} code, message, pokemon|false
+ */
 export const deletePokemon = async (id) => {
   let pokemon = await listPokemon()
   let test = pokemon.some((poke) => poke.id === id)
