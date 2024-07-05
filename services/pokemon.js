@@ -68,45 +68,33 @@ export const getPokemon = async (id) => {
  * @returns {Object} code, message, pokemon|false
  */
 export const deletePokemon = async (id) => {
-  let pokemon = await listPokemon()
-  let test = pokemon.some((poke) => poke.id === id)
-  const checkOfficial = await getPokemon(id)
+  const checkPokemon = await getPokemon(id)
 
-  if (!test) {
+  if (!checkPokemon) {
     return {
       code: 404,
       message: 'Pokemon does not exist',
-      pokemon: checkOfficial,
     }
-  }
-
-  pokemon = pokemon.filter((poke) => {
-    if (poke.id !== id) {
-      return true
-    } else if (poke.official) {
-      return true
-    }
-    return false
-  })
-
-  test = pokemon.some((poke) => poke.id === id)
-
-  if (test) {
-    if (checkOfficial.official) {
-      return {
-        code: 400,
-        message: 'Cannot delete official pokemon',
-        pokemon: checkOfficial,
-      }
-    } else {
-      return {
-        code: 400,
-        message: 'Unknown error',
-        pokemon: checkOfficial,
-      }
+  } else if (checkPokemon.official) {
+    console.log(checkPokemon)
+    return {
+      code: 403,
+      message: 'Cannot delete official pokemon',
+      pokemon: checkPokemon,
     }
   } else {
-    const csvpoketest = csvStringify(pokemon, {
+    let pokemons = await listPokemon()
+
+    pokemons = pokemons.filter((poke) => {
+      if (poke.id !== id) {
+        return true
+      } else if (poke.official) {
+        return true
+      }
+      return false
+    })
+
+    const csvpoketest = csvStringify(pokemons, {
       columns: [
         'id',
         'name',
@@ -124,8 +112,14 @@ export const deletePokemon = async (id) => {
     return {
       code: 200,
       message: 'Pokemon deleted',
-      pokemon: checkOfficial,
+      pokemon: checkPokemon,
     }
+  }
+
+  return {
+    code: 400,
+    message: 'Unknown error',
+    pokemon: checkPokemon,
   }
 }
 
