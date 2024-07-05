@@ -24,9 +24,9 @@ const newPoke = (req) => {
 // web
 
 router.get('/', home)
+router.get('/pokemon/new', newPoke) // must go before /pokemon/:id
 router.get('/pokemon/:id', poke)
 router.post(webNewPokemonRtr.POST.route, webNewPokemonRtr.POST.handler)
-router.get('/pokemon/new', newPoke)
 router.post(
   webDeleletePokemonRtr.POST.route,
   webDeleletePokemonRtr.POST.handler,
@@ -42,4 +42,3 @@ router.get(apiPokemonRtr.GET.route, apiPokemonRtr.GET.handler)
 
 router.get(hxGetPokemonRtr.GET.route, hxGetPokemonRtr.GET.handler)
 router.get(hxListPokemonRtr.GET.route, hxListPokemonRtr.GET.handler)
-
