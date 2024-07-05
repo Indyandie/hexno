@@ -63,61 +63,6 @@ export const getPokemon = async (id) => {
 }
 
 /**
- * Delete a pokemon by `id`.
- * @param {number} id - pokemon id
- * @returns {Object} code, message, pokemon|false
- */
-export const deletePokemon = async (id) => {
-  const checkPokemon = await getPokemon(id)
-
-  if (!checkPokemon) {
-    return {
-      code: 404,
-      message: 'Pokemon does not exist',
-    }
-  } else if (checkPokemon.official) {
-    console.log(checkPokemon)
-    return {
-      code: 403,
-      message: 'Cannot delete official pokemon',
-      pokemon: checkPokemon,
-    }
-  } else {
-    let pokemons = await listPokemon()
-
-    pokemons = pokemons.filter((poke) => {
-      if (poke.id !== id) {
-        return true
-      } else if (poke.official) {
-        return true
-      }
-      return false
-    })
-
-    const csvpoketest = csvStringify(pokemons, {
-      columns: [
-        'id',
-        'name',
-        'weight',
-        'height',
-        'types',
-        'sprite',
-        'cries',
-        'official',
-      ],
-    })
-
-    await Deno.writeTextFile('./models/pokemon.csv', csvpoketest)
-
-    return {
-      code: 200,
-      message: 'Pokemon deleted',
-      pokemon: checkPokemon,
-    }
-  }
-}
-
-/**
  * @typedef {Object} NewPokemon
  * @property {string} name
  * @property {number} weight
@@ -231,6 +176,194 @@ export async function createPokemon(pokemon) {
     code: 201,
     id: pokemon.id,
     pokemon: await getPokemon(pokemon.id),
+  }
+}
+
+/**
+ * @typedef {Object} NewPokemon
+ * @property {string} name
+ * @property {number} weight
+ * @property {number} height
+ * @property {string} types
+ * @property {string} sprite - URL
+ * @property {string} cries - URL
+ */
+
+/**
+ * Validate Pokemon data and save it to `./models/pokemon.csv`.
+ * @param {Pokemon} pokemon - Edit pokemon info
+ * @returns {Object} code, prop, message, pokemon
+ */
+export async function updatePokemon(pokemon) {
+  let checkPokemon = await getPokemon(pokemon.id)
+
+  if (checkPokemon.official) {
+    return {
+      code: 403,
+      prop: 'name',
+      message: `forbidden: cannot modify offical pokemon (${pokemon.name})`,
+    }
+  }
+
+  /**
+   * Pokemon object to validate new pokemon.
+   * @type {NewPokemon}
+   */
+  const protomon = {
+    name: 'string',
+    weight: 1,
+    height: 1,
+    types: 'string',
+    sprite: 'url',
+  }
+
+  pokemon.name = pokemon.name.replace(/\s+/g, '_')
+
+  if (!pokemon.name.match(/^[a-zA-Z](\w|\d|\s)+$/)) {
+    return {
+      code: 422,
+      prop: 'name',
+      message:
+        `Invalid (${pokemon.name}). Must be an alphanumerical string that start with a letter. Regex: <code>/^\w(\w\d\s)+$/</code>`,
+    }
+  }
+
+  const pokelist = await listPokemon()
+
+  const duplicates = pokelist.some((poke) => {
+    return poke.name === pokemon.name && poke.id !== pokemon.id
+  })
+
+  if (duplicates) {
+    return {
+      code: 409,
+      prop: 'name',
+      message: `duplicate: ${pokemon.name} already exist`,
+    }
+  }
+
+  for (const prop in protomon) {
+    const protoType = typeof protomon[prop]
+    let pokeType
+
+    if (protoType === 'number') {
+      const pokeInt = pokemon[prop]
+      const testInt = parseInt(pokeInt)
+      if (testInt != pokeInt) {
+        return {
+          code: 400,
+          prop: prop,
+          message: `${prop} is not a number`,
+        }
+      }
+      pokeType = typeof parseInt(pokemon[prop])
+    } else {
+      pokeType = typeof pokemon[prop]
+    }
+
+    if (protoType !== pokeType) {
+      return {
+        code: 400,
+        prop: prop,
+        message: `${prop}: expected ${protoType}, received ${pokeType}`,
+      }
+    }
+  }
+
+  try {
+    new URL(pokemon.sprite)
+  } catch {
+    return {
+      code: 422,
+      prop: 'sprite',
+      message: `Invalid URL, ${pokemon.sprite}`,
+    }
+  }
+
+  checkPokemon.name = pokemon.name
+  checkPokemon.weight = pokemon.weight
+  checkPokemon.height = pokemon.height
+  checkPokemon.types = pokemon.types
+  checkPokemon.sprite = pokemon.sprite
+  console.log(checkPokemon)
+  const pokemonIndex = pokelist.findLastIndex((poke) =>
+    poke.id === checkPokemon.id
+  )
+  pokelist[pokemonIndex] = checkPokemon
+  const csvpoketest = csvStringify(pokelist, {
+    columns: [
+      'id',
+      'name',
+      'weight',
+      'height',
+      'types',
+      'sprite',
+      'cries',
+      'official',
+    ],
+  })
+
+  await Deno.writeTextFile('./models/pokemon.csv', csvpoketest)
+
+  return {
+    code: 201,
+    id: pokemon.id,
+    pokemon: await getPokemon(pokemon.id),
+  }
+}
+
+/**
+ * Delete a pokemon by `id`.
+ * @param {number} id - pokemon id
+ * @returns {Object} code, message, pokemon|false
+ */
+export const deletePokemon = async (id) => {
+  const checkPokemon = await getPokemon(id)
+
+  if (!checkPokemon) {
+    return {
+      code: 404,
+      message: 'Pokemon does not exist',
+    }
+  } else if (checkPokemon.official) {
+    console.log(checkPokemon)
+    return {
+      code: 403,
+      message: 'Cannot delete official pokemon',
+      pokemon: checkPokemon,
+    }
+  } else {
+    let pokemons = await listPokemon()
+
+    pokemons = pokemons.filter((poke) => {
+      if (poke.id !== id) {
+        return true
+      } else if (poke.official) {
+        return true
+      }
+      return false
+    })
+
+    const csvpoketest = csvStringify(pokemons, {
+      columns: [
+        'id',
+        'name',
+        'weight',
+        'height',
+        'types',
+        'sprite',
+        'cries',
+        'official',
+      ],
+    })
+
+    await Deno.writeTextFile('./models/pokemon.csv', csvpoketest)
+
+    return {
+      code: 200,
+      message: 'Pokemon deleted',
+      pokemon: checkPokemon,
+    }
   }
 }
 
