@@ -4,7 +4,7 @@ import {
   hxGetPokemonCtrl,
   hxListPokemonCtrl,
   listPokemonCtrl,
-  newPokemonCtrl,
+  webNewPokemonCtrl,
   webDeletePokemonCtrl,
 } from '../controllers/pokemon.js'
 
@@ -26,10 +26,10 @@ export const apiPokemonRtr = {
   },
 }
 
-export const newPokemonRtr = {
+export const webNewPokemonRtr = {
   POST: {
     route: '/pokemon/new',
-    handler: newPokemonCtrl,
+    handler: webNewPokemonCtrl,
   },
 }
 

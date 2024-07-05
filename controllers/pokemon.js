@@ -29,7 +29,7 @@ export const listPokemonCtrl = async (req) => {
   )
 }
 
-export async function newPokemonCtrl(req) {
+export async function webNewPokemonCtrl(req) {
   const url = new URL(req.url)
   const origin = url.origin
   const formData = await req.formData()
