@@ -246,6 +246,8 @@ export async function createPokemon(pokemon) {
   }
 }
 
+// HTML
+
 /**
  * Get all pokemon an return an unorder list with embedded dialogs.
  * @param {string} [query] - filter pokemon by name

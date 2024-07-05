@@ -15,6 +15,8 @@ const status404 = new Response(
   },
 )
 
+// API
+
 export const listPokemonCtrl = async (req) => {
   const url = new URL(req.url)
   const query = url.searchParams.get('q')
@@ -28,6 +30,46 @@ export const listPokemonCtrl = async (req) => {
     },
   )
 }
+
+export const getPokemonCtrl = async (_req, match) => {
+  const pokeId = parseInt(match.pathname.groups.id)
+  const pokeRes = await getPokemon(pokeId)
+
+  if (!pokeRes) {
+    return status404
+  }
+
+  return new Response(
+    JSON.stringify(pokeRes),
+    {
+      headers: {
+        'Content-Type': 'text/json; charset=utf-8',
+      },
+    },
+  )
+}
+
+export const deletePokemonCtrl = async (_req, match) => {
+  const pokeId = parseInt(match.pathname.groups.id)
+  const pokeRes = await deletePokemon(pokeId)
+  const { code, message, pokemon } = pokeRes
+
+  if (!pokeRes) {
+    return status404
+  }
+
+  return new Response(
+    JSON.stringify({ message, pokemon }),
+    {
+      status: code,
+      headers: {
+        'Content-Type': 'text/json; charset=utf-8',
+      },
+    },
+  )
+}
+
+// web
 
 export async function webNewPokemonCtrl(req) {
   const url = new URL(req.url)
@@ -243,43 +285,7 @@ export async function webDeletePokemonCtrl(req, match) {
   }
 }
 
-export const getPokemonCtrl = async (_req, match) => {
-  const pokeId = parseInt(match.pathname.groups.id)
-  const pokeRes = await getPokemon(pokeId)
-
-  if (!pokeRes) {
-    return status404
-  }
-
-  return new Response(
-    JSON.stringify(pokeRes),
-    {
-      headers: {
-        'Content-Type': 'text/json; charset=utf-8',
-      },
-    },
-  )
-}
-
-export const deletePokemonCtrl = async (_req, match) => {
-  const pokeId = parseInt(match.pathname.groups.id)
-  const pokeRes = await deletePokemon(pokeId)
-  const { code, message, pokemon } = pokeRes
-
-  if (!pokeRes) {
-    return status404
-  }
-
-  return new Response(
-    JSON.stringify({ message, pokemon }),
-    {
-      status: code,
-      headers: {
-        'Content-Type': 'text/json; charset=utf-8',
-      },
-    },
-  )
-}
+// htmx
 
 export const hxListPokemonCtrl = async (req) => {
   const url = new URL(req.url)
