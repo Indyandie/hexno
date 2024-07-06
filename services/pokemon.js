@@ -91,6 +91,8 @@ export async function createPokemon(pokemon) {
   }
 
   pokemon.name = pokemon.name.replace(/\s+/g, '_')
+  pokemon.weight = parseInt(pokemon.weight)
+  pokemon.height = parseInt(pokemon.height)
 
   if (!pokemon.name.match(/^[a-zA-Z](\w|\d|\s)+$/)) {
     return {
@@ -117,21 +119,24 @@ export async function createPokemon(pokemon) {
 
   for (const prop in protomon) {
     const protoType = typeof protomon[prop]
-    let pokeType
+    const pokeType = typeof pokemon[prop]
 
     if (protoType === 'number') {
       const pokeInt = pokemon[prop]
-      const testInt = parseInt(pokeInt)
-      if (testInt != pokeInt) {
+      if (isNaN(pokeInt)) {
         return {
           code: 400,
           prop: prop,
           message: `${prop} is not a number`,
         }
       }
-      pokeType = typeof parseInt(pokemon[prop])
-    } else {
-      pokeType = typeof pokemon[prop]
+      if (pokeInt < 1) {
+        return {
+          code: 400,
+          prop: prop,
+          message: `${prop} must be greater than 1`,
+        }
+      }
     }
 
     if (protoType !== pokeType) {
