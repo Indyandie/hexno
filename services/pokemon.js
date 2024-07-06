@@ -72,11 +72,12 @@ export const getPokemon = async (id) => {
  */
 
 /**
- * Validate new pokemon data.
+ * Validate pokemon data.
  * @param {NewPokemon} pokemon - New pokemon
+ * @param {boolean} checkDuplicate - Check if new pokemon is duplicate.
  * @returns {Object}
  */
-async function validatePokemon(pokemon) {
+async function validatePokemon(pokemon, checkDuplicate = true) {
   /**
    * Pokemon object to validate new pokemon.
    * @type {NewPokemon}
@@ -89,7 +90,33 @@ async function validatePokemon(pokemon) {
     sprite: 'url',
   }
 
+  const pokelist = await listPokemon()
   pokemon.name = pokemon.name.replace(/\s+/g, '_')
+
+  if (!checkDuplicate) {
+    const duplicates = pokelist.some(
+      (poke) => poke.name === pokemon.name && poke.id !== pokemon.id,
+    )
+
+    if (duplicates) {
+      return {
+        code: 409,
+        prop: 'name',
+        message: `duplicate name: ${pokemon.name} already in use`,
+      }
+    }
+  } else {
+    const duplicates = pokelist.some(
+      (poke) => poke.name === pokemon.name,
+    )
+    if (duplicates) {
+      return {
+        code: 409,
+        prop: 'name',
+        message: `duplicate: ${pokemon.name} already exist`,
+      }
+    }
+  }
 
   if (!pokemon.name.match(/^[a-zA-Z](\w|\d|\s)+$/)) {
     return {
@@ -100,25 +127,12 @@ async function validatePokemon(pokemon) {
     }
   }
 
-  const pokelist = await listPokemon()
-
-  const duplicates = pokelist.some(
-    (poke) => poke.name === pokemon.name,
-  )
-
-  if (duplicates) {
-    return {
-      code: 409,
-      prop: 'name',
-      message: `duplicate: ${pokemon.name} already exist`,
-    }
-  }
-
   for (const prop in protomon) {
     const protoType = typeof protomon[prop]
 
     if (protoType === 'number') {
-      const trailingChar = pokemon[prop].match(/[^\d]/g)
+      const trailingChar = pokemon[prop].toString().match(/[^\d]/g)
+
       const pokeInt = parseInt(pokemon[prop])
 
       // isNaN is not really doing anything here but keeping it around for reference
@@ -182,7 +196,6 @@ export async function createPokemon(pokemon) {
     pokemon = valid.pokemon
     pokelist = valid.pokelist
   } else {
-    // console.log(valid)
     return valid
   }
 
@@ -230,87 +243,58 @@ export async function createPokemon(pokemon) {
 export async function updatePokemon(pokemon) {
   const checkPokemon = await getPokemon(pokemon.id)
 
+  if (!checkPokemon) {
+    return {
+      code: 400,
+      message: `Pokemon does not exist.`,
+    }
+  }
+
   if (checkPokemon.official) {
     return {
       code: 403,
-      prop: 'name',
-      message: `forbidden: cannot modify offical pokemon (${pokemon.name})`,
-    }
-  }
-
-  /**
-   * Pokemon object to validate new pokemon.
-   * @type {NewPokemon}
-   */
-  const protomon = {
-    name: 'string',
-    weight: 1,
-    height: 1,
-    types: 'string',
-    sprite: 'url',
-  }
-
-  pokemon.name = pokemon.name.replace(/\s+/g, '_')
-
-  if (!pokemon.name.match(/^[a-zA-Z](\w|\d|\s)+$/)) {
-    return {
-      code: 422,
-      prop: 'name',
       message:
-        `Invalid (${pokemon.name}). Must be an alphanumerical string that start with a letter. Regex: <code>/^\w(\w\d\s)+$/</code>`,
+        `forbidden: cannot modify offical pokemon (${checkPokemon.name})`,
     }
   }
 
-  const pokelist = await listPokemon()
+  const {
+    name: currname,
+    weight: currweight,
+    height: currheight,
+    types: currtypes,
+    sprite: currsprite,
+  } = checkPokemon
 
-  const duplicates = pokelist.some((poke) => {
-    return poke.name === pokemon.name && poke.id !== pokemon.id
-  })
+  const {
+    name: newname,
+    weight: newweight,
+    height: newheight,
+    types: newtypes,
+    sprite: newsprite,
+  } = pokemon
 
-  if (duplicates) {
+  const newPoke = 'a' + newname + newweight + newheight + newtypes +
+    newsprite
+  const currPoke = 'a' + currname + currweight + currheight + currtypes +
+    currsprite
+
+  if (newPoke === currPoke) {
     return {
       code: 409,
       prop: 'name',
-      message: `duplicate: ${pokemon.name} already exist`,
+      message: `No new changes detected`,
     }
   }
 
-  for (const prop in protomon) {
-    const protoType = typeof protomon[prop]
-    let pokeType
+  let pokelist
+  const valid = await validatePokemon(pokemon, false)
 
-    if (protoType === 'number') {
-      const pokeInt = pokemon[prop]
-      const testInt = parseInt(pokeInt)
-      if (testInt != pokeInt) {
-        return {
-          code: 400,
-          prop: prop,
-          message: `${prop} is not a number`,
-        }
-      }
-      pokeType = typeof parseInt(pokemon[prop])
-    } else {
-      pokeType = typeof pokemon[prop]
-    }
-
-    if (protoType !== pokeType) {
-      return {
-        code: 400,
-        prop: prop,
-        message: `${prop}: expected ${protoType}, received ${pokeType}`,
-      }
-    }
-  }
-
-  try {
-    new URL(pokemon.sprite)
-  } catch {
-    return {
-      code: 422,
-      prop: 'sprite',
-      message: `Invalid URL, ${pokemon.sprite}`,
-    }
+  if (valid.isValid) {
+    pokemon = valid.pokemon
+    pokelist = valid.pokelist
+  } else {
+    return valid
   }
 
   checkPokemon.name = pokemon.name
@@ -318,7 +302,7 @@ export async function updatePokemon(pokemon) {
   checkPokemon.height = pokemon.height
   checkPokemon.types = pokemon.types
   checkPokemon.sprite = pokemon.sprite
-  console.log(checkPokemon)
+
   const pokemonIndex = pokelist.findLastIndex((poke) =>
     poke.id === checkPokemon.id
   )
