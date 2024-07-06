@@ -69,15 +69,14 @@ export const getPokemon = async (id) => {
  * @property {number} height
  * @property {string} types
  * @property {string} sprite - URL
- * @property {string} cries - URL
  */
 
 /**
- * Validate Pokemon data and save it to `./models/pokemon.csv`.
+ * Validate new pokemon data.
  * @param {NewPokemon} pokemon - New pokemon
- * @returns {boolean} success (`true`), fail (false)
+ * @returns {Object}
  */
-export async function createPokemon(pokemon) {
+async function validatePokemon(pokemon) {
   /**
    * Pokemon object to validate new pokemon.
    * @type {NewPokemon}
@@ -91,8 +90,6 @@ export async function createPokemon(pokemon) {
   }
 
   pokemon.name = pokemon.name.replace(/\s+/g, '_')
-  pokemon.weight = parseInt(pokemon.weight)
-  pokemon.height = parseInt(pokemon.height)
 
   if (!pokemon.name.match(/^[a-zA-Z](\w|\d|\s)+$/)) {
     return {
@@ -119,17 +116,22 @@ export async function createPokemon(pokemon) {
 
   for (const prop in protomon) {
     const protoType = typeof protomon[prop]
-    const pokeType = typeof pokemon[prop]
 
     if (protoType === 'number') {
-      const pokeInt = pokemon[prop]
-      if (isNaN(pokeInt)) {
+      const trailingChar = pokemon[prop].match(/[^\d]/g)
+      const pokeInt = parseInt(pokemon[prop])
+
+      // isNaN is not really doing anything here but keeping it around for reference
+      if (isNaN(pokeInt) || trailingChar !== null) {
         return {
           code: 400,
           prop: prop,
           message: `${prop} is not a number`,
         }
       }
+
+      pokemon[prop] = pokeInt
+
       if (pokeInt < 1) {
         return {
           code: 400,
@@ -138,6 +140,8 @@ export async function createPokemon(pokemon) {
         }
       }
     }
+
+    const pokeType = typeof pokemon[prop]
 
     if (protoType !== pokeType) {
       return {
@@ -156,6 +160,30 @@ export async function createPokemon(pokemon) {
       prop: 'sprite',
       message: `Invalid URL, ${pokemon.sprite}`,
     }
+  }
+
+  return {
+    isValid: true,
+    pokemon,
+    pokelist,
+  }
+}
+
+/**
+ * Validate Pokemon data and save it to `./models/pokemon.csv`.
+ * @param {NewPokemon} pokemon - New pokemon
+ * @returns {boolean} success (`true`), fail (false)
+ */
+export async function createPokemon(pokemon) {
+  let pokelist
+  const valid = await validatePokemon(pokemon)
+
+  if (valid.isValid) {
+    pokemon = valid.pokemon
+    pokelist = valid.pokelist
+  } else {
+    // console.log(valid)
+    return valid
   }
 
   pokemon.id = pokelist.length + 1000
@@ -200,7 +228,7 @@ export async function createPokemon(pokemon) {
  * @returns {Object} code, prop, message, pokemon
  */
 export async function updatePokemon(pokemon) {
-  let checkPokemon = await getPokemon(pokemon.id)
+  const checkPokemon = await getPokemon(pokemon.id)
 
   if (checkPokemon.official) {
     return {
