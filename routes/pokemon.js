@@ -1,6 +1,7 @@
 import {
   deletePokemonCtrl,
   getPokemonCtrl,
+  createPokemonCtrl,
   hxGetPokemonCtrl,
   hxListPokemonCtrl,
   listPokemonCtrl,
@@ -18,6 +19,10 @@ export const apiGetPokemonRtr = {
   DELETE: {
     route: '/api/pokemon/:id',
     handler: deletePokemonCtrl,
+  },
+  PUT: {
+    route: '/api/pokemon',
+    handler: createPokemonCtrl,
   },
 }
 

@@ -5,6 +5,7 @@ import {
   htmlGetPokemon,
   htmlListPokemon,
   listPokemon,
+  updatePokemon,
 } from '../services/pokemon.js'
 
 const status404 = new Response(
@@ -26,6 +27,36 @@ export const listPokemonCtrl = async (req) => {
     {
       headers: {
         'content-type': 'text/json; charset=utf-8',
+      },
+    },
+  )
+}
+
+export const createPokemonCtrl = async (req) => {
+  const pokeReq = await req.json()
+  const pokeRes = await createPokemon(pokeReq)
+  const { code, error, message, pokemon } = pokeRes
+
+  if (!pokeRes) {
+    return status404
+  }
+
+  let response
+  if (code >= 400) {
+    response = {
+      error,
+      message,
+    }
+  } else {
+    response = pokemon
+  }
+
+  return new Response(
+    JSON.stringify(response),
+    {
+      status: code,
+      headers: {
+        'Content-Type': 'text/json; charset=utf-8',
       },
     },
   )

@@ -102,7 +102,8 @@ async function validatePokemon(pokemon, checkDuplicate = true) {
       return {
         code: 409,
         prop: 'name',
-        message: `duplicate name: ${pokemon.name} already in use`,
+        error: 'Duplicate Name',
+        message: `${pokemon.name} is already in use`,
       }
     }
   } else {
@@ -113,7 +114,8 @@ async function validatePokemon(pokemon, checkDuplicate = true) {
       return {
         code: 409,
         prop: 'name',
-        message: `duplicate: ${pokemon.name} already exist`,
+        error: 'Duplicate Pokemon',
+        message: `${pokemon.name} already exist`,
       }
     }
   }
@@ -122,6 +124,7 @@ async function validatePokemon(pokemon, checkDuplicate = true) {
     return {
       code: 422,
       prop: 'name',
+      error: 'Invalid Name Syntax',
       message:
         `Invalid (${pokemon.name}). Must be an alphanumerical string that start with a letter. Regex: <code>/^\w(\w\d\s)+$/</code>`,
     }
@@ -140,6 +143,7 @@ async function validatePokemon(pokemon, checkDuplicate = true) {
         return {
           code: 400,
           prop: prop,
+          error: 'Invalid Number',
           message: `${prop} is not a number`,
         }
       }
@@ -150,6 +154,7 @@ async function validatePokemon(pokemon, checkDuplicate = true) {
         return {
           code: 400,
           prop: prop,
+          error: 'Invalid Number Value',
           message: `${prop} must be greater than 1`,
         }
       }
@@ -161,6 +166,7 @@ async function validatePokemon(pokemon, checkDuplicate = true) {
       return {
         code: 400,
         prop: prop,
+        error: 'Invalid Type',
         message: `${prop}: expected ${protoType}, received ${pokeType}`,
       }
     }
@@ -172,7 +178,8 @@ async function validatePokemon(pokemon, checkDuplicate = true) {
     return {
       code: 422,
       prop: 'sprite',
-      message: `Invalid URL, ${pokemon.sprite}`,
+      error: 'Invalid URL',
+      message: `Malformed URL, ${pokemon.sprite}`,
     }
   }
 
@@ -245,7 +252,8 @@ export async function updatePokemon(pokemon) {
 
   if (!checkPokemon) {
     return {
-      code: 400,
+      code: 404,
+      error: 'Pokemon Not Found',
       message: `Pokemon does not exist.`,
     }
   }
@@ -253,8 +261,8 @@ export async function updatePokemon(pokemon) {
   if (checkPokemon.official) {
     return {
       code: 403,
-      message:
-        `forbidden: cannot modify offical pokemon (${checkPokemon.name})`,
+      error: 'Forbidden',
+      message: `Cannot modify offical pokemon (${checkPokemon.name})`,
     }
   }
 
@@ -283,6 +291,7 @@ export async function updatePokemon(pokemon) {
     return {
       code: 409,
       prop: 'name',
+      error: 'Nothing To Do',
       message: `No new changes detected`,
     }
   }
@@ -340,12 +349,14 @@ export const deletePokemon = async (id) => {
   if (!checkPokemon) {
     return {
       code: 404,
+      error: 'Pokemon Not Found',
       message: 'Pokemon does not exist',
     }
   } else if (checkPokemon.official) {
     console.log(checkPokemon)
     return {
       code: 403,
+      error: 'Forbidden',
       message: 'Cannot delete official pokemon',
       pokemon: checkPokemon,
     }

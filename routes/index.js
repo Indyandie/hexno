@@ -34,9 +34,10 @@ router.post(
 
 // API
 
+router.get(apiPokemonRtr.GET.route, apiPokemonRtr.GET.handler)
+router.put(apiGetPokemonRtr.PUT.route, apiGetPokemonRtr.PUT.handler)
 router.get(apiGetPokemonRtr.GET.route, apiGetPokemonRtr.GET.handler)
 router.delete(apiGetPokemonRtr.DELETE.route, apiGetPokemonRtr.DELETE.handler)
-router.get(apiPokemonRtr.GET.route, apiPokemonRtr.GET.handler)
 
 // htmx
 
