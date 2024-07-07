@@ -206,7 +206,13 @@ export async function createPokemon(pokemon) {
     return valid
   }
 
-  pokemon.id = pokelist.length + 1000
+  const largestId = pokelist[pokelist.length - 1].id
+  if (largestId < 500) {
+    pokemon.id = largestId + 1000
+  } else {
+    pokemon.id = largestId + 1
+  }
+
   pokemon.official = false
   pokemon.cries = null
   const poketest = [...pokelist, pokemon]
