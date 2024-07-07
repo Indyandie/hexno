@@ -1,6 +1,6 @@
 import { Router } from './Router.js'
 import {
-  apiGetPokemonRtr,
+  apiPokemonIdRtr,
   apiPokemonRtr,
   hxGetPokemonRtr,
   hxListPokemonRtr,
@@ -34,10 +34,10 @@ router.post(
 
 // API
 
+router.put(apiPokemonRtr.PUT.route, apiPokemonRtr.PUT.handler)
 router.get(apiPokemonRtr.GET.route, apiPokemonRtr.GET.handler)
-router.put(apiGetPokemonRtr.PUT.route, apiGetPokemonRtr.PUT.handler)
-router.get(apiGetPokemonRtr.GET.route, apiGetPokemonRtr.GET.handler)
-router.delete(apiGetPokemonRtr.DELETE.route, apiGetPokemonRtr.DELETE.handler)
+router.get(apiPokemonIdRtr.GET.route, apiPokemonIdRtr.GET.handler)
+router.delete(apiPokemonIdRtr.DELETE.route, apiPokemonIdRtr.DELETE.handler)
 
 // htmx
 

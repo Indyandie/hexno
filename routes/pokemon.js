@@ -11,14 +11,10 @@ import {
 
 // API
 
-export const apiGetPokemonRtr = {
+export const apiPokemonRtr = {
   GET: {
-    route: '/api/pokemon/:id',
-    handler: getPokemonCtrl,
-  },
-  DELETE: {
-    route: '/api/pokemon/:id',
-    handler: deletePokemonCtrl,
+    route: '/api/pokemon',
+    handler: listPokemonCtrl,
   },
   PUT: {
     route: '/api/pokemon',
@@ -26,10 +22,14 @@ export const apiGetPokemonRtr = {
   },
 }
 
-export const apiPokemonRtr = {
+export const apiPokemonIdRtr = {
   GET: {
-    route: '/api/pokemon',
-    handler: listPokemonCtrl,
+    route: '/api/pokemon/:id',
+    handler: getPokemonCtrl,
+  },
+  DELETE: {
+    route: '/api/pokemon/:id',
+    handler: deletePokemonCtrl,
   },
 }
 

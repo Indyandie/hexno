@@ -18,20 +18,6 @@ const status404 = new Response(
 
 // API
 
-export const listPokemonCtrl = async (req) => {
-  const url = new URL(req.url)
-  const query = url.searchParams.get('q')
-
-  return new Response(
-    JSON.stringify(await listPokemon(query)),
-    {
-      headers: {
-        'content-type': 'text/json; charset=utf-8',
-      },
-    },
-  )
-}
-
 export const createPokemonCtrl = async (req) => {
   const pokeReq = await req.json()
   const pokeRes = await createPokemon(pokeReq)
@@ -57,6 +43,20 @@ export const createPokemonCtrl = async (req) => {
       status: code,
       headers: {
         'Content-Type': 'text/json; charset=utf-8',
+      },
+    },
+  )
+}
+
+export const listPokemonCtrl = async (req) => {
+  const url = new URL(req.url)
+  const query = url.searchParams.get('q')
+
+  return new Response(
+    JSON.stringify(await listPokemon(query)),
+    {
+      headers: {
+        'content-type': 'text/json; charset=utf-8',
       },
     },
   )
