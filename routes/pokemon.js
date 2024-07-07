@@ -1,13 +1,15 @@
 import {
+  createPokemonCtrl,
   deletePokemonCtrl,
   getPokemonCtrl,
-  createPokemonCtrl,
   hxGetPokemonCtrl,
   hxListPokemonCtrl,
   listPokemonCtrl,
+  updatePokemonCtrl,
   webDeletePokemonCtrl,
   webNewPokemonCtrl,
 } from '../controllers/pokemon.js'
+import { updatePokemon } from "../services/pokemon.js";
 
 // API
 
@@ -26,6 +28,10 @@ export const apiPokemonIdRtr = {
   GET: {
     route: '/api/pokemon/:id',
     handler: getPokemonCtrl,
+  },
+  PATCH: {
+    route: '/api/pokemon/:id',
+    handler: updatePokemonCtrl,
   },
   DELETE: {
     route: '/api/pokemon/:id',

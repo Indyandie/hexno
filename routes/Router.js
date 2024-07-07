@@ -4,6 +4,7 @@ export class Router {
       'GET': [],
       'POST': [],
       'PUT': [],
+      'PATCH': [],
       'DELETE': [],
     }
   }
@@ -25,6 +26,10 @@ export class Router {
 
   put(pathname, handler) {
     this.add('PUT', pathname, handler)
+  }
+
+  patch(pathname, handler) {
+    this.add('PATCH', pathname, handler)
   }
 
   delete(pathname, handler) {

@@ -80,17 +80,66 @@ export const getPokemonCtrl = async (_req, match) => {
   )
 }
 
-export const deletePokemonCtrl = async (_req, match) => {
+export const updatePokemonCtrl = async (req, match) => {
   const pokeId = parseInt(match.pathname.groups.id)
-  const pokeRes = await deletePokemon(pokeId)
-  const { code, message, pokemon } = pokeRes
+  const pokeReq = await req.json()
+  pokeReq.id = pokeId
+  const pokeRes = await updatePokemon(pokeReq)
+  const { code, error, message, pokemon } = pokeRes
 
   if (!pokeRes) {
     return status404
   }
 
+  let response
+  if (code >= 400) {
+    response = {
+      error,
+      message,
+    }
+  } else {
+    response = pokemon || {
+      error,
+      message,
+    }
+  }
+
   return new Response(
-    JSON.stringify({ message, pokemon }),
+    JSON.stringify(response),
+    {
+      status: code,
+      headers: {
+        'Content-Type': 'text/json; charset=utf-8',
+      },
+    },
+  )
+}
+
+export const deletePokemonCtrl = async (_req, match) => {
+  const pokeId = parseInt(match.pathname.groups.id)
+  const pokeRes = await deletePokemon(pokeId)
+  const { code, error, message, pokemon } = pokeRes
+
+  if (!pokeRes) {
+    return status404
+  }
+
+  let response
+  if (code >= 400) {
+    response = {
+      error,
+      message,
+    }
+  } else {
+    response = {
+      error,
+      message,
+      pokemon,
+    }
+  }
+
+  return new Response(
+    JSON.stringify(response),
     {
       status: code,
       headers: {

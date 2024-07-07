@@ -295,7 +295,7 @@ export async function updatePokemon(pokemon) {
 
   if (newPoke === currPoke) {
     return {
-      code: 409,
+      code: 200,
       prop: 'name',
       error: 'Nothing To Do',
       message: `No new changes detected`,
@@ -338,7 +338,7 @@ export async function updatePokemon(pokemon) {
   await Deno.writeTextFile('./models/pokemon.csv', csvpoketest)
 
   return {
-    code: 201,
+    code: 200,
     id: pokemon.id,
     pokemon: await getPokemon(pokemon.id),
   }
