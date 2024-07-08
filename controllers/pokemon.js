@@ -63,16 +63,30 @@ export const listPokemonCtrl = async (req) => {
 }
 
 export const getPokemonCtrl = async (_req, match) => {
-  const pokeId = parseInt(match.pathname.groups.id)
+  const pokeId = match.pathname.groups.id
   const pokeRes = await getPokemon(pokeId)
+  const { code } = pokeRes
+  let response
 
   if (!pokeRes) {
     return status404
   }
 
+  if (code === 200) {
+    const { pokemon } = pokeRes
+    response = pokemon
+  } else {
+    const { error, message } = pokeRes
+    response = {
+      error,
+      message,
+    }
+  }
+
   return new Response(
-    JSON.stringify(pokeRes),
+    JSON.stringify(response),
     {
+      status: code,
       headers: {
         'Content-Type': 'text/json; charset=utf-8',
       },
@@ -381,16 +395,27 @@ export const hxListPokemonCtrl = async (req) => {
 }
 
 export const hxGetPokemonCtrl = async (_req, match) => {
-  const pokeId = parseInt(match.pathname.groups.id)
+  const pokeId = match.pathname.groups.id
   const pokeRes = await htmlGetPokemon(pokeId)
+  const { code, html } = pokeRes
+  let response
 
+  console.log(pokeRes)
   if (!pokeRes) {
     return status404
   }
 
+  if (code === 200) {
+    response = html
+  } else {
+    const { error, message } = pokeRes
+    response = html
+  }
+
   return new Response(
-    pokeRes,
+    response,
     {
+      status: code,
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
       },

@@ -48,18 +48,38 @@ export const listPokemon = async (query) => {
 
 /**
  * Get a pokemon by `id`.
- * @param {number} id - pokemon id
+ * @param {number} id - pokemon ID
  * @returns {(Pokemon|false)}
  */
 export const getPokemon = async (id) => {
+  const trailingChar = id.toString().match(/[^\d]/g)
+  const pokeInt = parseInt(id)
+
+  // isNaN is not really doing anything here but keeping it around for reference
+  if (isNaN(pokeInt) || trailingChar !== null) {
+    return {
+      code: 400,
+      error: 'Invalid Type',
+      message: `Pokemon id must be an interger ${id}`,
+    }
+  }
+
   let pokemon = await listPokemon()
+  id = parseInt(id)
   pokemon = pokemon.find((poke) => poke.id === id)
 
   if (pokemon) {
-    return pokemon
+    return {
+      code: 200,
+      pokemon,
+    }
   }
 
-  return false
+  return {
+    code: 404,
+    error: 'Not Found',
+    message: `${id} is not a pokemon ID`,
+  }
 }
 
 /**
@@ -436,9 +456,9 @@ export const htmlListPokemon = async (query) => {
  * @returns {(html|false)} HTML fragment
  */
 export const htmlGetPokemon = async (id) => {
-  const poke = await getPokemon(id)
+  const { code, pokemon: poke } = await getPokemon(id)
 
-  if (poke) {
+  if (code === 200) {
     const { id, name, cries, weight, height, types, sprite, official } = poke
     const deleteForm = !official
       ? `<form method="POST" action="/pokemon/delete/${id}" >
@@ -450,7 +470,47 @@ export const htmlGetPokemon = async (id) => {
       ? `<tr><th>cries</th><td><audio controls controlslist="nodownload"><source src="${cries}" type="audio/ogg"></source><p>audio is not supported</p></audio></td></tr>`
       : ''
 
-    return await `<article><h1><a href="/pokemon/${id}">${name}</a></h1><img src="${sprite}" alt="${name}" /><table><tr><th>weight</th><td>${weight}</td></tr><tr><th>height</th><td>${height}</td></tr><tr><th>type</th><td>${types}</td></tr>${criesTr}</table>${deleteForm}</article>`
+    const html =
+      `<article><h1><a href="/pokemon/${id}">${name}</a></h1><img src="${sprite}" alt="${name}" /><table><tr><th>weight</th><td>${weight}</td></tr><tr><th>height</th><td>${height}</td></tr><tr><th>type</th><td>${types}</td></tr>${criesTr}</table>${deleteForm}</article>`
+
+    return {
+      code,
+      html,
+    }
   }
-  return false
+
+  return {
+    code, 
+    html: htmlNotFound(),
+  }
 }
+export const htmlNotFound = (response = false, delay = 0, redirect = false) => {
+  return `<!doctype html>
+<html lang="en" dir="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    ${
+    !redirect
+      ? ''
+      : '<meta http-equiv="Refresh" content="' + delay + ", url='" + redirect +
+        '\'" >'
+  }
+    <title>Not Found</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>" />
+    <script src="/public/js/htmx.min.js"></script>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h1>Not found</h1>
+        <p>These are not the pokemon you are looking</p>
+        ${!response ? '' : '<code>' + response + '</code>'}
+        <a href='/'>Main page</a>
+      </section>
+    </main>
+  </body>
+</html>`
+}
+
