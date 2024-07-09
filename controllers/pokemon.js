@@ -2,6 +2,7 @@ import {
   createPokemon,
   deletePokemon,
   getPokemon,
+  htmlEditPokemon,
   htmlGetPokemon,
   htmlListPokemon,
   listPokemon,
@@ -290,6 +291,25 @@ export async function webNewPokemonCtrl(req) {
       },
     )
   }
+}
+
+export async function webEditPokemonCtrl(_req, match) {
+  const pokeId = match.pathname.groups.id
+  const { code, html } = await htmlEditPokemon(pokeId)
+
+  // if (code === 404) {
+  //   return status404
+  // }
+
+  return new Response(
+    html,
+    {
+      status: code,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+      },
+    },
+  )
 }
 
 export async function webDeletePokemonCtrl(req, match) {

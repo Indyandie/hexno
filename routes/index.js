@@ -5,6 +5,7 @@ import {
   hxGetPokemonRtr,
   hxListPokemonRtr,
   webDeleletePokemonRtr,
+  webEditPokemonRtr,
   webNewPokemonRtr,
 } from './pokemon.js'
 import { srvFl } from '../deps.js'
@@ -27,6 +28,7 @@ router.get('/', home)
 router.get('/pokemon/new', newPoke) // must go before /pokemon/:id
 router.get('/pokemon/:id', poke)
 router.post(webNewPokemonRtr.POST.route, webNewPokemonRtr.POST.handler)
+router.get(webEditPokemonRtr.GET.route, webEditPokemonRtr.GET.handler)
 router.post(
   webDeleletePokemonRtr.POST.route,
   webDeleletePokemonRtr.POST.handler,
