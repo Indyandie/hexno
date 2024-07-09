@@ -379,7 +379,6 @@ export const deletePokemon = async (id) => {
       message: 'Pokemon does not exist',
     }
   } else if (checkPokemon.official) {
-    console.log(checkPokemon)
     return {
       code: 403,
       error: 'Forbidden',
@@ -461,9 +460,14 @@ export const htmlGetPokemon = async (id) => {
   if (code === 200) {
     const { id, name, cries, weight, height, types, sprite, official } = poke
     const deleteForm = !official
-      ? `<form method="POST" action="/pokemon/delete/${id}" >
+      ? `
+      <form method="POST" action="/pokemon/delete/${id}" >
         <button type="sumbit">delete</button>
-      </form>`
+      </form>
+      <a href="/pokemon/edit/${id}">
+        <button>edit</button>
+      </a>
+      `
       : ''
 
     const criesTr = cries
@@ -480,10 +484,39 @@ export const htmlGetPokemon = async (id) => {
   }
 
   return {
-    code, 
+    code,
     html: htmlNotFound(),
   }
 }
+
+export const htmlForbidden = (response, delay = 0, redirect = false) => {
+  return `<!doctype html>
+<html lang="en" dir="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    ${
+    !redirect
+      ? ''
+      : '<meta http-equiv="Refresh" content="' + delay + ", url='" + redirect +
+        '\'" >'
+  }
+    <title>Forbidden</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>" />
+    <script src="/public/js/htmx.min.js"></script>
+  </head>
+  <body>
+    <main>
+      <section>
+        <h1>Forbidden</h1>
+        <code>${response}</code>
+      </section>
+    </main>
+  </body>
+</html>`
+}
+
 export const htmlNotFound = (response = false, delay = 0, redirect = false) => {
   return `<!doctype html>
 <html lang="en" dir="auto">
@@ -514,3 +547,97 @@ export const htmlNotFound = (response = false, delay = 0, redirect = false) => {
 </html>`
 }
 
+/**
+ * Edit a pokemon form.
+ * @param {number} pokemonId - pokemon id
+ * @param {Object|null} [pokemonObj] - pokemon object
+ * @returns {(html|false)} HTML fragment
+ */
+export const htmlEditPokemon = async (pokemonId, pokemonObj = null) => {
+  console.log(pokemonId)
+  const pokeReturn = pokemonObj !== null
+    ? await updatePokemon(pokemonObj)
+    : await getPokemon(pokemonId)
+  console.log(pokemonId, pokeReturn)
+
+  if (!pokeReturn) {
+    return {
+      code: 404,
+      html: htmlNotFound(),
+    }
+  }
+  if (pokeReturn.official) {
+    const officialForbidden = `${pokeReturn.name} cannot be edited...`
+    const redirectUrl = `/pokemon/${pokeReturn.id}`
+    return {
+      code: 403,
+      html: htmlForbidden(officialForbidden, 3, redirectUrl),
+    }
+  } else {
+    const poke = pokeReturn.pokemon
+    const code = 200
+    const prop = false
+
+    const html = `<!doctype html>
+<html lang="en" dir="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Edit ${poke.name}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>" />
+    <script src="/public/js/htmx.min.js"></script>
+  </head>
+  <body>
+    <main>
+      <section class="pokelist">
+        <h1>Edit ${poke.name}</h1>
+        <img src="${poke.sprite}" alt="${poke.name}" />
+        <form action="/pokemon/edit/${poke.id}" method="POST">
+          <div>
+            <label for="name">name</label>
+            <span>${prop && 'name' === prop ? message : ''}</span>
+            <br />
+            <input type="text" name="name" value="${poke.name}" required />
+          </div>
+          <div>
+            <label for="weight">weight</label>
+            <span>${prop && 'weight' === prop ? message : ''}</span>
+            <br />
+            <input type="number" name="weight" min="1" value="${poke.weight}" required />
+          </div>
+          <div>
+            <label for="height">height</label>
+            <span>${prop && 'height' === prop ? message : ''}</span>
+            <br />
+            <input type="number" name="height" min="1" value="${poke.height}" required />
+          </div>
+          <div>
+            <label for="types">types</label>
+            <span>${prop && 'types' === prop ? message : ''}</span>
+            <br />
+            <input type="text" name="types" list="pokemon-types" value="${poke.types}" required />
+            <datalist id="pokemon-types">
+              <option value="normal"></option>
+              <option value="grass"></option>
+              <option value="water"></option>
+              <option value="fire"></option>
+              <option value="rock"></option>
+            </datalist>
+          </div>
+          <div>
+            <label for="sprite">sprite</label>
+            <span>${prop && 'sprite' === prop ? message : ''}</span>
+            <br />
+            <input type="url" name="sprite" value="${poke.sprite}" required />
+          </div>
+          <button type="submit">Update</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>`
+
+    return { html, code }
+  }
+}
