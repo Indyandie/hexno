@@ -280,6 +280,8 @@ export async function updatePokemon(pokemon) {
   if (checkCode !== 200) {
     return getCheckPokemon
   }
+
+
   if (!checkPokemon) {
     return {
       code: 404,
@@ -553,77 +555,47 @@ export const htmlNotFound = (response = false, delay = 0, redirect = false) => {
 </html>`
 }
 
-/**
- * Edit a pokemon form.
- * @param {number} pokemonId - pokemon id
- * @param {Object|null} [pokemonObj] - pokemon object
- * @returns {(html|false)} HTML fragment
- */
-export const htmlEditPokemon = async (pokemonId, pokemonObj = null) => {
-  console.log(pokemonId)
-  const pokeReturn = pokemonObj !== null
-    ? await updatePokemon(pokemonObj)
-    : await getPokemon(pokemonId)
-  console.log(pokemonId, pokeReturn)
-
-  if (!pokeReturn) {
-    return {
-      code: 404,
-      html: htmlNotFound(),
-    }
-  }
-  if (pokeReturn.official) {
-    const officialForbidden = `${pokeReturn.name} cannot be edited...`
-    const redirectUrl = `/pokemon/${pokeReturn.id}`
-    return {
-      code: 403,
-      html: htmlForbidden(officialForbidden, 3, redirectUrl),
-    }
-  } else {
-    const poke = pokeReturn.pokemon
-    const code = 200
-    const prop = false
-
-    const html = `<!doctype html>
+const htmlEditForm = (pokemon, prop = false, message = false) => {
+  return `<!doctype html>
 <html lang="en" dir="auto">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Edit ${poke.name}</title>
+    <title>Edit ${pokemon.id}</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>" />
     <script src="/public/js/htmx.min.js"></script>
   </head>
   <body>
     <main>
-      <section class="pokelist">
-        <h1>Edit ${poke.name}</h1>
-        <img src="${poke.sprite}" alt="${poke.name}" />
-        <form action="/pokemon/edit/${poke.id}" method="POST">
+      <section class="pokelistmon">
+        <h1>Edit ${pokemon.id}</h1>
+        <img src="${pokemon.sprite}" alt="${pokemon.name}" />
+        <form action="/pokemon/edit/${pokemon.id}" method="POST">
           <div>
             <label for="name">name</label>
             <span>${prop && 'name' === prop ? message : ''}</span>
             <br />
-            <input type="text" name="name" value="${poke.name}" required />
+            <input type="text" name="name" value="${pokemon.name}" required />
           </div>
           <div>
             <label for="weight">weight</label>
             <span>${prop && 'weight' === prop ? message : ''}</span>
             <br />
-            <input type="number" name="weight" min="1" value="${poke.weight}" required />
+            <input type="number" name="weight" min="1" value="${pokemon.weight}" required />
           </div>
           <div>
             <label for="height">height</label>
             <span>${prop && 'height' === prop ? message : ''}</span>
             <br />
-            <input type="number" name="height" min="1" value="${poke.height}" required />
+            <input type="number" name="height" min="1" value="${pokemon.height}" required />
           </div>
           <div>
             <label for="types">types</label>
             <span>${prop && 'types' === prop ? message : ''}</span>
             <br />
-            <input type="text" name="types" list="pokemon-types" value="${poke.types}" required />
-            <datalist id="pokemon-types">
+            <input type="text" name="types" list="pokemonmon-types" value="${pokemon.types}" required />
+            <datalist id="pokemonmon-types">
               <option value="normal"></option>
               <option value="grass"></option>
               <option value="water"></option>
@@ -635,7 +607,7 @@ export const htmlEditPokemon = async (pokemonId, pokemonObj = null) => {
             <label for="sprite">sprite</label>
             <span>${prop && 'sprite' === prop ? message : ''}</span>
             <br />
-            <input type="url" name="sprite" value="${poke.sprite}" required />
+            <input type="url" name="sprite" value="${pokemon.sprite}" required />
           </div>
           <button type="submit">Update</button>
         </form>
@@ -643,7 +615,110 @@ export const htmlEditPokemon = async (pokemonId, pokemonObj = null) => {
     </main>
   </body>
 </html>`
+}
 
-    return { html, code }
+const htmlUpdatedPokemon = (pokemon) => {
+  return `<!doctype html>
+<html lang="en" dir="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Refresh" content="0, url='/pokemon/${pokemon.id}'" >
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Updated: ${pokemon.name} [${pokemon.id}]</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>"
+    />
+    <script src="/public/js/htmx.min.js"></script>
+  </head>
+
+  <body>
+    <main>
+      <h1>Updated!</h1>
+      <code>
+        ${JSON.stringify(pokemon, null, '<br>')}
+      </code>
+    </main>
+  </body>
+</html>`
+}
+
+/**
+ * Edit a pokemon form.
+ * @param {number} pokemonId - pokemon id
+ * @param {Object|null} [pokemonObj] - pokemon object
+ * @returns {(html|false)} HTML fragment
+ */
+export const htmlEditPokemon = async (pokemonId, pokemonObj = null) => {
+  let html
+
+  if (pokemonObj === null) {
+    const pokeReturn = await getPokemon(pokemonId)
+    const { code, pokemon, error, message } = pokeReturn
+    console.log('get poke_return', pokeReturn)
+
+    if (!pokemon) {
+      return { code: 404, html: htmlNotFound() }
+    }
+
+    if (pokemon.official) {
+      const officialForbidden = `<b>${pokemon.name}</b> cannot be edited`
+      const redirectUrl = `/pokemon/${pokemon.id}`
+      return {
+        code: 403,
+        html: htmlForbidden(
+          officialForbidden,
+          0,
+          redirectUrl,
+        ),
+      }
+    }
+
+    if (code === 200) {
+      return {
+        code,
+        html: await htmlEditForm(pokemon),
+      }
+    }
+  } else {
+    const pokeReturn = await updatePokemon(pokemonObj)
+    const { code, pokemon, prop, error, message } = pokeReturn
+    console.log('update poke return', pokeReturn)
+
+    if (code === 403) {
+      const officialForbidden = !pokemon
+        ? message
+        : `<b>${pokemon.name}</b> cannot be edited`
+      const redirectUrl = `/pokemon/${pokemonId}`
+
+      return {
+        code,
+        html: htmlForbidden(
+          officialForbidden,
+          0,
+          redirectUrl,
+        ),
+      }
+    }
+
+    if (code === 404) {
+      return {
+        code,
+        html: htmlNotFound(message),
+      }
+    }
+
+    if (code === 200) {
+      return {
+        code,
+        html: htmlUpdatedPokemon(pokemon),
+      }
+    }
+
+    return {
+      code,
+      html: await htmlEditForm(pokemonObj, prop, message),
+    }
   }
 }
