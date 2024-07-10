@@ -319,7 +319,7 @@ export async function updatePokemon(pokemon) {
 
   if (newPoke === currPoke) {
     return {
-      code: 200,
+      code: 422,
       prop: 'name',
       error: 'Nothing To Do',
       message: `No new changes detected`,
