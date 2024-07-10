@@ -115,7 +115,7 @@ async function validatePokemon(pokemon, checkDuplicate = true) {
 
   if (!checkDuplicate) {
     const duplicates = pokelist.some(
-      (poke) => poke.name === pokemon.name && poke.id !== pokemon.id,
+      (poke) => poke.name === pokemon.name && poke.id !== parseInt(pokemon.id),
     )
 
     if (duplicates) {
@@ -128,7 +128,7 @@ async function validatePokemon(pokemon, checkDuplicate = true) {
     }
   } else {
     const duplicates = pokelist.some(
-      (poke) => poke.name === pokemon.name,
+      (poke) => poke.name === pokemon.name && poke.id !== pokemon.id,
     )
     if (duplicates) {
       return {
