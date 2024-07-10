@@ -63,7 +63,7 @@ async function getPokemonList(totalPokemon) {
 /**
  * @param {PokemonItem[]} pokeList
  */
-const pokeList = await getPokemonList(151)
+const pokeList = await getPokemonList(1025)
 
 const pokemap = await Promise.all(
   pokeList.map((poke) => fetchPokeData(poke.url)),
