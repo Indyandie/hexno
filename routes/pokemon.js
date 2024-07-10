@@ -8,6 +8,7 @@ import {
   updatePokemonCtrl,
   webDeletePokemonCtrl,
   webEditPokemonCtrl,
+  webHomePokemonCtrl,
   webNewPokemonCtrl,
   webUpdatePokemonCtrl,
 } from '../controllers/pokemon.js'
@@ -41,6 +42,13 @@ export const apiPokemonIdRtr = {
 }
 
 // web
+
+export const webMainPokemonRtr = {
+  GET: {
+    route: '/web',
+    handler: webHomePokemonCtrl,
+  },
+}
 
 export const webNewPokemonRtr = {
   POST: {

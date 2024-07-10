@@ -6,6 +6,7 @@ import {
   hxListPokemonRtr,
   webDeleletePokemonRtr,
   webEditPokemonRtr,
+  webMainPokemonRtr,
   webNewPokemonRtr,
 } from './pokemon.js'
 import { srvFl } from '../deps.js'
@@ -27,6 +28,7 @@ const newPoke = (req) => {
 router.get('/', home)
 router.get('/pokemon/new', newPoke) // must go before /pokemon/:id
 router.get('/pokemon/:id', poke)
+router.get(webMainPokemonRtr.GET.route, webMainPokemonRtr.GET.handler)
 router.post(webNewPokemonRtr.POST.route, webNewPokemonRtr.POST.handler)
 router.get(webEditPokemonRtr.GET.route, webEditPokemonRtr.GET.handler)
 router.post(webEditPokemonRtr.POST.route, webEditPokemonRtr.POST.handler)

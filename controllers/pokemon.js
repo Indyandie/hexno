@@ -9,6 +9,8 @@ import {
   updatePokemon,
 } from '../services/pokemon.js'
 
+import { htmlPageMain } from '../services/web.js'
+
 const status404 = new Response(
   null,
   {
@@ -291,6 +293,22 @@ export async function webNewPokemonCtrl(req) {
       },
     )
   }
+}
+
+export async function webHomePokemonCtrl(req, match) {
+  const url = new URL(req.url)
+  const query = url.searchParams.get('q') || ""
+  const html = await htmlPageMain(query)
+
+  return new Response(
+    html,
+    {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+      },
+    },
+  )
 }
 
 export async function webEditPokemonCtrl(_req, match) {
