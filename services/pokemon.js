@@ -274,8 +274,12 @@ export async function createPokemon(pokemon) {
  * @returns {Object} code, prop, message, pokemon
  */
 export async function updatePokemon(pokemon) {
-  const checkPokemon = await getPokemon(pokemon.id)
+  const getCheckPokemon = await getPokemon(pokemon.id)
+  const { code: checkCode, pokemon: checkPokemon } = getCheckPokemon
 
+  if (checkCode !== 200) {
+    return getCheckPokemon
+  }
   if (!checkPokemon) {
     return {
       code: 404,
@@ -357,10 +361,12 @@ export async function updatePokemon(pokemon) {
 
   await Deno.writeTextFile('./models/pokemon.csv', csvpoketest)
 
+  const { pokemon: updatedPokemon } = await getPokemon(pokemon.id)
+
   return {
     code: 200,
     id: pokemon.id,
-    pokemon: await getPokemon(pokemon.id),
+    pokemon: updatedPokemon,
   }
 }
 
