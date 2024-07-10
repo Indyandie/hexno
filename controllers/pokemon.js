@@ -297,9 +297,34 @@ export async function webEditPokemonCtrl(_req, match) {
   const pokeId = match.pathname.groups.id
   const { code, html } = await htmlEditPokemon(pokeId)
 
-  // if (code === 404) {
-  //   return status404
-  // }
+  return new Response(
+    html,
+    {
+      status: code,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+      },
+    },
+  )
+}
+
+export async function webUpdatePokemonCtrl(req, match) {
+  const pokeId = match.pathname.groups.id
+  // const url = new URL(req.url)
+  // const origin = url.origin
+  const formData = await req.formData()
+  const pokemonForm = {
+    id: pokeId,
+    name: formData.get('name'),
+    height: formData.get('height'),
+    weight: formData.get('weight'),
+    types: formData.get('types'),
+    sprite: formData.get('sprite'),
+  }
+
+  // console.log("form", pokemonForm)
+
+  const { code, html } = await htmlEditPokemon(pokeId, pokemonForm)
 
   return new Response(
     html,
@@ -420,7 +445,6 @@ export const hxGetPokemonCtrl = async (_req, match) => {
   const { code, html } = pokeRes
   let response
 
-  console.log(pokeRes)
   if (!pokeRes) {
     return status404
   }
@@ -428,7 +452,7 @@ export const hxGetPokemonCtrl = async (_req, match) => {
   if (code === 200) {
     response = html
   } else {
-    const { error, message } = pokeRes
+    // const { error, message } = pokeRes
     response = html
   }
 

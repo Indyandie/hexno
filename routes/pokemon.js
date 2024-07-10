@@ -9,8 +9,8 @@ import {
   webDeletePokemonCtrl,
   webEditPokemonCtrl,
   webNewPokemonCtrl,
+  webUpdatePokemonCtrl,
 } from '../controllers/pokemon.js'
-import { updatePokemon } from "../services/pokemon.js";
 
 // API
 
@@ -53,6 +53,10 @@ export const webEditPokemonRtr = {
   GET: {
     route: '/pokemon/edit/:id',
     handler: webEditPokemonCtrl,
+  },
+  POST: {
+    route: '/pokemon/edit/:id',
+    handler: webUpdatePokemonCtrl,
   },
 }
 

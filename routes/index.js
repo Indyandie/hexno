@@ -29,6 +29,7 @@ router.get('/pokemon/new', newPoke) // must go before /pokemon/:id
 router.get('/pokemon/:id', poke)
 router.post(webNewPokemonRtr.POST.route, webNewPokemonRtr.POST.handler)
 router.get(webEditPokemonRtr.GET.route, webEditPokemonRtr.GET.handler)
+router.post(webEditPokemonRtr.POST.route, webEditPokemonRtr.POST.handler)
 router.post(
   webDeleletePokemonRtr.POST.route,
   webDeleletePokemonRtr.POST.handler,
