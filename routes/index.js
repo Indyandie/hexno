@@ -20,14 +20,13 @@ const home = (req) => {
 const poke = (req) => {
   return srvFl(req, './public/pokemon/index.html')
 }
-const newPoke = (req) => {
-  return srvFl(req, './public/pokemon/new/index.html')
+const webNewPokemon = (req) => {
+  return srvFl(req, './public/web/new-pokemon.html')
 }
 
 // main?
 
 router.get('/', home)
-router.get('/pokemon/new', newPoke) // must go before /pokemon/:id
 router.get('/pokemon/:id', poke)
 
 // web

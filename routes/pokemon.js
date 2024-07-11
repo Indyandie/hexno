@@ -60,7 +60,7 @@ export const webPokemonRtr = {
 
 export const webNewPokemonRtr = {
   POST: {
-    route: '/pokemon/new',
+    route: '/web/new-pokemon',
     handler: webNewPokemonCtrl,
   },
 }

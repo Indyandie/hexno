@@ -1,4 +1,5 @@
 import {
+  createPokemon,
   getPokemon,
   htmlGetPokemon,
   htmlNotFound,
@@ -116,6 +117,35 @@ const htmlNewForm = (pokemon, prop = false, message = false) => {
     </main>`
 }
 
+export async function htmlNewPokemonPost(pokemonObj = false) {
+  const newPokemon = await createPokemon(pokemonObj)
+  const { code, prop, message, id, pokemon } = newPokemon
+
+  if (code === 201) {
+    const title = `New: ${pokemon.name} [${pokemon.id}]`
+    const redirectUrl = `/web/pokemon/${pokemon.id}`
+    const body = `<main>
+      <code>
+        ${JSON.stringify(pokemon, null, '<br>')}
+      </code>`
+    const html = htmlRedirect(title, body, 0, redirectUrl)
+
+    return {
+      code,
+      html,
+    }
+  } else {
+    const title = '<title>New Pokemon</title>'
+    const body = htmlNewForm(pokemonObj, prop, message)
+    const html = htmlTemplate(title, body)
+
+    return {
+      code,
+      html,
+    }
+  }
+}
+
 export async function htmlPageMain(query = false) {
   const pokemon = query ? await listPokemon(query) : await listPokemon()
   const now = Date.now()
@@ -124,7 +154,7 @@ export async function htmlPageMain(query = false) {
     (
       poke,
     ) =>
-      `<li id="pokemon-${poke.id}"><a href="/web/pokemon/${poke.id}" ><figure><img src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></a>`,
+      `<li style="display: inline; background: red;" id="pokemon-${poke.id}"><a href="/web/pokemon/${poke.id}" ><figure><img src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></a>`,
   )
   pokeList.unshift('<ul id="pokemon-results">')
   pokeList.push('</ul>')
@@ -137,11 +167,14 @@ export async function htmlPageMain(query = false) {
   const form = `<form method="GET" action="/web">
 <input type="search" id="q" name="q" value="${query}">
 <button>Search</button>
-</form>`
+</form>
+<a href="/web/new-pokemon"><button>Create New Pokemon</button></a>
+`
   const html = form + pokeUL
 
   return htmlTemplate('Pokemon', html)
 }
+
 export async function htmlPokemon(id = false) {
   const pokemonReturn = id ? await getPokemon(id) : null
   const { code, pokemon } = pokemonReturn

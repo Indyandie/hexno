@@ -9,14 +9,16 @@
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>"
     />
-    <script src="/public/js/htmx.min.js"></script>
   </head>
 
   <body>
+    <header>
+      <h1><a href="/web">Pokemon</a></h1>
+    </header>
     <main>
       <section class="pokelist">
         <h1>New Pokemon</h1>
-        <form action="/pokemon/new" method="POST">
+        <form action="/web/new-pokemon" method="POST">
           <div>
             <label for="name">name</label>
             <br />
@@ -49,7 +51,7 @@
             <br />
             <input type="url" name="sprite" required />
           </div>
-          <button type="submit">Save</button>
+          <button type="submit">Create Pokemon</button>
         </form>
       </section>
     </main>
