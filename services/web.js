@@ -139,7 +139,7 @@ const htmlNewForm = (
   ${edit ? '<img src="' + pokemon.sprite + '" alt="${pokemon.name}" />' : ''}
         <form
           action="${
-    !edit ? '/web/new-pokemon' : '/pokemon/edit/' + pokemon.id
+    !edit ? '/web/new-pokemon' : '/web/edit-pokemon/' + pokemon.id
   }"
           method="POST">
           <div>

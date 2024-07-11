@@ -67,11 +67,11 @@ export const webNewPokemonRtr = {
 
 export const webEditPokemonRtr = {
   GET: {
-    route: '/pokemon/edit/:id',
+    route: '/web/edit-pokemon/:id',
     handler: webEditPokemonCtrl,
   },
   POST: {
-    route: '/pokemon/edit/:id',
+    route: '/web/edit-pokemon/:id',
     handler: webUpdatePokemonCtrl,
   },
 }

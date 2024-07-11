@@ -475,7 +475,7 @@ export const htmlGetPokemon = async (id) => {
       <form method="POST" action="/pokemon/delete/${id}" >
         <button type="sumbit">delete</button>
       </form>
-      <a href="/pokemon/edit/${id}">
+      <a href="/web/edit-pokemon/${id}">
         <button>edit</button>
       </a>
       `
