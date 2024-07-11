@@ -68,6 +68,54 @@ export const htmlRedirect = (title, body, delay = 0, redirect = false) => {
 </html>`
 }
 
+const htmlNewForm = (pokemon, prop = false, message = false) => {
+  return `</main>
+      <section class="pokelistmon">
+        <h1>New Pokemon</h1>
+        <form action="/web/new-pokemon" method="POST">
+          <div>
+            <label for="name">name</label>
+            <span>${prop && 'name' === prop ? message : ''}</span>
+            <br />
+            <input type="text" name="name" value="${pokemon.name}" required />
+          </div>
+          <div>
+            <label for="weight">weight</label>
+            <span>${prop && 'weight' === prop ? message : ''}</span>
+            <br />
+            <input type="number" name="weight" min="1" value="${pokemon.weight}" required />
+          </div>
+          <div>
+            <label for="height">height</label>
+            <span>${prop && 'height' === prop ? message : ''}</span>
+            <br />
+            <input type="number" name="height" min="1" value="${pokemon.height}" required />
+          </div>
+          <div>
+            <label for="types">types</label>
+            <span>${prop && 'types' === prop ? message : ''}</span>
+            <br />
+            <input type="text" name="types" list="pokemonmon-types" value="${pokemon.types}" required />
+            <datalist id="pokemonmon-types">
+              <option value="normal"></option>
+              <option value="grass"></option>
+              <option value="water"></option>
+              <option value="fire"></option>
+              <option value="rock"></option>
+            </datalist>
+          </div>
+          <div>
+            <label for="sprite">sprite</label>
+            <span>${prop && 'sprite' === prop ? message : ''}</span>
+            <br />
+            <input type="url" name="sprite" value="${pokemon.sprite}" required />
+          </div>
+          <button type="submit">Create Pokemon</button>
+        </form>
+      </section>
+    </main>`
+}
+
 export async function htmlPageMain(query = false) {
   const pokemon = query ? await listPokemon(query) : await listPokemon()
   const now = Date.now()
