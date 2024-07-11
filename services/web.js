@@ -39,6 +39,35 @@ function htmlTemplate(
   return html
 }
 
+export const htmlRedirect = (title, body, delay = 0, redirect = false) => {
+  return `<!doctype html>
+<html lang="en" dir="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    ${
+    !redirect
+      ? ''
+      : '<meta http-equiv="Refresh" content="' + delay + ", url='" + redirect +
+        '\'" >'
+  }
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>${title}</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>"
+    />
+    <script src="/public/js/htmx.min.js"></script>
+  </head>
+
+  <body>
+    <main>
+      ${body}
+    </main>
+  </body>
+</html>`
+}
+
 export async function htmlPageMain(query = false) {
   const pokemon = query ? await listPokemon(query) : await listPokemon()
   const now = Date.now()
