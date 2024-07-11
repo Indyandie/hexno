@@ -30,7 +30,7 @@ function htmlTemplate(
   </head>
   <body>
     <header>
-      <h1><a href="/web">Pokemon<a></h1>
+      <h1><a href="/web">Pokemon</a></h1>
     </header>
     ${body}
   </body>
