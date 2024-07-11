@@ -274,7 +274,7 @@ const htmlUpdatedPokemon = (pokemon) => {
   const body = `<h1>Updated!</h1><code>${
     JSON.stringify(pokemon, null, '<br>')
   }</code>`
-  const redirectUrl = `/pokemon/${pokemon.id}`
+  const redirectUrl = `/web/pokemon/${pokemon.id}`
   const title = `Updated: ${pokemon.name} [${pokemon.id}`
   const html = htmlTemplate(title, body, null, redirectUrl, 0)
 
