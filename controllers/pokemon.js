@@ -2,7 +2,6 @@ import {
   createPokemon,
   deletePokemon,
   getPokemon,
-  htmlEditPokemon,
   htmlGetPokemon,
   htmlListPokemon,
   listPokemon,
@@ -11,6 +10,7 @@ import {
 
 import {
   htmlNewPokemonPost,
+  htmlEditPokemon,
   htmlPageMain,
   htmlPokemon,
 } from '../services/web.js'
