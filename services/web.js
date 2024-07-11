@@ -127,11 +127,21 @@ const htmlNotFound = (response = false, delay = 0, redirect = false) => {
 </html>`
 }
 
-const htmlNewForm = (pokemon, prop = false, message = false) => {
+const htmlNewForm = (
+  pokemon,
+  prop = false,
+  message = false,
+  edit = false,
+) => {
   return `</main>
       <section class="pokelistmon">
-        <h1>New Pokemon</h1>
-        <form action="/web/new-pokemon" method="POST">
+        <h1> ${!edit ? 'New Pokemon' : 'Edit ' + pokemon.id} </h1>
+  ${edit ? '<img src="' + pokemon.sprite + '" alt="${pokemon.name}" />' : ''}
+        <form
+          action="${
+    !edit ? '/web/new-pokemon' : '/pokemon/edit/' + pokemon.id
+  }"
+          method="POST">
           <div>
             <label for="name">name</label>
             <span>${prop && 'name' === prop ? message : ''}</span>
@@ -169,7 +179,9 @@ const htmlNewForm = (pokemon, prop = false, message = false) => {
             <br />
             <input type="url" name="sprite" value="${pokemon.sprite}" required />
           </div>
-          <button type="submit">Create Pokemon</button>
+          <button type="submit">${
+    !edit ? 'Create Pokemon' : 'Update Pokemon'
+  }</button>
         </form>
       </section>
     </main>`
@@ -251,92 +263,22 @@ export async function htmlPokemon(id = false) {
 }
 
 const htmlEditForm = (pokemon, prop = false, message = false) => {
-  return `<!doctype html>
-<html lang="en" dir="auto">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Edit ${pokemon.id}</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>" />
-    <script src="/public/js/htmx.min.js"></script>
-  </head>
-  <body>
-    <main>
-      <section class="pokelistmon">
-        <h1>Edit ${pokemon.id}</h1>
-        <img src="${pokemon.sprite}" alt="${pokemon.name}" />
-        <form action="/pokemon/edit/${pokemon.id}" method="POST">
-          <div>
-            <label for="name">name</label>
-            <span>${prop && 'name' === prop ? message : ''}</span>
-            <br />
-            <input type="text" name="name" value="${pokemon.name}" required />
-          </div>
-          <div>
-            <label for="weight">weight</label>
-            <span>${prop && 'weight' === prop ? message : ''}</span>
-            <br />
-            <input type="number" name="weight" min="1" value="${pokemon.weight}" required />
-          </div>
-          <div>
-            <label for="height">height</label>
-            <span>${prop && 'height' === prop ? message : ''}</span>
-            <br />
-            <input type="number" name="height" min="1" value="${pokemon.height}" required />
-          </div>
-          <div>
-            <label for="types">types</label>
-            <span>${prop && 'types' === prop ? message : ''}</span>
-            <br />
-            <input type="text" name="types" list="pokemonmon-types" value="${pokemon.types}" required />
-            <datalist id="pokemonmon-types">
-              <option value="normal"></option>
-              <option value="grass"></option>
-              <option value="water"></option>
-              <option value="fire"></option>
-              <option value="rock"></option>
-            </datalist>
-          </div>
-          <div>
-            <label for="sprite">sprite</label>
-            <span>${prop && 'sprite' === prop ? message : ''}</span>
-            <br />
-            <input type="url" name="sprite" value="${pokemon.sprite}" required />
-          </div>
-          <button type="submit">Update</button>
-        </form>
-      </section>
-    </main>
-  </body>
-</html>`
+  const title = 'Edit ' + pokemon.id
+  const body = htmlNewForm(pokemon, prop, message, true)
+  const html = htmlTemplate(title, body)
+
+  return html
 }
 
 const htmlUpdatedPokemon = (pokemon) => {
-  return `<!doctype html>
-<html lang="en" dir="auto">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Refresh" content="0, url='/pokemon/${pokemon.id}'" >
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Updated: ${pokemon.name} [${pokemon.id}]</title>
-    <link
-      rel="icon"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>"
-    />
-    <script src="/public/js/htmx.min.js"></script>
-  </head>
+  const body = `<h1>Updated!</h1><code>${
+    JSON.stringify(pokemon, null, '<br>')
+  }</code>`
+  const redirectUrl = `/pokemon/${pokemon.id}`
+  const title = `Updated: ${pokemon.name} [${pokemon.id}`
+  const html = htmlTemplate(title, body, null, redirectUrl, 0)
 
-  <body>
-    <main>
-      <h1>Updated!</h1>
-      <code>
-        ${JSON.stringify(pokemon, null, '<br>')}
-      </code>
-    </main>
-  </body>
-</html>`
+  return html
 }
 
 /**
