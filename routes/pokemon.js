@@ -10,6 +10,7 @@ import {
   webEditPokemonCtrl,
   webHomePokemonCtrl,
   webNewPokemonCtrl,
+  webPokemonCtrl,
   webUpdatePokemonCtrl,
 } from '../controllers/pokemon.js'
 
@@ -47,6 +48,13 @@ export const webMainPokemonRtr = {
   GET: {
     route: '/web',
     handler: webHomePokemonCtrl,
+  },
+}
+
+export const webPokemonRtr = {
+  GET: {
+    route: '/web/pokemon/:id',
+    handler: webPokemonCtrl,
   },
 }
 

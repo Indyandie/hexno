@@ -10,6 +10,7 @@ import {
 } from '../services/pokemon.js'
 
 import { htmlPageMain } from '../services/web.js'
+import { htmlPageMain, htmlPokemon } from '../services/web.js'
 
 const status404 = new Response(
   null,
@@ -311,6 +312,20 @@ export async function webHomePokemonCtrl(req, match) {
   )
 }
 
+export async function webPokemonCtrl(_req, match) {
+  const pokeId = match.pathname.groups.id
+  const html = await htmlPokemon(pokeId)
+
+  return new Response(
+    html,
+    {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+      },
+    },
+  )
+}
 export async function webEditPokemonCtrl(_req, match) {
   const pokeId = match.pathname.groups.id
   const { code, html } = await htmlEditPokemon(pokeId)

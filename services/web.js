@@ -1,4 +1,9 @@
-import { listPokemon } from './pokemon.js'
+import {
+  getPokemon,
+  htmlGetPokemon,
+  htmlNotFound,
+  listPokemon,
+} from './pokemon.js'
 
 function htmlTemplate(
   title,
@@ -42,7 +47,7 @@ export async function htmlPageMain(query = false) {
     (
       poke,
     ) =>
-      `<li id="pokemon-${poke.id}"><a href="/pokemon/${poke.id}" ><figure><img src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></a>`,
+      `<li id="pokemon-${poke.id}"><a href="/web/pokemon/${poke.id}" ><figure><img src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></a>`,
   )
   pokeList.unshift('<ul id="pokemon-results">')
   pokeList.push('</ul>')
@@ -59,4 +64,20 @@ export async function htmlPageMain(query = false) {
   const html = form + pokeUL
 
   return htmlTemplate('Pokemon', html)
+}
+export async function htmlPokemon(id = false) {
+  const pokemonReturn = id ? await getPokemon(id) : null
+  const { code, pokemon } = pokemonReturn
+
+  if (code === 200) {
+    const title = pokemon.name
+    const htmlReturn = await htmlGetPokemon(id)
+    const { html: article } = htmlReturn
+    const body = article
+    console.log(body)
+
+    return await htmlTemplate(title, body)
+  }
+
+  return
 }
