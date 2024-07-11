@@ -251,10 +251,14 @@ export async function createPokemon(pokemon) {
 
   await Deno.writeTextFile('./models/pokemon.csv', csvpoketest)
 
+  const newPokemonReturn = await getPokemon(pokemon.id)
+  const { pokemon: newPokemon } = newPokemonReturn
+
+
   return {
     code: 201,
     id: pokemon.id,
-    pokemon: await getPokemon(pokemon.id),
+    pokemon: newPokemon,
   }
 }
 
@@ -280,7 +284,6 @@ export async function updatePokemon(pokemon) {
   if (checkCode !== 200) {
     return getCheckPokemon
   }
-
 
   if (!checkPokemon) {
     return {
