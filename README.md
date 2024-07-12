@@ -25,19 +25,19 @@ This repository is a playground to test the [htmx](https://htmx.org/) library. I
 
 ## To do
 
-- [ ] Web 1.0
+- [x] **Web 1.0**
   - [x] pokemon list (home)
   - [x] create pokemon
-  - [ ] read pokemon
+  - [x] read pokemon
   - [x] update pokemon
   - [x] delete pokemon
-- [x] Data API
+- [x] **Data API**
   - [x] pokemon list
   - [x] create pokemon
   - [x] read pokemon
   - [x] update pokemon
   - [x] delete pokemon
-- [ ] Hypermedia API ([htmx](https://htmx.org/) support)
+- [ ] **Hypermedia API** ([htmx](https://htmx.org/) support)
   - [x] `GET` operations
   - [ ] `PUT` operations
   - [ ] `POST` operations
