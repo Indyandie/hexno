@@ -254,7 +254,6 @@ export async function createPokemon(pokemon) {
   const newPokemonReturn = await getPokemon(pokemon.id)
   const { pokemon: newPokemon } = newPokemonReturn
 
-
   return {
     code: 201,
     id: pokemon.id,
@@ -486,7 +485,8 @@ export const htmlGetPokemon = async (id) => {
       : ''
 
     const html =
-      `<article><h1><a href="/pokemon/${id}">${name}</a></h1><img src="${sprite}" alt="${name}" /><table><tr><th>weight</th><td>${weight}</td></tr><tr><th>height</th><td>${height}</td></tr><tr><th>type</th><td>${types}</td></tr>${criesTr}</table>${deleteForm}</article>`
+      `<article><h1>${name}</h1><img src="${sprite}" alt="${name}" /><table><tr><th>weight</th><td>${weight}</td></tr><tr><th>height</th><td>${height}</td></tr><tr><th>type</th><td>${types}</td></tr>${criesTr}</table>${deleteForm}</article>`
+      // `<article><h1><a href="/pokemon/${id}">${name}</a></h1><img src="${sprite}" alt="${name}" /><table><tr><th>weight</th><td>${weight}</td></tr><tr><th>height</th><td>${height}</td></tr><tr><th>type</th><td>${types}</td></tr>${criesTr}</table>${deleteForm}</article>`
 
     return {
       code,
@@ -499,4 +499,3 @@ export const htmlGetPokemon = async (id) => {
     html: htmlNotFound(),
   }
 }
-
