@@ -297,7 +297,8 @@ export const htmlEditPokemon = async (pokemonId, pokemonObj = null) => {
     console.log('get poke_return', pokeReturn)
 
     if (!pokemon) {
-      return { code: 404, html: htmlNotFound() }
+      const body = `<code>${error}: ${message}</code><br><br>`
+      return { code: 404, html: htmlNotFound(body) }
     }
 
     if (pokemon.official) {
@@ -326,7 +327,7 @@ export const htmlEditPokemon = async (pokemonId, pokemonObj = null) => {
 
     if (code === 403) {
       const officialForbidden = !pokemon
-        ? message
+        ? `<h1>${error}</h1><code>${message}</code>`
         : `<b>${pokemon.name}</b> cannot be edited`
       const redirectUrl = `/pokemon/${pokemonId}`
 
@@ -341,9 +342,10 @@ export const htmlEditPokemon = async (pokemonId, pokemonObj = null) => {
     }
 
     if (code === 404) {
+      const body = `<code>${error}: ${message}</code><br><br>`
       return {
         code,
-        html: htmlNotFound(message),
+        html: htmlNotFound(body),
       }
     }
 
