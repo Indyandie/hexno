@@ -247,8 +247,6 @@ export async function webEditPokemonCtrl(_req, match) {
 
 export async function webUpdatePokemonCtrl(req, match) {
   const pokeId = match.pathname.groups.id
-  // const url = new URL(req.url)
-  // const origin = url.origin
   const formData = await req.formData()
   const pokemonForm = {
     id: pokeId,
@@ -258,8 +256,6 @@ export async function webUpdatePokemonCtrl(req, match) {
     types: formData.get('types'),
     sprite: formData.get('sprite'),
   }
-
-  // console.log("form", pokemonForm)
 
   const { code, html } = await htmlEditPokemon(pokeId, pokemonForm)
 
@@ -312,18 +308,10 @@ export const hxListPokemonCtrl = async (req) => {
 export const hxGetPokemonCtrl = async (_req, match) => {
   const pokeId = match.pathname.groups.id
   const pokeRes = await htmlGetPokemon(pokeId)
-  const { code, html } = pokeRes
-  let response
+  const { code, html: response } = pokeRes
 
   if (!pokeRes) {
     return status404
-  }
-
-  if (code === 200) {
-    response = html
-  } else {
-    // const { error, message } = pokeRes
-    response = html
   }
 
   return new Response(

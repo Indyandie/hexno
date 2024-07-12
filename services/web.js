@@ -254,7 +254,6 @@ export async function htmlPokemon(id = false) {
     const htmlReturn = await htmlGetPokemon(id)
     const { html: article } = htmlReturn
     const body = article
-    console.log(body)
 
     return await htmlTemplate(title, body)
   }
@@ -291,7 +290,6 @@ export const htmlEditPokemon = async (pokemonId, pokemonObj = null) => {
   if (pokemonObj === null) {
     const pokeReturn = await getPokemon(pokemonId)
     const { code, pokemon, error, message } = pokeReturn
-    console.log('get poke_return', pokeReturn)
 
     if (!pokemon) {
       const body = `<code>${error}: ${message}</code><br><br>`
@@ -320,7 +318,6 @@ export const htmlEditPokemon = async (pokemonId, pokemonObj = null) => {
   } else {
     const pokeReturn = await updatePokemon(pokemonObj)
     const { code, pokemon, prop, error, message } = pokeReturn
-    console.log('update poke return', pokeReturn)
 
     if (code === 403) {
       const officialForbidden = !pokemon
