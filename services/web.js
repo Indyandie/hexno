@@ -1,5 +1,6 @@
 import {
   createPokemon,
+  deletePokemon,
   getPokemon,
   htmlGetPokemon,
   listPokemon,
@@ -357,5 +358,28 @@ export const htmlEditPokemon = async (pokemonId, pokemonObj = null) => {
       code,
       html: await htmlEditForm(pokemonObj, prop, message),
     }
+  }
+}
+
+export const htmlDeletePokemonPost = async (pokemonId) => {
+  const { code, error, message, pokemon } = await deletePokemon(pokemonId)
+
+  if (code === 200) {
+    const { id, name } = pokemon
+    const title = `Deleted: ${name} [${id}]`
+    const body = `<code>${JSON.stringify(pokemon, null, '<br>')}</code>`
+    const redirectUrl = '/web'
+
+    const html = htmlRedirect(title, body, 0, redirectUrl)
+
+    return {
+      code,
+      html,
+    }
+  } else {
+    const body = `<code>${error}: ${message}</code><br><br>`
+    const html = htmlNotFound(body)
+
+    return { code, html }
   }
 }

@@ -78,7 +78,7 @@ export const webEditPokemonRtr = {
 
 export const webDeleletePokemonRtr = {
   POST: {
-    route: '/pokemon/delete/:id',
+    route: '/web/delete-pokemon/:id',
     handler: webDeletePokemonCtrl,
   },
 }

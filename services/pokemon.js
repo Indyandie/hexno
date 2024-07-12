@@ -381,7 +381,7 @@ export async function updatePokemon(pokemon) {
  * @returns {Object} code, message, pokemon|false
  */
 export const deletePokemon = async (id) => {
-  const checkPokemon = await getPokemon(id)
+  const { pokemon: checkPokemon } = await getPokemon(id)
 
   if (!checkPokemon) {
     return {
@@ -472,7 +472,7 @@ export const htmlGetPokemon = async (id) => {
     const { id, name, cries, weight, height, types, sprite, official } = poke
     const deleteForm = !official
       ? `
-      <form method="POST" action="/pokemon/delete/${id}" >
+      <form method="POST" action="/web/delete-pokemon/${id}" >
         <button type="sumbit">delete</button>
       </form>
       <a href="/web/edit-pokemon/${id}">
