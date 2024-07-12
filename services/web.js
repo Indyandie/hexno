@@ -190,7 +190,7 @@ const htmlNewForm = (
 
 export async function htmlNewPokemonPost(pokemonObj = false) {
   const newPokemon = await createPokemon(pokemonObj)
-  const { code, prop, message, id, pokemon } = newPokemon
+  const { code, prop, message, pokemon } = newPokemon
 
   if (code === 201) {
     const title = `New: ${pokemon.name} [${pokemon.id}]`
@@ -219,7 +219,6 @@ export async function htmlNewPokemonPost(pokemonObj = false) {
 
 export async function htmlPageMain(query = false) {
   const pokemon = query ? await listPokemon(query) : await listPokemon()
-  const now = Date.now()
 
   const pokeList = pokemon.map(
     (
@@ -289,8 +288,6 @@ const htmlUpdatedPokemon = (pokemon) => {
  * @returns {(html|false)} HTML fragment
  */
 export const htmlEditPokemon = async (pokemonId, pokemonObj = null) => {
-  let html
-
   if (pokemonObj === null) {
     const pokeReturn = await getPokemon(pokemonId)
     const { code, pokemon, error, message } = pokeReturn

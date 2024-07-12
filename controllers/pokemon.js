@@ -281,10 +281,6 @@ export async function webDeletePokemonCtrl(req, match) {
 
   const { code, html: body } = await htmlDeletePokemonPost(pokeId)
 
-  // if (!pokeRes) {
-  //   return status404
-  // }
-
   return new Response(
     body,
     {
