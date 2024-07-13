@@ -121,7 +121,7 @@ const htmlNotFound = (response = false, delay = 0, redirect = false) => {
         <h1>Not found</h1>
         <p>These are not the pokemon you are looking</p>
         ${!response ? '' : '<code>' + response + '</code>'}
-        <a href='/'>Main page</a>
+        <a href='/web'>Main page</a>
       </section>
     </main>
   </body>
@@ -247,7 +247,7 @@ export async function htmlPageMain(query = false) {
 
 export async function htmlPokemon(id = false) {
   const pokemonReturn = id ? await getPokemon(id) : null
-  const { code, pokemon } = pokemonReturn
+  const { code, error, message, pokemon } = pokemonReturn
 
   if (code === 200) {
     const title = pokemon.name
@@ -258,7 +258,13 @@ export async function htmlPokemon(id = false) {
     return await htmlTemplate(title, body)
   }
 
-  return
+  const body = `<code>${error}: ${message}</code><br><br>`
+  const html = htmlNotFound(body)
+
+  return {
+    code,
+    html
+  }
 }
 
 const htmlEditForm = (pokemon, prop = false, message = false) => {

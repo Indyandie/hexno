@@ -43,7 +43,7 @@ export const listPokemon = async (query) => {
     })
   }
 
-  return await pokemon
+  return pokemon
 }
 
 /**

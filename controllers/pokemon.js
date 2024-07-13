@@ -218,12 +218,12 @@ export async function webHomePokemonCtrl(req, match) {
 
 export async function webPokemonCtrl(_req, match) {
   const pokeId = match.pathname.groups.id
-  const html = await htmlPokemon(pokeId)
+  const { code, html } = await htmlPokemon(pokeId)
 
   return new Response(
     html,
     {
-      status: 200,
+      status: code,
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
       },
