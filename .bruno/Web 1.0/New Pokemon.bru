@@ -1,17 +1,13 @@
 meta {
-  name: Update Pokemon
+  name: New Pokemon
   type: http
-  seq: 6
+  seq: 1
 }
 
-post {
-  url: {{host}}/web/edit-pokemon/:id
+get {
+  url: {{host}}/web/new-pokemon
   body: formUrlEncoded
   auth: none
-}
-
-params:path {
-  id: 1026
 }
 
 body:json {
@@ -28,11 +24,11 @@ body:text {
 }
 
 body:form-urlencoded {
-  name: beepboop
+  name: flowersaurus
   height: 32
   weight: 100
   types: fire
-  sprite: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1006.png
+  sprite: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png
 }
 
 body:multipart-form {

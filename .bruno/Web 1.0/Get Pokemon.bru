@@ -1,17 +1,17 @@
 meta {
-  name: Main
+  name: Get Pokemon
   type: http
-  seq: 3
+  seq: 4
 }
 
 get {
-  url: {{host}}/web
+  url: {{host}}/web/pokemon/:id
   body: formUrlEncoded
   auth: none
 }
 
-params:query {
-  ~q: cha
+params:path {
+  id: 1
 }
 
 body:json {
