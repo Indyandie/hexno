@@ -1,0 +1,25 @@
+meta {
+  name: Update Pokemon
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{host}}/api/pokemon/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: 1026
+}
+
+body:json {
+  {
+    "name": "gunturtle",
+    "weight": "123",
+    "height": "12323",
+    "types": "fire",
+    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png"
+  }
+}

@@ -1,0 +1,40 @@
+meta {
+  name: Update Pokemon
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{host}}/web/edit-pokemon/:id
+  body: formUrlEncoded
+  auth: none
+}
+
+params:path {
+  id: 1026
+}
+
+body:json {
+  {
+    "test": true,
+    "sup": "sdlj"
+  }
+}
+
+body:text {
+  {
+    "hello": true
+  }
+}
+
+body:form-urlencoded {
+  name: beepboop
+  height: 32
+  weight: 100
+  types: fire
+  sprite: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1006.png
+}
+
+body:multipart-form {
+  cat: true
+}

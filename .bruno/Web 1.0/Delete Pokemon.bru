@@ -1,0 +1,40 @@
+meta {
+  name: Delete Pokemon
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{host}}/web/delete-pokemon/:id
+  body: formUrlEncoded
+  auth: none
+}
+
+params:path {
+  id: 1026
+}
+
+body:json {
+  {
+    "test": true,
+    "sup": "sdlj"
+  }
+}
+
+body:text {
+  {
+    "hello": true
+  }
+}
+
+body:form-urlencoded {
+  name: hellosdlfjsdj
+  height: 32
+  weight: 100
+  types: fire
+  sprite: https://imgs.search.brave.com/9Djl-trluxmhYFR8Zk41FBaRZ2hgt7OJS7h33hUvNXU/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzUzL2Ri/L2ZkLzUzZGJmZDMw/NDc2NmI1ODU4ZWU2/ZTEzOTY0NjcxM2M3/LmpwZw
+}
+
+body:multipart-form {
+  cat: true
+}

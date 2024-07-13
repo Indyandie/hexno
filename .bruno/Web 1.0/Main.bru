@@ -1,0 +1,32 @@
+meta {
+  name: Main
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/web?q=flower
+  body: formUrlEncoded
+  auth: none
+}
+
+params:query {
+  q: flower
+}
+
+body:json {
+  {
+    "test": true,
+    "sup": "sdlj"
+  }
+}
+
+body:text {
+  {
+    "hello": true
+  }
+}
+
+body:multipart-form {
+  cat: true
+}

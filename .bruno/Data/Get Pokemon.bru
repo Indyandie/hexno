@@ -1,0 +1,15 @@
+meta {
+  name: Get Pokemon
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/api/pokemon/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: 1025
+}

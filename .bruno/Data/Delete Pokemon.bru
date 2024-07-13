@@ -1,0 +1,15 @@
+meta {
+  name: Delete Pokemon
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{host}}/api/pokemon/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: 1026
+}

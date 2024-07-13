@@ -1,0 +1,32 @@
+meta {
+  name: Edit Pokemon
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{host}}/web/edit-pokemon/:id
+  body: formUrlEncoded
+  auth: none
+}
+
+params:path {
+  id: 1026
+}
+
+body:json {
+  {
+    "test": true,
+    "sup": "sdlj"
+  }
+}
+
+body:text {
+  {
+    "hello": true
+  }
+}
+
+body:multipart-form {
+  cat: true
+}

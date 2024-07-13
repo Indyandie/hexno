@@ -1,0 +1,15 @@
+meta {
+  name: List Pokemon
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{host}}/hx/pokemon?q=pika
+  body: none
+  auth: none
+}
+
+params:query {
+  q: pika
+}

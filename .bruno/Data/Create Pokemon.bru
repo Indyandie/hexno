@@ -1,0 +1,21 @@
+meta {
+  name: Create Pokemon
+  type: http
+  seq: 1
+}
+
+put {
+  url: {{host}}/api/pokemon
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "candledragon",
+    "weight": 123,
+    "height": 12323,
+    "types": "fire",
+    "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+  }
+}
