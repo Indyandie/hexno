@@ -255,7 +255,9 @@ export async function htmlPokemon(id = false) {
     const { html: article } = htmlReturn
     const body = article
 
-    return await htmlTemplate(title, body)
+    const html = htmlTemplate(title, body)
+
+    return { code, html }
   }
 
   const body = `<code>${error}: ${message}</code><br><br>`
@@ -263,7 +265,7 @@ export async function htmlPokemon(id = false) {
 
   return {
     code,
-    html
+    html,
   }
 }
 
