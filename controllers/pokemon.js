@@ -230,6 +230,7 @@ export async function webPokemonCtrl(_req, match) {
     },
   )
 }
+
 export async function webEditPokemonCtrl(_req, match) {
   const pokeId = match.pathname.groups.id
   const { code, html } = await htmlEditPokemon(pokeId)

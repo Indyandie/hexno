@@ -220,19 +220,24 @@ export async function htmlNewPokemonPost(pokemonObj = false) {
 export async function htmlPageMain(query = false) {
   const pokemon = query ? await listPokemon(query) : await listPokemon()
 
-  const pokeList = pokemon.map(
-    (
-      poke,
-    ) =>
-      `<li style="display: inline; background: red;" id="pokemon-${poke.id}"><a href="/web/pokemon/${poke.id}" ><figure><img src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></a>`,
-  )
-  pokeList.unshift('<ul id="pokemon-results">')
-  pokeList.push('</ul>')
+  let results = ''
+  if (pokemon.length === 0) {
+    results = `<p>No pokemon results for <b>${query}</b></p>`
+  } else {
+    const pokeList = pokemon.map(
+      (
+        poke,
+      ) =>
+        `<li style="display: inline; background: red;" id="pokemon-${poke.id}"><a href="/web/pokemon/${poke.id}" ><figure><img src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></a>`,
+    )
+    pokeList.unshift('<ul id="pokemon-results">')
+    pokeList.push('</ul>')
 
-  const pokeUL = JSON.stringify(pokeList.join('')).replace(/\\"/g, '"').slice(
-    1,
-    -1,
-  )
+    results = JSON.stringify(pokeList.join('')).replace(/\\"/g, '"').slice(
+      1,
+      -1,
+    )
+  }
 
   const form = `<form method="GET" action="/web">
 <input type="search" id="q" name="q" value="${query}">
@@ -240,7 +245,7 @@ export async function htmlPageMain(query = false) {
 </form>
 <a href="/web/new-pokemon"><button>Create New Pokemon</button></a>
 `
-  const html = form + pokeUL
+  const html = form + results
 
   return htmlTemplate('Pokemon', html)
 }
