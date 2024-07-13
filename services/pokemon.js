@@ -437,26 +437,29 @@ export const deletePokemon = async (id) => {
  * @param {string} [query] - filter pokemon by name
  * @returns {(html|false)} HTML fragment
  */
-export const htmlListPokemon = async (query) => {
+export const htmlListPokemon = async (query = false) => {
   // lsp keeps telling me await has no effect but when I remove it things break...
   const pokemon = query ? await listPokemon(query) : await listPokemon()
   const now = Date.now()
 
-  const html = pokemon.map(
-    (
-      poke,
-    ) =>
-      `<li id="pokemon-${poke.id}"><button id="show-dialog-${poke.name}"><figure><img src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></button><dialog id="${poke.name}Dialog${now}"><article hx-get="/hx/pokemon/${poke.id}" hx-trigger="intersect"></article><button autofocus>Close</button></dialog><script>const ${poke.name}Dialog${now} = document.querySelector("#${poke.name}Dialog${now}");const ${poke.name}${now}ShowButton = document.querySelector("#show-dialog-${poke.name}");const ${poke.name}${now}CloseButton = document.querySelector("#${poke.name}Dialog${now} button");${poke.name}${now}ShowButton.addEventListener("click", () => {${poke.name}Dialog${now}.showModal();});${poke.name}${now}CloseButton.addEventListener("click", () => {${poke.name}Dialog${now}.close();});</script>`,
-  )
-  html.unshift('<ul id="pokemon-results">')
-  html.push('</ul>')
+  let html = ''
+  if (query && pokemon < 1) {
+    return `<p>No pokemon results for <b>${query}</b></p>`
+  } else {
+    const html = pokemon.map(
+      (
+        poke,
+      ) =>
+        `<li id="pokemon-${poke.id}"><button id="show-dialog-${poke.name}"><figure><img src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></button><dialog id="${poke.name}Dialog${now}"><article hx-get="/hx/pokemon/${poke.id}" hx-trigger="intersect"></article><button autofocus>Close</button></dialog><script>const ${poke.name}Dialog${now} = document.querySelector("#${poke.name}Dialog${now}");const ${poke.name}${now}ShowButton = document.querySelector("#show-dialog-${poke.name}");const ${poke.name}${now}CloseButton = document.querySelector("#${poke.name}Dialog${now} button");${poke.name}${now}ShowButton.addEventListener("click", () => {${poke.name}Dialog${now}.showModal();});${poke.name}${now}CloseButton.addEventListener("click", () => {${poke.name}Dialog${now}.close();});</script>`,
+    )
+    html.unshift('<ul id="pokemon-results">')
+    html.push('</ul>')
 
-  const pokelist = JSON.stringify(html.join('')).replace(/\\"/g, '"').slice(
-    1,
-    -1,
-  )
-
-  return pokelist
+    return JSON.stringify(html.join('')).replace(/\\"/g, '"').slice(
+      1,
+      -1,
+    )
+  }
 }
 
 /**
@@ -486,7 +489,7 @@ export const htmlGetPokemon = async (id) => {
 
     const html =
       `<article><h1>${name}</h1><img src="${sprite}" alt="${name}" /><table><tr><th>weight</th><td>${weight}</td></tr><tr><th>height</th><td>${height}</td></tr><tr><th>type</th><td>${types}</td></tr>${criesTr}</table>${deleteForm}</article>`
-      // `<article><h1><a href="/pokemon/${id}">${name}</a></h1><img src="${sprite}" alt="${name}" /><table><tr><th>weight</th><td>${weight}</td></tr><tr><th>height</th><td>${height}</td></tr><tr><th>type</th><td>${types}</td></tr>${criesTr}</table>${deleteForm}</article>`
+    // `<article><h1><a href="/pokemon/${id}">${name}</a></h1><img src="${sprite}" alt="${name}" /><table><tr><th>weight</th><td>${weight}</td></tr><tr><th>height</th><td>${height}</td></tr><tr><th>type</th><td>${types}</td></tr>${criesTr}</table>${deleteForm}</article>`
 
     return {
       code,
