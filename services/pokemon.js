@@ -442,7 +442,6 @@ export const htmlListPokemon = async (query = false) => {
   const pokemon = query ? await listPokemon(query) : await listPokemon()
   const now = Date.now()
 
-  let html = ''
   if (query && pokemon < 1) {
     return `<p>No pokemon results for <b>${query}</b></p>`
   } else {
