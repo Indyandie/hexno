@@ -59,9 +59,13 @@ export const createPokemonCtrl = async (req) => {
 export const listPokemonCtrl = async (req) => {
   const url = new URL(req.url)
   const query = url.searchParams.get('q')
+  let limit = url.searchParams.get('limit')
+  let offset = url.searchParams.get('offset')
+  limit = limit ? limit : 151
+  offset = offset ? offset : 0
 
   return new Response(
-    JSON.stringify(await listPokemon(query)),
+    JSON.stringify(await listPokemon(query, limit, offset)),
     {
       headers: {
         'content-type': 'text/json; charset=utf-8',

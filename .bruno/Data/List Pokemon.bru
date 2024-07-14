@@ -5,11 +5,13 @@ meta {
 }
 
 get {
-  url: {{host}}/api/pokemon
+  url: {{host}}/api/pokemon?limit=2&offset=4
   body: none
   auth: none
 }
 
 params:query {
+  limit: 2
+  offset: 4
   ~q: pi
 }
