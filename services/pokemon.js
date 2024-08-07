@@ -24,13 +24,18 @@ import { csvParse, csvStringify } from '../deps.js'
  * @returns {Pokemon[]} array of pokemon: id, name, weight, height, types, sprite, cries
  */
 export const listPokemon = async (query, limit = 151, offset = 0) => {
-  limit = limit ? parseInt(limit) : 151
   offset = offset ? parseInt(offset) : 0
 
   let pokemon = csvParse(await Deno.readTextFile('./models/pokemon.csv'), {
     skipFirstRow: true,
     strip: true,
   })
+
+  if (limit === true) {
+    limit = pokemon.length
+  } else {
+    limit = limit ? parseInt(limit) : 151
+  }
 
   pokemon = pokemon.map((poke) => {
     poke.id = parseInt(poke.id)
@@ -80,9 +85,9 @@ export const getPokemon = async (id) => {
     }
   }
 
-  let pokemon = await listPokemon()
+  const pokemonList = await listPokemon(false, true)
   id = parseInt(id)
-  pokemon = pokemon.find((poke) => poke.id === id)
+  const pokemon = pokemonList.find((poke) => poke.id === id)
 
   if (pokemon) {
     return {
