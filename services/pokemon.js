@@ -367,10 +367,12 @@ export async function updatePokemon(pokemon) {
   checkPokemon.types = pokemon.types
   checkPokemon.sprite = pokemon.sprite
 
-  const pokemonIndex = pokelist.findLastIndex((poke) =>
-    poke.id === checkPokemon.id
+  const pokemonIndex = pokelist.findIndex((poke) =>
+    parseInt(poke.id) === parseInt(checkPokemon.id)
   )
+
   pokelist[pokemonIndex] = checkPokemon
+
   const csvpoketest = csvStringify(pokelist, {
     columns: [
       'id',
