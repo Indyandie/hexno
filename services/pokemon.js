@@ -131,7 +131,7 @@ async function validatePokemon(pokemon, checkDuplicate = true) {
     sprite: 'url',
   }
 
-  const pokelist = await listPokemon()
+  const pokelist = await listPokemon(false, true)
   pokemon.name = pokemon.name.replace(/\s+/g, '_')
 
   if (!checkDuplicate) {
@@ -351,7 +351,7 @@ export async function updatePokemon(pokemon) {
     }
   }
 
-  let pokelist
+  let pokelist = await listPokemon(false, true)
   const valid = await validatePokemon(pokemon, false)
 
   if (valid.isValid) {
@@ -417,7 +417,7 @@ export const deletePokemon = async (id) => {
       pokemon: checkPokemon,
     }
   } else {
-    let pokemons = await listPokemon()
+    let pokemons = await listPokemon(false, true)
 
     pokemons = pokemons.filter((poke) => {
       if (poke.id !== id) {
