@@ -55,7 +55,7 @@ export const listPokemon = async (
   if (query) {
     const regex = new RegExp(query)
 
-    return pokemon.filter((poke) => {
+    pokemon = pokemon.filter((poke) => {
       return poke.name.match(regex)
     })
   }
