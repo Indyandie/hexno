@@ -15,14 +15,27 @@
   <body>
     <main>
       <header>
-        <h1>Pokemon</h1>
+        <h1>Pokemon (htmx)</h1>
       </header>
-      <section>
-        <h2>Versions</h2>
-        <ul>
-          <li><a href="/web">Web 1.0</a></li>
-          <li><a href="/hx">htmx</a></li>
-        </ul>
+      <section class="pokelist">
+        <h2>Search</h2>
+        <input
+          type="text"
+          hx-get="/hx/pokemon?limit=10"
+          hx-target="#pokemon-results"
+          hx-swap="outerHTML"
+          name="q"
+          hx-vals
+        />
+        <button
+          hx-get="/pokemon/new"
+          hx-target="body"
+          hx-push-url="true"
+          id="show-dialog-new-pokemon"
+        >
+          New Pokemon
+        </button>
+        <div hx-get="/hx/pokemon" hx-swap="outerHTML" hx-trigger="load"></div>
       </section>
     </main>
   </body>
