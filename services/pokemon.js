@@ -16,6 +16,8 @@ import { csvParse, csvStringify } from '../deps.js'
  * @property {string} cries - audio URL
  */
 
+const KANTO_POKEDEX_OG = 151
+
 /**
  * Read the data from `./models/pokemon.csv`, converts it into an object, and returns it. If a `query` is passed the object is filter by the pokemon name.
  * @param {string} [query] - filter pokemon by name
@@ -23,7 +25,11 @@ import { csvParse, csvStringify } from '../deps.js'
  * @param {number} [offset] - total number of pokemon to return
  * @returns {Pokemon[]} array of pokemon: id, name, weight, height, types, sprite, cries
  */
-export const listPokemon = async (query, limit = 151, offset = 0) => {
+export const listPokemon = async (
+  query = false,
+  limit = KANTO_POKEDEX_OG,
+  offset = 0,
+) => {
   offset = offset ? parseInt(offset) : 0
 
   let pokemon = csvParse(await Deno.readTextFile('./models/pokemon.csv'), {
@@ -34,7 +40,8 @@ export const listPokemon = async (query, limit = 151, offset = 0) => {
   if (limit === true) {
     limit = pokemon.length
   } else {
-    limit = limit ? parseInt(limit) : 151
+    limit = parseInt(limit)
+    limit = limit > 0 ? limit : KANTO_POKEDEX_OG
   }
 
   pokemon = pokemon.map((poke) => {
