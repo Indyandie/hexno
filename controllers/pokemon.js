@@ -3,7 +3,6 @@ import {
   deletePokemon,
   getPokemon,
   htmlGetPokemon,
-  htmlListPokemon,
   listPokemon,
   updatePokemon,
 } from '../services/pokemon.js'
@@ -15,6 +14,10 @@ import {
   htmlPageMain,
   htmlPokemon,
 } from '../services/web.js'
+
+import {
+  hxListPokemon,
+} from '../services/hx.js'
 
 const status404 = new Response(
   null,
@@ -299,9 +302,10 @@ export async function webDeletePokemonCtrl(req, match) {
 export const hxListPokemonCtrl = async (req) => {
   const url = new URL(req.url)
   const query = url.searchParams.get('q')
+  const limit = url.searchParams.get('limit')
 
   return new Response(
-    await htmlListPokemon(query),
+    await hxListPokemon(query, limit),
     {
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
