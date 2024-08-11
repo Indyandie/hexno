@@ -21,7 +21,7 @@
         <h2>Search</h2>
         <input
           type="text"
-          hx-get="/hx/pokemon?limit=10"
+          hx-get="/hx/pokemon"
           hx-target="#pokemon-results"
           hx-swap="outerHTML"
           name="q"
@@ -35,7 +35,11 @@
         >
           New Pokemon
         </button>
-        <div hx-get="/hx/pokemon" hx-swap="outerHTML" hx-trigger="load"></div>
+        <div
+          hx-get="/hx/pokemon?limit=25"
+          hx-swap="outerHTML"
+          hx-trigger="load"
+        ></div>
       </section>
     </main>
   </body>
