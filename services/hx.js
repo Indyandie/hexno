@@ -12,21 +12,39 @@ import {
  * @param {string} [query] - filter pokemon by name
  * @returns {(html|false)} HTML fragment
  */
-export const hxListPokemon = async (query = false, limit = 151, offset = 1) => {
+export const hxListPokemon = async (
+  query = false,
+  limit = 151,
+  offset = 1,
+  paging = false,
+) => {
   // lsp keeps telling me await has no effect but when I remove it things break...
   const pokemon = await listPokemon(query, limit, offset)
   const now = Date.now()
 
   let loadMoreBtn
   offset = offset + limit
-  if (offset >= KANTO_POKEDEX_OG || query !== false) {
-    loadMoreBtn = null
+  if (paging != -false) {
+    if (offset >= KANTO_POKEDEX_OG || query !== false) {
+      loadMoreBtn = null
+    } else {
+      const hxSel = `hx-select="ul > li"`
+      if (paging === 'button') {
+        const hxSwap = `hx-swap="outerHTML show:top"`
+        const hxGet =
+          `hx-get="/hx/pokemon?offset=${offset}&limit=${limit}&paging=button"`
+        loadMoreBtn =
+          `<li><button ${hxGet} ${hxSel} ${hxSwap}>Load More</button></li>`
+      } else if (paging === 'infinite') {
+        const hxSwap = `hx-swap="outerHTML"`
+        const hxGet =
+          `hx-get="/hx/pokemon?offset=${offset}&limit=${limit}&paging=infinite"`
+        loadMoreBtn =
+          `<li><div hx-trigger="revealed" ${hxGet} ${hxSel} ${hxSwap}>Load More</div></li>`
+      }
+    }
   } else {
-    const hxGet = `hx-get="/hx/pokemon?offset=${offset}&limit=${limit}"`
-    const hxSwap = `hx-swap="outerHTML show:top"`
-    const hxSel = `hx-select="ul > li"`
-    loadMoreBtn =
-      `<li><button ${hxGet} ${hxSel} ${hxSwap}>Load More</button></li>`
+    loadMoreBtn = null
   }
 
   if (query && pokemon < 1) {

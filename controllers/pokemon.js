@@ -205,7 +205,7 @@ export async function webNewPokemonCtrl(req) {
   )
 }
 
-export async function webHomePokemonCtrl(req ) {
+export async function webHomePokemonCtrl(req) {
   const url = new URL(req.url)
   const query = url.searchParams.get('q') || ''
   const html = await htmlPageMain(query)
@@ -302,13 +302,15 @@ export const hxListPokemonCtrl = async (req) => {
   let query = url.searchParams.get('q')
   let limit = url.searchParams.get('limit')
   let offset = url.searchParams.get('offset')
+  let paging = url.searchParams.get('paging')
 
   query = query === null ? false : query
   limit = limit === null ? false : parseInt(limit)
   offset = offset === null ? false : parseInt(offset)
+  paging = paging === null ? false : paging
 
   return new Response(
-    await hxListPokemon(query, limit, offset),
+    await hxListPokemon(query, limit, offset, paging),
     {
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
