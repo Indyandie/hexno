@@ -16,7 +16,7 @@ import { csvParse, csvStringify } from '../deps.js'
  * @property {string} cries - audio URL
  */
 
-const KANTO_POKEDEX_OG = 151
+export const KANTO_POKEDEX_OG = 151
 
 /**
  * Read the data from `./models/pokemon.csv`, converts it into an object, and returns it. If a `query` is passed the object is filter by the pokemon name.
