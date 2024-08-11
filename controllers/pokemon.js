@@ -15,9 +15,7 @@ import {
   htmlPokemon,
 } from '../services/web.js'
 
-import {
-  hxListPokemon,
-} from '../services/hx.js'
+import { hxListPokemon } from '../services/hx.js'
 
 const status404 = new Response(
   null,
@@ -207,7 +205,7 @@ export async function webNewPokemonCtrl(req) {
   )
 }
 
-export async function webHomePokemonCtrl(req, match) {
+export async function webHomePokemonCtrl(req ) {
   const url = new URL(req.url)
   const query = url.searchParams.get('q') || ''
   const html = await htmlPageMain(query)
