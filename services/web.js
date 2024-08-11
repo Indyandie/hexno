@@ -98,7 +98,7 @@ const htmlForbidden = (response, delay = 0, redirect = false) => {
 </html>`
 }
 
-const htmlNotFound = (response = false, delay = 0, redirect = false) => {
+export const htmlNotFound = (response = false, delay = 0, redirect = false) => {
   return `<!doctype html>
 <html lang="en" dir="auto">
   <head>

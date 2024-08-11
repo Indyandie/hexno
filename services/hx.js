@@ -1,11 +1,13 @@
 import {
-  KANTO_POKEDEX_OG,
   // createPokemon,
   // deletePokemon,
-  // getPokemon,
+  getPokemon,
+  KANTO_POKEDEX_OG,
   listPokemon,
   // updatePokemon,
 } from './pokemon.js'
+
+import { htmlNotFound } from './web.js'
 
 /**
  * Get all pokemon an return an unorder list with embedded dialogs.
@@ -57,7 +59,7 @@ export const hxListPokemon = async (
         const { id, name, sprite } = poke
 
         // htmx
-        const hxGet = `hx-get="/web/pokemon/${id}"`
+        const hxGet = `hx-get="/hx/pokemon/${id}"`
         const hxTrigger = `hx-trigger="intersect"`
         const hxSel = `hx-select="article"`
         const hx = `${hxGet} ${hxTrigger} ${hxSel}`
@@ -88,5 +90,45 @@ export const hxListPokemon = async (
       1,
       -1,
     )
+  }
+}
+
+/**
+ * Get a pokemon and return an article.
+ * @param {number} id - pokemon id
+ * @returns {(html|false)} HTML fragment
+ */
+export const hxGetPokemon = async (id) => {
+  const { code, pokemon: poke } = await getPokemon(id)
+
+  if (code === 200) {
+    const { id, name, cries, weight, height, types, sprite, official } = poke
+    const deleteForm = !official
+      ? `
+      <form method="POST" action="/web/delete-pokemon/${id}" >
+        <button type="sumbit">delete</button>
+      </form>
+      <a href="/web/edit-pokemon/${id}">
+        <button>edit</button>
+      </a>
+      `
+      : ''
+
+    const criesTr = cries
+      ? `<tr><th>cries</th><td><audio controls controlslist="nodownload"><source src="${cries}" type="audio/ogg"></source><p>audio is not supported</p></audio></td></tr>`
+      : ''
+
+    const html =
+      `<article><h1>${name}</h1><img src="${sprite}" alt="${name}" /><table><tr><th>weight</th><td>${weight}</td></tr><tr><th>height</th><td>${height}</td></tr><tr><th>type</th><td>${types}</td></tr>${criesTr}</table>${deleteForm}</article>`
+
+    return {
+      code,
+      html,
+    }
+  }
+
+  return {
+    code,
+    html: htmlNotFound(),
   }
 }

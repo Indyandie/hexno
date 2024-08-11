@@ -2,7 +2,6 @@ import {
   createPokemon,
   deletePokemon,
   getPokemon,
-  htmlGetPokemon,
   listPokemon,
   updatePokemon,
 } from '../services/pokemon.js'
@@ -15,7 +14,7 @@ import {
   htmlPokemon,
 } from '../services/web.js'
 
-import { hxListPokemon } from '../services/hx.js'
+import { hxListPokemon, hxGetPokemon } from '../services/hx.js'
 
 const status404 = new Response(
   null,
@@ -321,7 +320,7 @@ export const hxListPokemonCtrl = async (req) => {
 
 export const hxGetPokemonCtrl = async (_req, match) => {
   const pokeId = match.pathname.groups.id
-  const pokeRes = await htmlGetPokemon(pokeId)
+  const pokeRes = await hxGetPokemon(pokeId)
   const { code, html: response } = pokeRes
 
   if (!pokeRes) {
