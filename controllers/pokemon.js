@@ -301,11 +301,16 @@ export async function webDeletePokemonCtrl(req, match) {
 
 export const hxListPokemonCtrl = async (req) => {
   const url = new URL(req.url)
-  const query = url.searchParams.get('q')
-  const limit = url.searchParams.get('limit')
+  let query = url.searchParams.get('q')
+  let limit = url.searchParams.get('limit')
+  let offset = url.searchParams.get('offset')
+
+  query = query === null ? false : query
+  limit = limit === null ? false : parseInt(limit)
+  offset = offset === null ? false : parseInt(offset)
 
   return new Response(
-    await hxListPokemon(query, limit),
+    await hxListPokemon(query, limit, offset),
     {
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
