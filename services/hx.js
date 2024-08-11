@@ -53,8 +53,32 @@ export const hxListPokemon = async (
     const html = pokemon.map(
       (
         poke,
-      ) =>
-        `<li id="pokemon-${poke.id}"><button id="show-dialog-${poke.name}"><figure><img src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></button><dialog id="${poke.name}Dialog${now}"><article hx-get="/hx/pokemon/${poke.id}" hx-trigger="intersect"></article><button autofocus>Close</button></dialog><script>const ${poke.name}Dialog${now} = document.querySelector("#${poke.name}Dialog${now}");const ${poke.name}${now}ShowButton = document.querySelector("#show-dialog-${poke.name}");const ${poke.name}${now}CloseButton = document.querySelector("#${poke.name}Dialog${now} button");${poke.name}${now}ShowButton.addEventListener("click", () => {${poke.name}Dialog${now}.showModal();});${poke.name}${now}CloseButton.addEventListener("click", () => {${poke.name}Dialog${now}.close();});</script>`,
+      ) => {
+        const { id, name, sprite } = poke
+
+        // htmx
+        const hxGet = `hx-get="/web/pokemon/${id}"`
+        const hxTrigger = `hx-trigger="intersect"`
+        const hxSel = `hx-select="article"`
+        const hx = `${hxGet} ${hxTrigger} ${hxSel}`
+        const articleHx = `<article ${hx}></article>`
+
+        const btnId = `show-dialog-${name}`
+        const pokeUTID = `${name}${now}`
+        const dialogId = `${pokeUTID}Dialog`
+
+        // html
+        const pokeFigure =
+          `<figure><img src="${sprite}" alt="${name}" /><figcaption>${name}</figcaption></figure>`
+        const pokeDialog =
+          `<dialog id="${dialogId}">${articleHx}<button autofocus>Close</button></dialog>`
+
+        // javascript
+        const pokeScript =
+          `<script>const ${dialogId} = document.querySelector("#${dialogId}");const ${pokeUTID}ShowButton = document.querySelector("#${btnId}");const ${pokeUTID}CloseButton = document.querySelector("#${dialogId} button");${pokeUTID}ShowButton.addEventListener("click", () => {${dialogId}.showModal();});${pokeUTID}CloseButton.addEventListener("click", () => {${name}Dialog${now}.close();});</script>`
+
+        return `<li id="pokemon-${id}"><button id="${btnId}">${pokeFigure}</button>${pokeDialog}${pokeScript}`
+      },
     )
     html.unshift('<ul id="pokemon-results">')
     html.push(loadMoreBtn)
