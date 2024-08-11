@@ -60,12 +60,16 @@ export const listPokemon = async (
     })
   }
 
-  if (offset > 0) {
-    if (offset > pokemon.length) {
-      offset = pokemon.length - 1
-      limit = pokemon.length
-    } else {
-      limit = offset + limit
+  if (offset === false) {
+    offset = 0
+  } else {
+    if (offset > 0) {
+      if (offset > pokemon.length) {
+        offset = pokemon.length - 1
+        limit = pokemon.length
+      } else {
+        limit = offset + limit
+      }
     }
   }
 
