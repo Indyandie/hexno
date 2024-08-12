@@ -147,25 +147,25 @@ const htmlNewForm = (
             <label for="name">name</label>
             <span>${prop && 'name' === prop ? message : ''}</span>
             <br />
-            <input type="text" name="name" value="${pokemon.name}" required />
+            <input id="name" type="text" name="name" value="${pokemon.name}" required autocomplete="off"/>
           </div>
           <div>
             <label for="weight">weight</label>
             <span>${prop && 'weight' === prop ? message : ''}</span>
             <br />
-            <input type="number" name="weight" min="1" value="${pokemon.weight}" required />
+            <input id="weight" type="number" name="weight" min="1" value="${pokemon.weight}" required />
           </div>
           <div>
             <label for="height">height</label>
             <span>${prop && 'height' === prop ? message : ''}</span>
             <br />
-            <input type="number" name="height" min="1" value="${pokemon.height}" required />
+            <input id="height" type="number" name="height" min="1" value="${pokemon.height}" required />
           </div>
           <div>
             <label for="types">types</label>
             <span>${prop && 'types' === prop ? message : ''}</span>
             <br />
-            <input type="text" name="types" list="pokemonmon-types" value="${pokemon.types}" required />
+            <input id="types" type="text" name="types" list="pokemonmon-types" value="${pokemon.types}" required />
             <datalist id="pokemonmon-types">
               <option value="normal"></option>
               <option value="grass"></option>
@@ -178,7 +178,7 @@ const htmlNewForm = (
             <label for="sprite">sprite</label>
             <span>${prop && 'sprite' === prop ? message : ''}</span>
             <br />
-            <input type="url" name="sprite" value="${pokemon.sprite}" required />
+            <input id="sprite" type="url" name="sprite" value="${pokemon.sprite}" required />
           </div>
           <button type="submit">${
     !edit ? 'Create Pokemon' : 'Update Pokemon'
