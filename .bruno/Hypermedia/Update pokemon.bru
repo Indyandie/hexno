@@ -1,11 +1,11 @@
 meta {
-  name: Update Pokemon
+  name: Update pokemon
   type: http
-  seq: 6
+  seq: 4
 }
 
-post {
-  url: {{host}}/web/edit-pokemon/:id
+patch {
+  url: {{host}}/hx/pokemon/:id
   body: formUrlEncoded
   auth: none
 }
@@ -28,7 +28,7 @@ body:text {
 }
 
 body:form-urlencoded {
-  name: beepboop
+  name: beepbosd
   height: 32
   weight: 100
   types: fire
