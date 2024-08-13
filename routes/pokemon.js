@@ -2,8 +2,10 @@ import {
   createPokemonCtrl,
   deletePokemonCtrl,
   getPokemonCtrl,
+  hxEditPokemonCtrl,
   hxGetPokemonCtrl,
   hxListPokemonCtrl,
+  hxUpdatePokemonCtrl,
   listPokemonCtrl,
   updatePokemonCtrl,
   webDeletePokemonCtrl,
@@ -92,9 +94,17 @@ export const hxListPokemonRtr = {
   },
 }
 
-export const hxGetPokemonRtr = {
+export const hxPokemonRtr = {
   GET: {
     route: '/hx/pokemon/:id',
     handler: hxGetPokemonCtrl,
+  },
+  EDIT: {
+    route: '/hx/pokemon/:id/edit',
+    handler: hxEditPokemonCtrl,
+  },
+  PATCH: {
+    route: '/hx/pokemon/:id',
+    handler: hxUpdatePokemonCtrl,
   },
 }

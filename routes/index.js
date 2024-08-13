@@ -2,8 +2,8 @@ import { Router } from './Router.js'
 import {
   apiPokemonIdRtr,
   apiPokemonRtr,
-  hxGetPokemonRtr,
   hxListPokemonRtr,
+  hxPokemonRtr,
   webDeleletePokemonRtr,
   webEditPokemonRtr,
   webMainPokemonRtr,
@@ -58,5 +58,8 @@ const hx = (req) => {
 }
 router.get('/hx', hx)
 
-router.get(hxGetPokemonRtr.GET.route, hxGetPokemonRtr.GET.handler)
 router.get(hxListPokemonRtr.GET.route, hxListPokemonRtr.GET.handler)
+
+router.get(hxPokemonRtr.GET.route, hxPokemonRtr.GET.handler)
+router.get(hxPokemonRtr.EDIT.route, hxPokemonRtr.EDIT.handler)
+router.patch(hxPokemonRtr.PATCH.route, hxPokemonRtr.PATCH.handler)

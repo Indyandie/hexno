@@ -14,7 +14,7 @@ import {
   htmlPokemon,
 } from '../services/web.js'
 
-import { hxListPokemon, hxGetPokemon } from '../services/hx.js'
+import { hxListPokemon, hxGetPokemon, hxEditPokemon } from '../services/hx.js'
 
 const status404 = new Response(
   null,
@@ -329,6 +329,47 @@ export const hxGetPokemonCtrl = async (_req, match) => {
 
   return new Response(
     response,
+    {
+      status: code,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+      },
+    },
+  )
+}
+
+export async function hxEditPokemonCtrl(_req, match) {
+  const pokeId = match.pathname.groups.id
+  const { code, html } = await hxEditPokemon(pokeId)
+
+  return new Response(
+    html,
+    {
+      status: code,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+      },
+    },
+  )
+}
+
+
+export async function hxUpdatePokemonCtrl(req, match) {
+  const pokeId = match.pathname.groups.id
+  const formData = await req.formData()
+  const pokemonForm = {
+    id: pokeId,
+    name: formData.get('name'),
+    height: formData.get('height'),
+    weight: formData.get('weight'),
+    types: formData.get('types'),
+    sprite: formData.get('sprite'),
+  }
+
+  const { code, html } = await hxEditPokemon(pokeId, pokemonForm)
+
+  return new Response(
+    html,
     {
       status: code,
       headers: {
