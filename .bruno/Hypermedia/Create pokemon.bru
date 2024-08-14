@@ -1,11 +1,11 @@
 meta {
-  name: Post Pokemon
+  name: Create pokemon
   type: http
-  seq: 3
+  seq: 6
 }
 
-post {
-  url: {{host}}/web/new-pokemon
+put {
+  url: {{host}}/hx/pokemon
   body: formUrlEncoded
   auth: none
 }
