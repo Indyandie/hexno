@@ -15,7 +15,6 @@ const htmlNewForm = (
   message = false,
   edit = false,
 ) => {
-
   const editHxSel = `hx-select="form, article"`
   const hxSwap = `hx-swap="outerHTML"`
   const hxTarget = `hx-target="form"`
@@ -134,8 +133,10 @@ export const hxListPokemon = async (
         const hxGet = `hx-get="/hx/pokemon/${id}"`
         const hxTrigger = `hx-trigger="intersect"`
         const hxSel = `hx-select="article"`
-        const hx = `${hxGet} ${hxTrigger} ${hxSel}`
-        const articleHx = `<article ${hx}></article>`
+        const hxSwap = `hx-swap="outerHTML"`
+        const hxTarget = `hx-target="find article"`
+        const hx = `${hxGet} ${hxTrigger} ${hxSel} ${hxTarget} ${hxSwap}`
+        const articleHx = `<article></article>`
 
         const btnId = `show-dialog-${name}`
         const pokeUTID = `${name}${now}`
@@ -145,7 +146,8 @@ export const hxListPokemon = async (
         const pokeFigure =
           `<figure><img src="${sprite}" alt="${name}" /><figcaption>${name}</figcaption></figure>`
         const pokeDialog =
-          `<dialog id="${dialogId}">${articleHx}<button autofocus>Close</button></dialog>`
+          `<dialog id="${dialogId}" ${hx}>${articleHx}<button autofocus>Close</button></dialog>`
+
 
         // javascript
         const pokeScript =
