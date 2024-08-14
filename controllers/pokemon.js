@@ -14,7 +14,12 @@ import {
   htmlPokemon,
 } from '../services/web.js'
 
-import { hxListPokemon, hxGetPokemon, hxEditPokemon } from '../services/hx.js'
+import {
+  hxEditPokemon,
+  hxGetPokemon,
+  hxListPokemon,
+  hxNewPokemon,
+} from '../services/hx.js'
 
 const status404 = new Response(
   null,
@@ -296,6 +301,43 @@ export async function webDeletePokemonCtrl(req, match) {
 
 // htmx
 
+export async function hxNewPokemonCtrl(_req) {
+  const { code, html } = await hxNewPokemon(false)
+
+  return new Response(
+    html,
+    {
+      status: code,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+      },
+    },
+  )
+}
+
+export async function hxCreatePokemonCtrl(req, match) {
+  const formData = await req.formData()
+  const pokemonForm = {
+    name: formData.get('name'),
+    height: formData.get('height'),
+    weight: formData.get('weight'),
+    types: formData.get('types'),
+    sprite: formData.get('sprite'),
+  }
+
+  const { code, html } = await hxNewPokemon( pokemonForm)
+
+  return new Response(
+    html,
+    {
+      status: code,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+      },
+    },
+  )
+}
+
 export const hxListPokemonCtrl = async (req) => {
   const url = new URL(req.url)
   let query = url.searchParams.get('q')
@@ -352,7 +394,6 @@ export async function hxEditPokemonCtrl(_req, match) {
     },
   )
 }
-
 
 export async function hxUpdatePokemonCtrl(req, match) {
   const pokeId = match.pathname.groups.id

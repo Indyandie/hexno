@@ -59,7 +59,9 @@ const hx = (req) => {
 router.get('/hx', hx)
 
 router.get(hxListPokemonRtr.GET.route, hxListPokemonRtr.GET.handler)
+router.put(hxListPokemonRtr.PUT.route, hxListPokemonRtr.PUT.handler)
 
+router.get(hxPokemonRtr.NEW.route, hxPokemonRtr.NEW.handler)
 router.get(hxPokemonRtr.GET.route, hxPokemonRtr.GET.handler)
 router.get(hxPokemonRtr.EDIT.route, hxPokemonRtr.EDIT.handler)
 router.patch(hxPokemonRtr.PATCH.route, hxPokemonRtr.PATCH.handler)

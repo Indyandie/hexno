@@ -28,14 +28,28 @@
           name="q"
           hx-vals
         />
-        <button
-          hx-get="/pokemon/new"
-          hx-target="body"
-          hx-push-url="true"
-          id="show-dialog-new-pokemon"
-        >
-          New Pokemon
-        </button>
+        <button id="show-dialog-new-pokemon">New Pokemon</button>
+        <dialog id="new-pokemon-dialog">
+          <div hx-get="/hx/pokemon/new" hx-trigger="intersect"></div>
+          <button id="close-dialog-new-pokemon">close</button>
+        </dialog>
+        <script>
+          const newPokemonDialog = document.querySelector(
+            "#new-pokemon-dialog",
+          );
+          const showNewPokemonButton = document.querySelector(
+            "#show-dialog-new-pokemon",
+          );
+          const closeNewDialogButton = document.querySelector(
+            "#close-dialog-new-pokemon",
+          );
+          showNewPokemonButton.addEventListener("click", () => {
+            newPokemonDialog.showModal();
+          });
+          closeNewDialogButton.addEventListener("click", () => {
+            newPokemonDialog.close();
+          });
+        </script>
         <div
           hx-get="/hx/pokemon?limit=25&paging=infinite"
           hx-swap="outerHTML"

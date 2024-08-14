@@ -1,5 +1,5 @@
 import {
-  // createPokemon,
+  createPokemon,
   // deletePokemon,
   getPokemon,
   KANTO_POKEDEX_OG,
@@ -15,7 +15,7 @@ const htmlNewForm = (
   message = false,
   edit = false,
 ) => {
-  const { id, name, sprite } = pokemon
+
   const editHxSel = `hx-select="form, article"`
   const hxSwap = `hx-swap="outerHTML"`
   const hxTarget = `hx-target="form"`
@@ -24,35 +24,43 @@ const htmlNewForm = (
   return `<form
   ${
     !edit
-      ? 'hx-put="/hx/pokemon/' + pokemon.id + '"'
+      ? 'hx-put="/hx/pokemon"'
       : 'hx-patch="/hx/pokemon/' + pokemon.id + '"'
   } ${hx} ${editHxSel}
   >
   <h1> ${!edit ? 'New Pokemon' : 'Edit ' + pokemon.id} </h1>
-  ${edit ? '<img src="' + pokemon.sprite + '" alt="${pokemon.name}" />' : ''}
+  ${edit ? '<img src="' + pokemon.sprite + '" alt="${name}" />' : ''}
   <div>
     <label for="name">name</label>
     <span>${prop && 'name' === prop ? message : ''}</span>
     <br />
-    <input id="name" type="text" name="name" value="${pokemon.name}" required autocomplete="off"/>
+    <input id="name" type="text" name="name" value="${
+    pokemon !== undefined ? pokemon.name : ''
+  }" required autocomplete="off"/>
   </div>
   <div>
     <label for="weight">weight</label>
     <span>${prop && 'weight' === prop ? message : ''}</span>
     <br />
-    <input id="weight" type="number" name="weight" min="1" value="${pokemon.weight}" required />
+    <input id="weight" type="number" name="weight" min="1" value="${
+    pokemon !== undefined ? pokemon.weight : ''
+  }" required />
   </div>
   <div>
     <label for="height">height</label>
     <span>${prop && 'height' === prop ? message : ''}</span>
     <br />
-    <input id="height" type="number" name="height" min="1" value="${pokemon.height}" required />
+    <input id="height" type="number" name="height" min="1" value="${
+    pokemon !== undefined ? pokemon.height : ''
+  }" required />
   </div>
   <div>
     <label for="types">types</label>
     <span>${prop && 'types' === prop ? message : ''}</span>
     <br />
-    <input id="types" type="text" name="types" list="pokemonmon-types" value="${pokemon.types}" required />
+    <input id="types" type="text" name="types" list="pokemonmon-types" value="${
+    pokemon !== undefined ? pokemon.types : ''
+  }" required />
     <datalist id="pokemonmon-types">
       <option value="normal"></option>
       <option value="grass"></option>
@@ -65,7 +73,9 @@ const htmlNewForm = (
     <label for="sprite">sprite</label>
     <span>${prop && 'sprite' === prop ? message : ''}</span>
     <br />
-    <input id="sprite" type="url" name="sprite" value="${pokemon.sprite}" required />
+    <input id="sprite" type="url" name="sprite" value="${
+    pokemon !== undefined ? pokemon.sprite : ''
+  }" required />
   </div>
   <button type="submit">${!edit ? 'Create Pokemon' : 'Update Pokemon'}</button>
 </form>`
@@ -205,7 +215,7 @@ export const hxGetPokemon = async (id) => {
 
   return {
     code,
-    html: htmlNotFound(),
+    html: 'not found',
   }
 }
 
@@ -263,6 +273,34 @@ export const hxEditPokemon = async (pokemonId, pokemonObj = null) => {
       code: 200, // override error status
       html: htmlNewForm(pokemonObj, prop, message, true),
       // html: "<form>lsdjdsf</form>"
+    }
+  }
+}
+
+export async function hxNewPokemon(pokemonObj = false) {
+  if (pokemonObj === false) {
+    return {
+      code: 200,
+      html: await htmlNewForm(),
+    }
+  }
+
+  const newPokemon = await createPokemon(pokemonObj)
+  const { code, prop, message, pokemon } = newPokemon
+
+  if (code === 201) {
+    const { html } = await hxGetPokemon(pokemon.id)
+
+    return {
+      code,
+      html,
+    }
+  } else {
+    const html = await htmlNewForm(pokemonObj, prop, message)
+
+    return {
+      code: 200,
+      html,
     }
   }
 }
