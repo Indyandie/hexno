@@ -1,0 +1,40 @@
+meta {
+  name: Delete pokemon
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{host}}/hx/pokemon/:id
+  body: formUrlEncoded
+  auth: none
+}
+
+params:path {
+  id: 1151
+}
+
+body:json {
+  {
+    "test": true,
+    "sup": "sdlj"
+  }
+}
+
+body:text {
+  {
+    "hello": true
+  }
+}
+
+body:form-urlencoded {
+  name: flowersaurus
+  height: 32
+  weight: 100
+  types: fire
+  sprite: https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png
+}
+
+body:multipart-form {
+  cat: true
+}

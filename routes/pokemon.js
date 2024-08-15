@@ -3,6 +3,7 @@ import {
   deletePokemonCtrl,
   getPokemonCtrl,
   hxCreatePokemonCtrl,
+  hxDeletePokemonCtrl,
   hxEditPokemonCtrl,
   hxGetPokemonCtrl,
   hxListPokemonCtrl,
@@ -116,5 +117,9 @@ export const hxPokemonRtr = {
   PATCH: {
     route: '/hx/pokemon/:id',
     handler: hxUpdatePokemonCtrl,
+  },
+  DELETE: {
+    route: '/hx/pokemon/:id',
+    handler: hxDeletePokemonCtrl,
   },
 }

@@ -1,13 +1,11 @@
 import {
   createPokemon,
-  // deletePokemon,
+  deletePokemon,
   getPokemon,
   KANTO_POKEDEX_OG,
   listPokemon,
   updatePokemon,
 } from './pokemon.js'
-
-import { htmlNotFound } from './web.js'
 
 const htmlNewForm = (
   pokemon,
@@ -133,8 +131,8 @@ export const hxListPokemon = async (
         const hxGet = `hx-get="/hx/pokemon/${id}"`
         const hxTrigger = `hx-trigger="intersect"`
         const hxSel = `hx-select="article"`
-        const hxSwap = `hx-swap="outerHTML"`
-        const hxTarget = `hx-target="find article"`
+        const hxSwap = `hx-swap="innerHTML"`
+        const hxTarget = `hx-target="this"`
         const hx = `${hxGet} ${hxTrigger} ${hxSel} ${hxTarget} ${hxSwap}`
         const articleHx = `<article></article>`
 
@@ -147,7 +145,6 @@ export const hxListPokemon = async (
           `<figure><img src="${sprite}" alt="${name}" /><figcaption>${name}</figcaption></figure>`
         const pokeDialog =
           `<dialog id="${dialogId}" ${hx}>${articleHx}<button autofocus>Close</button></dialog>`
-
 
         // javascript
         const pokeScript =
@@ -191,14 +188,11 @@ export const hxGetPokemon = async (id) => {
       `<button hx-get="/hx/pokemon/${id}/edit" ${editHxSel} ${hxSwap} ${hxTarget}>edit</button>`
 
     // delete
-    // const deleteHxSel = `hx-select="main"`
-    const deleteHxTarget = `hx-target="dialog"`
-    const deleteHxSwap = `hx-swap="delete"`
-    // const deleteHxOn = `hx-on::confirm="confirm('Deleting ${name}')"`
-    // const deleteHxOn = `hx-on::confirm="close()"`
+    const deleteHxSel = `hx-select="div"`
+    const deleteHxSwap = `hx-swap="innerHTML"`
     const deleteHxConfirm = `hx-confirm="Delete ${name}?"`
     const deleteAction =
-      `<button hx-post="/web/delete-pokemon/${id}" ${deleteHxSwap} ${deleteHxTarget} ${deleteHxConfirm}>delete</button>`
+      `<button hx-delete="/hx/pokemon/${id}" ${deleteHxSel} ${deleteHxSwap} ${deleteHxConfirm}>delete</button>`
 
     const customActions = !official ? `${deleteAction}${editAction}` : ''
 
@@ -304,5 +298,28 @@ export async function hxNewPokemon(pokemonObj = false) {
       code: 200,
       html,
     }
+  }
+}
+
+export const hxDeletePokemon = async (pokemonId) => {
+  const { code, error, message, pokemon } = await deletePokemon(pokemonId)
+
+  if (code === 200) {
+    const { id, name } = pokemon
+    const deletedPokemon = await JSON.stringify(pokemon, null, '<br>')
+
+    const message = `<p><strong>${name} (${id}) has been deleted</strong><p>`
+    const object = `<code>${deletedPokemon}</code>`
+    const html = `<div>${message}${object}</div>`
+
+    return {
+      code,
+      html,
+    }
+  } else {
+    const html = `<code>${error}: ${message}</code><br><br>`
+    console.log(html)
+
+    return { code, html }
   }
 }
