@@ -150,7 +150,7 @@ export const hxListPokemon = async (
         const pokeScript =
           `<script>const ${dialogId} = document.querySelector("#${dialogId}");const ${pokeUTID}ShowButton = document.querySelector("#${btnId}");const ${pokeUTID}CloseButton = document.querySelector("#${dialogId} button");${pokeUTID}ShowButton.addEventListener("click", () => {${dialogId}.showModal();});${pokeUTID}CloseButton.addEventListener("click", () => {${dialogId}.close();});</script>`
 
-        return `<li id="pokemon-${id}"><button id="${btnId}">${pokeFigure}</button>${pokeDialog}${pokeScript}`
+        return `<li id="pokemon-${id}-list" class="poke-${id}"><button id="${btnId}">${pokeFigure}</button>${pokeDialog}${pokeScript}`
       },
     )
     html.unshift('<ul id="pokemon-results">')
@@ -187,11 +187,12 @@ export const hxGetPokemon = async (id) => {
       `<button hx-get="/hx/pokemon/${id}/edit" ${editHxSel} ${hxSwap} ${hxTarget}>edit</button>`
 
     // delete
-    const deleteHxSel = `hx-select="div"`
-    const deleteHxSwap = `hx-swap="innerHTML"`
+    const deleteHxSel = `hx-select="dialog"`
+    const deleteHxSwap = `hx-swap="afterbegin"`
+    const deleteHxTarget = `hx-target="body"`
     const deleteHxConfirm = `hx-confirm="Delete ${name}?"`
     const deleteAction =
-      `<button hx-delete="/hx/pokemon/${id}" ${deleteHxSel} ${deleteHxSwap} ${deleteHxConfirm}>delete</button>`
+      `<button hx-delete="/hx/pokemon/${id}" ${deleteHxSel} ${deleteHxSwap} ${deleteHxTarget} ${deleteHxConfirm}>delete</button>`
 
     const customActions = !official ? `${deleteAction}${editAction}` : ''
 
@@ -308,7 +309,12 @@ export const hxDeletePokemon = async (pokemonId) => {
 
     const message = `<p><strong>${name} (${id}) has been deleted</strong><p>`
     const object = `<code>${deletedPokemon}</code>`
-    const html = `<div>${message}${object}</div>`
+    const closeButton = `<form method="dialog"><button>close</button></form>`
+    const script = `<script>
+    deletePoke${id} = document.querySelectorAll(".poke-${id}")
+    deletePoke${id}.forEach(el => el.remove())
+</script>`
+    const html = `<dialog open style="position: fixed; top: 0;">${message}${object}${script}${closeButton}</dialog>`
 
     return {
       code,
