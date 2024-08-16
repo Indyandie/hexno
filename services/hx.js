@@ -180,7 +180,6 @@ export const hxGetPokemon = async (id) => {
     // htmx
     const hxSwap = `hx-swap="outerHTML"`
     const hxTarget = `hx-target="#${articleID}"`
-    // const hx = `${hxTarget} ${hxSwap}`
 
     // edit
     const editHxSel = `hx-select="form"`
@@ -268,7 +267,6 @@ export const hxEditPokemon = async (pokemonId, pokemonObj = null) => {
     return {
       code: 200, // override error status
       html: htmlNewForm(pokemonObj, prop, message, true),
-      // html: "<form>lsdjdsf</form>"
     }
   }
 }
