@@ -121,7 +121,7 @@ export const htmlNotFound = (response = false, delay = 0, redirect = false) => {
         <h1>Not found</h1>
         <p>These are not the pokemon you are looking</p>
         ${!response ? '' : '<code>' + response + '</code>'}
-        <a href='/web'>Main page</a>
+        <a href='/'>Main page</a>
       </section>
     </main>
   </body>
