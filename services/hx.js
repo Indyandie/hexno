@@ -7,6 +7,8 @@ import {
   updatePokemon,
 } from './pokemon.js'
 
+import { htmlNotFound } from './web.js'
+
 const htmlNewForm = (
   pokemon,
   prop = false,
@@ -76,6 +78,41 @@ const htmlNewForm = (
   </div>
   <button type="submit">${!edit ? 'Create Pokemon' : 'Update Pokemon'}</button>
 </form>`
+}
+
+function htmlTemplate(
+  title,
+  body,
+  meta = null,
+  redirect = null,
+  delay = 0,
+) {
+  const html = `<!doctype html>
+<html lang="en" dir="auto">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    ${meta ? meta : ''}
+    ${
+    !redirect
+      ? ''
+      : '<meta http-equiv="Refresh" content="' + delay + ", url='" + redirect +
+        '\'" >'
+  }
+    <title>${title}</title>
+    <script src="/public/js/htmx.min.js"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="/hx">Pokemon</a></h1>
+    </header>
+    ${body}
+  </body>
+</html>`
+
+  return html
 }
 
 /**
@@ -201,7 +238,7 @@ export const hxGetPokemon = async (id) => {
       : ''
 
     const html =
-      `<article id="${articleID}"><h1>${name}</h1><img src="${sprite}" alt="${name}" /><table><tr><th>weight</th><td>${weight}</td></tr><tr><th>height</th><td>${height}</td></tr><tr><th>type</th><td>${types}</td></tr>${criesTr}</table>${customActions}</article>`
+      `<article id="${articleID}"><h1><a href="/hx/pokedex/${id}">${name}</a></h1><img src="${sprite}" alt="${name}" /><table><tr><th>weight</th><td>${weight}</td></tr><tr><th>height</th><td>${height}</td></tr><tr><th>type</th><td>${types}</td></tr>${criesTr}</table>${customActions}</article>`
 
     return {
       code,
@@ -322,7 +359,9 @@ export const hxDeletePokemon = async (pokemonId) => {
       }, 1000)
     }, 5000)
 </script>`
-    const html = `<dialog open id="${dialogId}" style="position: fixed; top: 0;">${message}${object}${script}${closeButton}</dialog>`
+
+    const html =
+      `<dialog open id="${dialogId}" style="position: fixed; top: 0;">${message}${object}${script}${closeButton}</dialog>`
 
     return {
       code,
@@ -334,4 +373,21 @@ export const hxDeletePokemon = async (pokemonId) => {
 
     return { code, html }
   }
+}
+
+export async function hxPokedex(id = false) {
+  const pokemonReturn = id ? await getPokemon(id) : null
+  const { code, pokemon } = pokemonReturn
+
+  if (code === 200) {
+    const title = pokemon.name
+    const htmlReturn = await hxGetPokemon(id)
+    const { html: article } = htmlReturn
+    const body = article
+
+    const html = htmlTemplate(title, body)
+
+    return { code: 200, html }
+  }
+    return { code: 200, html: htmlNotFound()}
 }

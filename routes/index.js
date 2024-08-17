@@ -3,6 +3,7 @@ import {
   apiPokemonIdRtr,
   apiPokemonRtr,
   hxListPokemonRtr,
+  hxPokedexRtr,
   hxPokemonRtr,
   webDeleletePokemonRtr,
   webEditPokemonRtr,
@@ -66,3 +67,5 @@ router.get(hxPokemonRtr.GET.route, hxPokemonRtr.GET.handler)
 router.get(hxPokemonRtr.EDIT.route, hxPokemonRtr.EDIT.handler)
 router.patch(hxPokemonRtr.PATCH.route, hxPokemonRtr.PATCH.handler)
 router.delete(hxPokemonRtr.DELETE.route, hxPokemonRtr.DELETE.handler)
+
+router.get(hxPokedexRtr.GET.route, hxPokedexRtr.GET.handler)

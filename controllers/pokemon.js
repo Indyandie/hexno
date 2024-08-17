@@ -20,6 +20,7 @@ import {
   hxGetPokemon,
   hxListPokemon,
   hxNewPokemon,
+  hxPokedex,
 } from '../services/hx.js'
 
 const status404 = new Response(
@@ -427,6 +428,26 @@ export const hxDeletePokemonCtrl = async (_req, match) => {
 
   return new Response(
     html,
+    {
+      status: code,
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+      },
+    },
+  )
+}
+
+export const hxPokedexCtrl = async (_req, match) => {
+  const pokeId = match.pathname.groups.id
+  const pokeRes = await hxPokedex(pokeId)
+  const { code, html: response } = pokeRes
+
+  if (!pokeRes) {
+    return status404
+  }
+
+  return new Response(
+    response,
     {
       status: code,
       headers: {

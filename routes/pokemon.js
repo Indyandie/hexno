@@ -8,6 +8,7 @@ import {
   hxGetPokemonCtrl,
   hxListPokemonCtrl,
   hxNewPokemonCtrl,
+  hxPokedexCtrl,
   hxUpdatePokemonCtrl,
   listPokemonCtrl,
   updatePokemonCtrl,
@@ -121,5 +122,12 @@ export const hxPokemonRtr = {
   DELETE: {
     route: '/hx/pokemon/:id',
     handler: hxDeletePokemonCtrl,
+  },
+}
+
+export const hxPokedexRtr = {
+  GET: {
+    route: '/hx/pokedex/:id',
+    handler: hxPokedexCtrl,
   },
 }
