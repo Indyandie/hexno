@@ -2,10 +2,11 @@ import {
   createPokemon,
   deletePokemon,
   getPokemon,
-  htmlGetPokemon,
   listPokemon,
   updatePokemon,
-} from './pokemon.js'
+} from '../services/pokemon.js'
+
+import { hxGetPokemon } from './hxViews.js'
 
 function htmlTemplate(
   title,
@@ -256,7 +257,7 @@ export async function htmlPokemon(id = false) {
 
   if (code === 200) {
     const title = pokemon.name
-    const htmlReturn = await htmlGetPokemon(id)
+    const htmlReturn = await hxGetPokemon(id)
     const { html: article } = htmlReturn
     const body = article
 

@@ -12,7 +12,7 @@ import {
   htmlNewPokemonPost,
   htmlPageMain,
   htmlPokemon,
-} from '../services/web.js'
+} from '../views/webViews.js'
 
 import {
   hxDeletePokemon,

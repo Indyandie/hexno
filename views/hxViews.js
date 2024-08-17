@@ -7,7 +7,7 @@ import {
   updatePokemon,
 } from '../services/pokemon.js'
 
-import { htmlNotFound } from '../services/web.js'
+import { htmlNotFound } from './webViews.js'
 
 const htmlNewForm = (
   pokemon,
@@ -389,5 +389,5 @@ export async function hxPokedex(id = false) {
 
     return { code: 200, html }
   }
-    return { code: 200, html: htmlNotFound()}
+  return { code: 200, html: htmlNotFound() }
 }
