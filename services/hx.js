@@ -310,11 +310,19 @@ export const hxDeletePokemon = async (pokemonId) => {
     const message = `<p><strong>${name} (${id}) has been deleted</strong><p>`
     const object = `<code>${deletedPokemon}</code>`
     const closeButton = `<form method="dialog"><button>close</button></form>`
+    const dialogId = `delete-notification-${id + name}`
     const script = `<script>
-    deletePoke${id} = document.querySelectorAll(".poke-${id}")
-    deletePoke${id}.forEach(el => el.remove())
+    const rmPoke${id} = document.querySelectorAll(".poke-${id}")
+    rmPoke${id}.forEach(el => el.remove())
+    const rmNotification${id + name} = document.querySelector("#${dialogId}")
+    setTimeout(() => {
+      rmNotification${id + name}.close()
+      setTimeout(() => {
+        rmNotification${id + name}.remove()
+      }, 1000)
+    }, 5000)
 </script>`
-    const html = `<dialog open style="position: fixed; top: 0;">${message}${object}${script}${closeButton}</dialog>`
+    const html = `<dialog open id="${dialogId}" style="position: fixed; top: 0;">${message}${object}${script}${closeButton}</dialog>`
 
     return {
       code,
