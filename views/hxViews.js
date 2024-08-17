@@ -5,9 +5,9 @@ import {
   KANTO_POKEDEX_OG,
   listPokemon,
   updatePokemon,
-} from './pokemon.js'
+} from '../services/pokemon.js'
 
-import { htmlNotFound } from './web.js'
+import { htmlNotFound } from '../services/web.js'
 
 const htmlNewForm = (
   pokemon,

@@ -21,7 +21,7 @@ import {
   hxListPokemon,
   hxNewPokemon,
   hxPokedex,
-} from '../services/hx.js'
+} from '../views/hxViews.js'
 
 const status404 = new Response(
   null,
