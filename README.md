@@ -1,6 +1,8 @@
 # htmx Example
 
-This repository is a playground to test the [htmx](https://htmx.org/) library. It has a simple API (built with [deno](https://deno.com/)) with htmx operations that respond with `html` fragments, it uses pokemon data.
+[pokeapi]: https://pokeapi.co/
+
+This repository is a playground to test the [htmx](https://htmx.org/) library. It has a simple API (built with [deno](https://deno.com/)) with htmx operations that respond with `html` fragments, it uses [pokemon][pokeapi] data.
 
 ## Dependencies
 
@@ -52,5 +54,5 @@ This repository is a playground to test the [htmx](https://htmx.org/) library. I
 - [htmx examples](https://htmx.org/examples/)
 - [awesome-htmx](https://github.com/rajasegar/awesome-htmx)
 - [deno docs](https://docs.deno.com/runtime/manual)
-- [pokeapi](https://pokeapi.co/)
+- [pokeapi]
 - [official pokedex](https://www.pokemon.com/us/pokedex)
