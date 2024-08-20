@@ -206,7 +206,7 @@ export const hxListPokemon = async (
  * @param {number} id - pokemon id
  * @returns {(html|false)} HTML fragment
  */
-export const hxGetPokemon = async (id) => {
+export const hxGetPokemon = async (id, pokedexLink = false) => {
   const { code, pokemon: poke } = await getPokemon(id)
 
   if (code === 200) {
@@ -237,8 +237,10 @@ export const hxGetPokemon = async (id) => {
       ? `<tr><th>cries</th><td><audio controls controlslist="nodownload"><source src="${cries}" type="audio/ogg"></source><p>audio is not supported</p></audio></td></tr>`
       : ''
 
+    pokedexLink = pokedexLink ? `&nbsp;<a href="/hx/pokedex/${id}">➔</a>` : ''
+
     const html =
-      `<article id="${articleID}"><h1><a href="/hx/pokedex/${id}">${name}</a></h1><img src="${sprite}" alt="${name}" /><table><tr><th>weight</th><td>${weight}</td></tr><tr><th>height</th><td>${height}</td></tr><tr><th>type</th><td>${types}</td></tr>${criesTr}</table>${customActions}</article>`
+      `<article id="${articleID}"><h1>${name}${pokedexLink}</h1><img src="${sprite}" alt="${name}" /><table><tr><th>weight</th><td>${weight}</td></tr><tr><th>height</th><td>${height}</td></tr><tr><th>type</th><td>${types}</td></tr>${criesTr}</table>${customActions}</article>`
 
     return {
       code,

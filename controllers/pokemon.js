@@ -364,7 +364,7 @@ export const hxListPokemonCtrl = async (req) => {
 
 export const hxGetPokemonCtrl = async (_req, match) => {
   const pokeId = match.pathname.groups.id
-  const pokeRes = await hxGetPokemon(pokeId)
+  const pokeRes = await hxGetPokemon(pokeId, true)
   const { code, html: response } = pokeRes
 
   if (!pokeRes) {
