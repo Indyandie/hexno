@@ -37,12 +37,12 @@ This repository is a playground to test the [htmx](https://htmx.org/) library. I
   - [x] read pokemon
   - [x] update pokemon
   - [x] delete pokemon
-- [ ] **Hypermedia API** ([htmx](https://htmx.org/) support)
+- [x] **Hypermedia API** ([htmx](https://htmx.org/) support)
   - [x] `GET` operations
-  - [ ] `PUT` operations
-  - [ ] `POST` operations
-  - [ ] `PATCH` operations?
-  - [ ] `DELETE` operations
+  - [x] `PUT` operations
+  - [x] `POST` operations
+  - [x] `PATCH` operations?
+  - [x] `DELETE` operations
 - [x] Basic router
 - [ ] Use a proper html parser
 - [ ] Try using hono or oak
