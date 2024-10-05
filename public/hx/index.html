@@ -17,7 +17,7 @@
       <h1>Pokemon (htmx)</h1>
     </header>
     <main>
-      <section class="pokelist">
+      <section>
         <h2>Search</h2>
         <input
           type="search"
@@ -50,12 +50,14 @@
             newPokemonDialog.close();
           });
         </script>
+      </section>
+      <article class="pokelist">
         <div
           hx-get="/hx/pokemon?limit=25&paging=infinite"
           hx-swap="outerHTML"
           hx-trigger="load"
         ></div>
-      </section>
+      </article>
     </main>
   </body>
 </html>

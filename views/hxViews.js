@@ -9,6 +9,11 @@ import {
 
 import { htmlNotFound } from './webViews.js'
 
+// CSS
+const pokeLiStyle =
+  'style="margin: 0 0 32px 0; width: 240px; height: 240px; list-style-type: none;"'
+const pokeImgStyle = 'style="height: auto; width: 100%;"'
+
 const htmlNewForm = (
   pokemon,
   prop = false,
@@ -142,13 +147,13 @@ export const hxListPokemon = async (
         const hxGet =
           `hx-get="/hx/pokemon?offset=${offset}&limit=${limit}&paging=button"`
         loadMoreBtn =
-          `<li><button ${hxGet} ${hxSel} ${hxSwap}>Load More</button></li>`
+          `<li ${pokeLiStyle}><button ${hxGet} ${hxSel} ${hxSwap}>Load More</button></li>`
       } else if (paging === 'infinite') {
         const hxSwap = `hx-swap="outerHTML"`
         const hxGet =
           `hx-get="/hx/pokemon?offset=${offset}&limit=${limit}&paging=infinite"`
         loadMoreBtn =
-          `<li><div hx-trigger="revealed" ${hxGet} ${hxSel} ${hxSwap}>Load More</div></li>`
+          `<li ${pokeLiStyle} hx-trigger="revealed delay:1s" ${hxGet} ${hxSel} ${hxSwap}><div style="margin: auto; height: 100%; text-align: center; line-height: 240px;">Loading more...</div></li>`
       }
     }
   } else {
@@ -179,7 +184,7 @@ export const hxListPokemon = async (
 
         // html
         const pokeFigure =
-          `<figure><img src="${sprite}" alt="${name}" /><figcaption>${name}</figcaption></figure>`
+          `<figure><img src="${sprite}" alt="${name}" ${pokeImgStyle} /><figcaption>${name}</figcaption></figure>`
         const pokeDialog =
           `<dialog id="${dialogId}" ${hx}>${articleHx}<button autofocus>Close</button></dialog>`
 
@@ -187,10 +192,16 @@ export const hxListPokemon = async (
         const pokeScript =
           `<script>const ${dialogId} = document.querySelector("#${dialogId}");const ${pokeUTID}ShowButton = document.querySelector("#${btnId}");const ${pokeUTID}CloseButton = document.querySelector("#${dialogId} button");${pokeUTID}ShowButton.addEventListener("click", () => {${dialogId}.showModal();});${pokeUTID}CloseButton.addEventListener("click", () => {${dialogId}.close();});</script>`
 
-        return `<li id="pokemon-${id}-list" class="poke-${id}"><button id="${btnId}">${pokeFigure}</button>${pokeDialog}${pokeScript}`
+        return `<li id="pokemon-${id}-list" class="poke-${id}" ${pokeLiStyle}><button style="width: 100%; height: 100%;" id="${btnId}">${pokeFigure}</button>${pokeDialog}${pokeScript}</li>`
       },
     )
-    html.unshift('<ul id="pokemon-results">')
+
+    const pokeUlStyle =
+      'style="width: 100%; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; width: 100%; padding: 0;"'
+
+    html.unshift(
+      `<ul ${pokeUlStyle} id="pokemon-results">`,
+    )
     html.push(loadMoreBtn)
     html.push('</ul>')
 
