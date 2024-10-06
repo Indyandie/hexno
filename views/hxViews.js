@@ -232,7 +232,7 @@ export const hxGetPokemon = async (id, pokedexLink = false) => {
     // edit
     const editHxSel = `hx-select="form"`
     const editAction =
-      `<form action="/web/edit-pokemon/${id}" method="GET"><button hx-get="/hx/pokemon/${id}/edit" ${editHxSel} ${hxSwap} ${hxTarget}>edit</button></form>`
+      `<a href="/web/edit-pokemon/${id}" method="GET"><button hx-get="/hx/pokemon/${id}/edit" ${editHxSel} ${hxSwap} ${hxTarget}>edit</button></a>`
 
     // delete
     const deleteHxSel = `hx-select="dialog"`
@@ -240,9 +240,11 @@ export const hxGetPokemon = async (id, pokedexLink = false) => {
     const deleteHxTarget = `hx-target="body"`
     const deleteHxConfirm = `hx-confirm="Delete ${name}?"`
     const deleteAction =
-      `<form action="/web/delete-pokemon/${id}" method="POST"><button hx-delete="/hx/pokemon/${id}" ${deleteHxSel} ${deleteHxSwap} ${deleteHxTarget} ${deleteHxConfirm}>delete</button></form>`
+      `<a href="/web/delete-pokemon/${id}" method="POST"><button  class="outline secondary" hx-delete="/hx/pokemon/${id}" ${deleteHxSel} ${deleteHxSwap} ${deleteHxTarget} ${deleteHxConfirm}>delete</button></a>`
 
-    const customActions = !official ? `${deleteAction}${editAction}` : ''
+    const customActions = !official
+      ? `<footer class="container grid" style="display: flex; justify-content: space-between">${deleteAction}${editAction}</footer>`
+      : ''
 
     const criesTr = cries
       ? `<tr><th>cries</th><td><audio controls controlslist="nodownload"><source src="${cries}" type="audio/ogg"></source><p>audio is not supported</p></audio></td></tr>`
@@ -251,7 +253,7 @@ export const hxGetPokemon = async (id, pokedexLink = false) => {
     pokedexLink = pokedexLink ? `&nbsp;<a href="/hx/pokedex/${id}">➔</a>` : ''
 
     const html =
-      `<article id="${articleID}"><h1>${name}${pokedexLink}</h1><img src="${sprite}" alt="${name}" /><table><tr><th>weight</th><td>${weight}</td></tr><tr><th>height</th><td>${height}</td></tr><tr><th>type</th><td>${types}</td></tr>${criesTr}</table>${customActions}</article>`
+      `<article id="${articleID}"><header><h1>${name}${pokedexLink}</h1></header><figure style="display: flex; justify-content: center;"><img style="width: 50%; max-width: 320px;" src="${sprite}" alt="${name}" /></figure><table><tr><th scope="row">weight</th><td>${weight}</td></tr><tr><th scope="row">height</th><td>${height}</td></tr><tr><th scope="row">type</th><td>${types}</td></tr>${criesTr}</table>${customActions}</article>`
 
     return {
       code,

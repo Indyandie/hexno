@@ -138,7 +138,7 @@ const htmlNewForm = (
 ) => {
   return `</main>
       <section class="pokelistmon container">
-        <h1> ${!edit ? 'New Pokemon' : 'Edit ' + pokemon.id} </h1>
+        <header><h1> ${!edit ? 'New Pokemon' : 'Edit ' + pokemon.id} </h1></header>
   ${
     edit
       ? '<figure><img style="width: 240px" src="' + pokemon.sprite + '" alt="' +
@@ -266,13 +266,13 @@ export async function htmlPageMain(query = false) {
     const pokeUlStyle =
       `style="display: flex; justify-content: space-between; flex-flow: row; flex-wrap: wrap;"`
     const pokeArticleStyle =
-      `style="display: flex; justify-content: center; align-items: center;"`
+      `style="width: 100%; height: 240px; display: flex; justify-content: center; align-items: center;"`
 
     const pokeList = pokemon.map(
       (
         poke,
       ) =>
-        `<li ${pokeLiStyle} id="pokemon-${poke.id}"><a href="/web/pokemon/${poke.id}" ><article ${pokeArticleStyle}><figure><img style="width: 100%;" src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></article></a></li>`,
+        `<li ${pokeLiStyle} id="pokemon-${poke.id}"><a href="/web/pokemon/${poke.id}" ><article ${pokeArticleStyle}><figure style="display: flex; flex-direction: column; align-items: center; justify-content: space-between;"><img style="height: 80%; width: 100%;" src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></article></a></li>`,
     )
     pokeList.unshift(
       `<article class="container-fluid"><ul ${pokeUlStyle} class="grid container" id="pokemon-results">`,
