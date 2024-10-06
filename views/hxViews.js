@@ -232,7 +232,7 @@ export const hxGetPokemon = async (id, pokedexLink = false) => {
     // edit
     const editHxSel = `hx-select="form"`
     const editAction =
-      `<a href="/web/edit-pokemon/${id}" method="GET"><button hx-get="/hx/pokemon/${id}/edit" ${editHxSel} ${hxSwap} ${hxTarget}>edit</button></a>`
+      `<a href="/web/edit-pokemon/${id} method="GET" hx-get="/hx/pokemon/${id}/edit" ${editHxSel} ${hxSwap} ${hxTarget}"><button>edit</button></a>`
 
     // delete
     const deleteHxSel = `hx-select="dialog"`
@@ -240,7 +240,7 @@ export const hxGetPokemon = async (id, pokedexLink = false) => {
     const deleteHxTarget = `hx-target="body"`
     const deleteHxConfirm = `hx-confirm="Delete ${name}?"`
     const deleteAction =
-      `<a href="/web/delete-pokemon/${id}" method="POST"><button  class="outline secondary" hx-delete="/hx/pokemon/${id}" ${deleteHxSel} ${deleteHxSwap} ${deleteHxTarget} ${deleteHxConfirm}>delete</button></a>`
+      `<a href="/web/delete-pokemon/${id}" hx-delete="/hx/pokemon/${id}" ${deleteHxSel} ${deleteHxSwap} ${deleteHxTarget} ${deleteHxConfirm} method="POST"><button class="outline secondary">delete</button></a>`
 
     const customActions = !official
       ? `<footer class="container grid" style="display: flex; justify-content: space-between">${deleteAction}${editAction}</footer>`
