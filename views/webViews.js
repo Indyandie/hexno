@@ -137,37 +137,66 @@ const htmlNewForm = (
   edit = false,
 ) => {
   return `</main>
-      <section class="pokelistmon">
+      <section class="pokelistmon container">
         <h1> ${!edit ? 'New Pokemon' : 'Edit ' + pokemon.id} </h1>
-  ${edit ? '<img src="' + pokemon.sprite + '" alt="${pokemon.name}" />' : ''}
+  ${
+    edit
+      ? '<figure><img style="width: 240px" src="' + pokemon.sprite + '" alt="' +
+        pokemon.name + '" /></figure><hr>'
+      : ''
+  }
         <form
           action="${
     !edit ? '/web/new-pokemon' : '/web/edit-pokemon/' + pokemon.id
   }"
           method="POST">
-          <div>
-            <label for="name">name</label>
-            <span>${prop && 'name' === prop ? message : ''}</span>
-            <br />
-            <input id="name" type="text" name="name" value="${pokemon.name}" required autocomplete="off"/>
-          </div>
-          <div>
-            <label for="weight">weight</label>
-            <span>${prop && 'weight' === prop ? message : ''}</span>
-            <br />
-            <input id="weight" type="number" name="weight" min="1" value="${pokemon.weight}" required />
-          </div>
-          <div>
-            <label for="height">height</label>
-            <span>${prop && 'height' === prop ? message : ''}</span>
-            <br />
-            <input id="height" type="number" name="height" min="1" value="${pokemon.height}" required />
-          </div>
-          <div>
-            <label for="types">types</label>
-            <span>${prop && 'types' === prop ? message : ''}</span>
-            <br />
-            <input id="types" type="text" name="types" list="pokemonmon-types" value="${pokemon.types}" required />
+          <label for="name">
+            name
+            <input
+              ${
+    prop && 'name' === prop
+      ? 'aria-invalid="true" aria-describedby="invalid-helper"'
+      : ''
+  }
+              id="name" type="text" name="name" value="${pokemon.name}" required autocomplete="off"
+            />
+            <small>${prop && 'name' === prop ? message : ''}</small>
+          </label>
+          <fieldset class="grid">
+            <label for="weight">
+              weight
+              <input
+                ${
+    prop && 'weight' === prop
+      ? 'aria-invalid="true" aria-describedby="invalid-helper"'
+      : ''
+  }
+                id="weight" type="number" name="weight" min="1" value="${pokemon.weight}" required />
+              <small>${prop && 'weight' === prop ? message : ''}</small>
+            </label>
+            <label for="height">
+              height
+              <input
+                ${
+    prop && 'height' === prop
+      ? 'aria-invalid="true" aria-describedby="invalid-helper"'
+      : ''
+  }
+                id="height" type="number" name="height" min="1" value="${pokemon.height}" required />
+              <small>${prop && 'height' === prop ? message : ''}</small>
+            </label>
+          </fieldset>
+          <label for="types">
+            types
+            <input
+              ${
+    prop && 'types' === prop
+      ? 'aria-invalid="true" aria-describedby="invalid-helper"'
+      : ''
+  }
+              id="types" type="text" name="types" list="pokemonmon-types" value="${pokemon.types}" required
+            />
+            <small>${prop && 'types' === prop ? message : ''}</small>
             <datalist id="pokemonmon-types">
               <option value="normal"></option>
               <option value="grass"></option>
@@ -175,13 +204,19 @@ const htmlNewForm = (
               <option value="fire"></option>
               <option value="rock"></option>
             </datalist>
-          </div>
-          <div>
-            <label for="sprite">sprite</label>
-            <span>${prop && 'sprite' === prop ? message : ''}</span>
-            <br />
-            <input id="sprite" type="url" name="sprite" value="${pokemon.sprite}" required />
-          </div>
+          </label>
+          <label for="sprite">
+            sprite
+            <input
+              ${
+    prop && 'sprite' === prop
+      ? 'aria-invalid="true" aria-describedby="invalid-helper"'
+      : ''
+  }
+              id="sprite" type="url" name="sprite" value="${pokemon.sprite}" required
+            />
+            <small>${prop && 'sprite' === prop ? message : ''}</small>
+          </label>
           <button type="submit">${
     !edit ? 'Create Pokemon' : 'Update Pokemon'
   }</button>
@@ -226,9 +261,12 @@ export async function htmlPageMain(query = false) {
   if (pokemon.length === 0) {
     results = `<p>No pokemon results for <b>${query}</b></p>`
   } else {
-    const pokeLiStyle = `style="width: 240px; list-style-type: none; margin: 0;"`
-    const pokeUlStyle = `style="display: flex; justify-content: space-between; flex-flow: row; flex-wrap: wrap;"`
-    const pokeArticleStyle = `style="display: flex; justify-content: center; align-items: center;"`
+    const pokeLiStyle =
+      `style="width: 240px; list-style-type: none; margin: 0;"`
+    const pokeUlStyle =
+      `style="display: flex; justify-content: space-between; flex-flow: row; flex-wrap: wrap;"`
+    const pokeArticleStyle =
+      `style="display: flex; justify-content: center; align-items: center;"`
 
     const pokeList = pokemon.map(
       (
@@ -236,7 +274,9 @@ export async function htmlPageMain(query = false) {
       ) =>
         `<li ${pokeLiStyle} id="pokemon-${poke.id}"><a href="/web/pokemon/${poke.id}" ><article ${pokeArticleStyle}><figure><img style="width: 100%;" src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></article></a></li>`,
     )
-    pokeList.unshift(`<article class="container-fluid"><ul ${pokeUlStyle} class="grid container" id="pokemon-results">`)
+    pokeList.unshift(
+      `<article class="container-fluid"><ul ${pokeUlStyle} class="grid container" id="pokemon-results">`,
+    )
     pokeList.push('</ul></article>')
 
     results = JSON.stringify(pokeList.join('')).replace(/\\"/g, '"').slice(
@@ -268,7 +308,7 @@ export async function htmlPokemon(id = false) {
     const title = pokemon.name
     const htmlReturn = await hxGetPokemon(id)
     const { html: article } = htmlReturn
-    const body = article
+    const body = `<main class="container">${article}</main>`
 
     const html = htmlTemplate(title, body)
 
