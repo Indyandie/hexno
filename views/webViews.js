@@ -29,11 +29,12 @@ function htmlTemplate(
         '\'" >'
   }
     <title>${title}</title>
+    <link rel="stylesheet" href="/public/css/pico.min.css" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>" />
   </head>
   <body>
-    <header>
-      <h1><a href="/web">Pokemon</a></h1>
+    <header class="container">
+      <h1><a href="/web">Pokemon (web 1.0)</a></h1>
     </header>
     ${body}
   </body>
@@ -225,14 +226,18 @@ export async function htmlPageMain(query = false) {
   if (pokemon.length === 0) {
     results = `<p>No pokemon results for <b>${query}</b></p>`
   } else {
+    const pokeLiStyle = `style="width: 240px; list-style-type: none; margin: 0;"`
+    const pokeUlStyle = `style="display: flex; justify-content: space-between; flex-flow: row; flex-wrap: wrap;"`
+    const pokeArticleStyle = `style="display: flex; justify-content: center; align-items: center;"`
+
     const pokeList = pokemon.map(
       (
         poke,
       ) =>
-        `<li style="display: inline; background: red;" id="pokemon-${poke.id}"><a href="/web/pokemon/${poke.id}" ><figure><img src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></a>`,
+        `<li ${pokeLiStyle} id="pokemon-${poke.id}"><a href="/web/pokemon/${poke.id}" ><article ${pokeArticleStyle}><figure><img style="width: 100%;" src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></article></a></li>`,
     )
-    pokeList.unshift('<ul id="pokemon-results">')
-    pokeList.push('</ul>')
+    pokeList.unshift(`<article class="container-fluid"><ul ${pokeUlStyle} class="grid container" id="pokemon-results">`)
+    pokeList.push('</ul></article>')
 
     results = JSON.stringify(pokeList.join('')).replace(/\\"/g, '"').slice(
       1,
@@ -240,12 +245,16 @@ export async function htmlPageMain(query = false) {
     )
   }
 
-  const form = `<form method="GET" action="/web">
-<input type="search" id="q" name="q" value="${query}">
-<button>Search</button>
+  const form = `<div class="container grid"
+style="display: flex; justify-content: space-between;"><form style="width; 70px;" method="GET" action="/web">
+<fieldset role="group">
+  <input type="search" id="q" name="q" value="${query}">
+  <button>Search</button>
+</fieldset>
 </form>
-<a href="/web/new-pokemon"><button>Create New Pokemon</button></a>
-`
+<a href="/web/new-pokemon"><button class="outline">Create pokemon</button></a>
+</div>`
+
   const html = form + results
 
   return htmlTemplate('Pokemon', html)
