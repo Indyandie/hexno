@@ -128,13 +128,16 @@ function htmlTemplate(
   }
     <title>${title}</title>
     <script src="/public/js/htmx.min.js"></script>
+    <link rel="stylesheet" href="/public/css/pico.min.css" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>" />
   </head>
   <body>
-    <header>
-      <h1><a href="/hx">Pokemon</a></h1>
+    <header class="container">
+      <h1><a href="/hx">Pokemon (htmx)</a></h1>
     </header>
-    ${body}
+    <main class="container-fluid">
+      ${body}
+    </main>
   </body>
 </html>`
 
