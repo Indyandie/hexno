@@ -11,8 +11,8 @@ import { htmlNotFound } from './webViews.js'
 
 // CSS
 const pokeLiStyle =
-  'style="margin: 0 0 32px 0; width: 240px; height: 240px; list-style-type: none;"'
-const pokeImgStyle = 'style="height: auto; width: 100%;"'
+  'style="cursor: pointer; margin: 0 0 32px 0; width: 240px; height: 240px; list-style-type: none;"'
+const pokeImgStyle = 'style="height: auto; width: 80%;"'
 
 const htmlNewForm = (
   pokemon,
@@ -20,69 +20,90 @@ const htmlNewForm = (
   message = false,
   edit = false,
 ) => {
-  const editHxSel = `hx-select="form, article"`
+  const editHxSel = `hx-select="article"`
   const hxSwap = `hx-swap="outerHTML"`
-  const hxTarget = `hx-target="form"`
+  const hxTarget = `hx-target="closest article"`
   const hx = `${hxTarget} ${hxSwap}`
 
-  return `<form
+  return `<article>
+  <header>
+    <h2> ${!edit ? 'New Pokemon' : 'Edit ' + pokemon.id} </h2>
+  </header>
+  <figure>
+    ${edit ? '<img style="max-height: 240px;" src="' + pokemon.sprite + '" alt="${name}" />' : ''}
+  </figure>
+  <hr>
+  <form
   ${
     !edit
       ? 'hx-put="/hx/pokemon"'
       : 'hx-patch="/hx/pokemon/' + pokemon.id + '"'
   } ${hx} ${editHxSel}
   >
-  <h1> ${!edit ? 'New Pokemon' : 'Edit ' + pokemon.id} </h1>
-  ${edit ? '<img src="' + pokemon.sprite + '" alt="${name}" />' : ''}
-  <div>
-    <label for="name">name</label>
-    <span>${prop && 'name' === prop ? message : ''}</span>
-    <br />
-    <input id="name" type="text" name="name" value="${
+    <label for="name">
+      name
+      <input
+        ${prop && 'name' === prop ? 'aria-invalid="true"' : ''}
+        id="name" type="text" name="name" value="${
     pokemon !== undefined ? pokemon.name : ''
-  }" required autocomplete="off"/>
-  </div>
-  <div>
-    <label for="weight">weight</label>
-    <span>${prop && 'weight' === prop ? message : ''}</span>
-    <br />
-    <input id="weight" type="number" name="weight" min="1" value="${
+  }" required autocomplete="off"
+      />
+      <small>${prop && 'name' === prop ? message : ''}</small>
+    </label>
+    <fieldset class="grid">
+      <label for="weight">
+        weight
+        <input
+          ${prop && 'weight' === prop ? 'aria-invalid="true"' : ''}
+          id="weight" type="number" name="weight" min="1" value="${
     pokemon !== undefined ? pokemon.weight : ''
-  }" required />
-  </div>
-  <div>
-    <label for="height">height</label>
-    <span>${prop && 'height' === prop ? message : ''}</span>
-    <br />
-    <input id="height" type="number" name="height" min="1" value="${
+  }" required
+        />
+        <small>${prop && 'weight' === prop ? message : ''}</small>
+      </label>
+      <label for="height">
+        height
+        <input
+          ${prop && 'height' === prop ? 'aria-invalid="true"' : ''}
+          id="height" type="number" name="height" min="1" value="${
     pokemon !== undefined ? pokemon.height : ''
-  }" required />
-  </div>
-  <div>
-    <label for="types">types</label>
-    <span>${prop && 'types' === prop ? message : ''}</span>
-    <br />
-    <input id="types" type="text" name="types" list="pokemonmon-types" value="${
+  }" required
+        />
+        <small>${prop && 'height' === prop ? message : ''}</small>
+      </label>
+    </fieldset>
+    <label for="types">
+      types
+      <input
+        ${prop && 'types' === prop ? 'aria-invalid="true"' : ''}
+        id="types" type="text" name="types" list="pokemonmon-types" value="${
     pokemon !== undefined ? pokemon.types : ''
-  }" required />
-    <datalist id="pokemonmon-types">
-      <option value="normal"></option>
-      <option value="grass"></option>
-      <option value="water"></option>
-      <option value="fire"></option>
-      <option value="rock"></option>
-    </datalist>
-  </div>
-  <div>
-    <label for="sprite">sprite</label>
-    <span>${prop && 'sprite' === prop ? message : ''}</span>
-    <br />
-    <input id="sprite" type="url" name="sprite" value="${
+  }" required
+      />
+      <small>${prop && 'types' === prop ? message : ''}</small>
+      <datalist id="pokemonmon-types">
+        <option value="normal"></option>
+        <option value="grass"></option>
+        <option value="water"></option>
+        <option value="fire"></option>
+        <option value="rock"></option>
+      </datalist>
+    </label>
+    <label for="sprite">
+      sprite
+      <input
+        ${prop && 'sprite' === prop ? 'aria-invalid="true"' : ''}
+        id="sprite" type="url" name="sprite" value="${
     pokemon !== undefined ? pokemon.sprite : ''
-  }" required />
-  </div>
-  <button type="submit">${!edit ? 'Create Pokemon' : 'Update Pokemon'}</button>
-</form>`
+  }" required
+      />
+      <small>${prop && 'sprite' === prop ? message : ''}</small>
+    </label>
+    <button type="submit">${
+    !edit ? 'Create Pokemon' : 'Update Pokemon'
+  }</button>
+  </form>
+</article>`
 }
 
 function htmlTemplate(
@@ -153,7 +174,7 @@ export const hxListPokemon = async (
         const hxGet =
           `hx-get="/hx/pokemon?offset=${offset}&limit=${limit}&paging=infinite"`
         loadMoreBtn =
-          `<li ${pokeLiStyle} hx-trigger="revealed delay:1s" ${hxGet} ${hxSel} ${hxSwap}><div style="margin: auto; height: 100%; text-align: center; line-height: 240px;">Loading more...</div></li>`
+          `<li ${pokeLiStyle} hx-trigger="revealed delay:1s" ${hxGet} ${hxSel} ${hxSwap}><div style="margin: auto; height: 100%; text-align: center; line-height: 240px;" aria-busy="true">Loading more...</div></li>`
       }
     }
   } else {
@@ -176,7 +197,8 @@ export const hxListPokemon = async (
         const hxSwap = `hx-swap="innerHTML"`
         const hxTarget = `hx-target="this"`
         const hx = `${hxGet} ${hxTrigger} ${hxSel} ${hxTarget} ${hxSwap}`
-        const articleHx = `<article></article>`
+        const articleHx =
+          `<article style="display: flex; align-items: center; justify-content: center; min-height: 50vh; height: 100%;" aria-busy="true">loading...</article>`
 
         const btnId = `show-dialog-${name}`
         const pokeUTID = `${name}${now}`
@@ -186,13 +208,13 @@ export const hxListPokemon = async (
         const pokeFigure =
           `<figure><img src="${sprite}" alt="${name}" ${pokeImgStyle} /><figcaption>${name}</figcaption></figure>`
         const pokeDialog =
-          `<dialog id="${dialogId}" ${hx}>${articleHx}<button autofocus>Close</button></dialog>`
+          `<dialog id="${dialogId}" ${hx}>${articleHx}</dialog>`
 
         // javascript
         const pokeScript =
           `<script>const ${dialogId} = document.querySelector("#${dialogId}");const ${pokeUTID}ShowButton = document.querySelector("#${btnId}");const ${pokeUTID}CloseButton = document.querySelector("#${dialogId} button");${pokeUTID}ShowButton.addEventListener("click", () => {${dialogId}.showModal();});${pokeUTID}CloseButton.addEventListener("click", () => {${dialogId}.close();});</script>`
 
-        return `<li id="pokemon-${id}-list" class="poke-${id}" ${pokeLiStyle}><button style="width: 100%; height: 100%;" id="${btnId}">${pokeFigure}</button>${pokeDialog}${pokeScript}</li>`
+        return `<li id="pokemon-${id}-list" class="poke-${id}" ${pokeLiStyle}><button class="outline secondary" style="display: flex; flex-direction: column; flex; justify-content: flex-end; align-items: center; gap: 16px; overflow: hidden; width: 100%; height: 100%;" id="${btnId}">${pokeFigure}</button>${pokeDialog}${pokeScript}</li>`
       },
     )
 
@@ -200,7 +222,7 @@ export const hxListPokemon = async (
       'style="width: 100%; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; width: 100%; padding: 0;"'
 
     html.unshift(
-      `<ul ${pokeUlStyle} id="pokemon-results">`,
+      `<ul class="container-fluid" ${pokeUlStyle} id="pokemon-results">`,
     )
     html.push(loadMoreBtn)
     html.push('</ul>')
@@ -230,7 +252,7 @@ export const hxGetPokemon = async (id, pokedexLink = false) => {
     const hxTarget = `hx-target="#${articleID}"`
 
     // edit
-    const editHxSel = `hx-select="form"`
+    const editHxSel = `hx-select="article"`
     const editAction =
       `<a href="/web/edit-pokemon/${id} method="GET" hx-get="/hx/pokemon/${id}/edit" ${editHxSel} ${hxSwap} ${hxTarget}"><button>edit</button></a>`
 
@@ -360,7 +382,7 @@ export const hxDeletePokemon = async (pokemonId) => {
     const deletedPokemon = await JSON.stringify(pokemon, null, '<br>')
 
     const message = `<p><strong>${name} (${id}) has been deleted</strong><p>`
-    const object = `<code>${deletedPokemon}</code>`
+    const object = `<pre><code>${deletedPokemon}</code></pre>`
     const closeButton = `<form method="dialog"><button>close</button></form>`
     const dialogId = `delete-notification-${id + name}`
     const script = `<script>
@@ -376,7 +398,7 @@ export const hxDeletePokemon = async (pokemonId) => {
 </script>`
 
     const html =
-      `<dialog open id="${dialogId}" style="position: fixed; top: 0;">${message}${object}${script}${closeButton}</dialog>`
+      `<dialog open id="${dialogId}" style="position: fixed; top: 0;"><article>${message}${object}${script}${closeButton}</article></dialog>`
 
     return {
       code,
