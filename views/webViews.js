@@ -138,7 +138,9 @@ const htmlNewForm = (
 ) => {
   return `</main>
       <section class="pokelistmon container">
-        <header><h1> ${!edit ? 'New Pokemon' : 'Edit ' + pokemon.id} </h1></header>
+        <header><h1> ${
+    !edit ? 'New Pokemon' : 'Edit ' + pokemon.id
+  } </h1></header>
   ${
     edit
       ? '<figure><img style="width: 240px" src="' + pokemon.sprite + '" alt="' +
