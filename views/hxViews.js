@@ -257,7 +257,7 @@ export const hxGetPokemon = async (id, pokedexLink = false) => {
     // edit
     const editHxSel = `hx-select="article"`
     const editAction =
-      `<a href="/web/edit-pokemon/${id} method="GET" hx-get="/hx/pokemon/${id}/edit" ${editHxSel} ${hxSwap} ${hxTarget}"><button>edit</button></a>`
+      `<a href="/web/edit-pokemon/${id}" hx-get="/hx/pokemon/${id}/edit" ${editHxSel} ${hxSwap} ${hxTarget}"><button>edit</button></a>`
 
     // delete
     const deleteHxSel = `hx-select="dialog"`
