@@ -265,10 +265,10 @@ export const hxGetPokemon = async (id, pokedexLink = false) => {
     const deleteHxTarget = `hx-target="body"`
     const deleteHxConfirm = `hx-confirm="Delete ${name}?"`
     const deleteAction =
-      `<a href="/web/delete-pokemon/${id}" hx-delete="/hx/pokemon/${id}" ${deleteHxSel} ${deleteHxSwap} ${deleteHxTarget} ${deleteHxConfirm} method="POST"><button class="outline secondary">delete</button></a>`
+      `<a hx-delete="/hx/pokemon/${id}" ${deleteHxSel} ${deleteHxSwap} ${deleteHxTarget} ${deleteHxConfirm} ><button form="delete-pokemon" formaction="/web/delete-pokemon/${id}" formmethod="POST" class="outline secondary">delete</button></a>`
 
     const customActions = !official
-      ? `<footer class="container grid" style="display: flex; justify-content: space-between">${deleteAction}${editAction}</footer>`
+      ? `<footer class="container grid" style="display: flex; justify-content: space-between">${deleteAction}${editAction}</footer><form style="display: none;" id="delete-pokemon"></form>`
       : ''
 
     const criesTr = cries
