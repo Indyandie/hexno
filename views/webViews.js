@@ -35,11 +35,19 @@ function htmlTemplate(
   </head>
   <body>
 
-    ${ defaultHeader ? `<header class="container">
-      <h1>
-        <strong><a href="/">Pokemon</a></strong>
-        <small><a href="/web">(web)</a></small>
+    ${ defaultHeader ? `<header
+      class="container"
+      style="display: flex; justify-content: space-between"
+    >
+      <h1 style="margin-right: auto">
+        <strong><a href="/web">Pokemon</a></strong>
       </h1>
+      <nav>
+        <ul>
+          <li><a href="/hx">htmx version</a></li>
+          <li><a href="/" class="secondary">home</a></li>
+        </ul>
+      </nav>
       <hr />
     </header>` : ''}
 

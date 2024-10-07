@@ -132,8 +132,20 @@ function htmlTemplate(
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>" />
   </head>
   <body>
-    <header class="container">
-      <h1><a href="/hx">Pokemon (htmx)</a></h1>
+    <header
+      class="container"
+      style="display: flex; justify-content: space-between"
+    >
+      <h1 style="margin-right: auto">
+        <strong><a href="/hx">Pokemon</a></strong>
+      </h1>
+      <nav>
+        <ul>
+          <li><a href="/web">web version</a></li>
+          <li><a href="/" class="secondary">home</a></li>
+        </ul>
+      </nav>
+      <hr />
     </header>
     <main class="container-fluid">
       ${body}
