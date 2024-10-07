@@ -10,20 +10,25 @@
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>"
     />
     <script src="/public/js/htmx.min.js"></script>
+    <link rel="stylesheet" href="/public/css/pico.min.css" />
   </head>
 
   <body>
-    <main>
-      <header>
-        <h1>Pokemon</h1>
-      </header>
-      <section>
-        <h2>Versions</h2>
-        <ul>
-          <li><a href="/web">Web 1.0</a></li>
-          <li><a href="/hx">htmx</a></li>
-        </ul>
-      </section>
+    <header class="container">
+      <h1><strong>HTMX</strong> <span>Example</span></h1>
+      <hr />
+    </header>
+    <main class="container-fluid grid">
+      <article>
+        <h2>Web 1.0</h2>
+        <p>Basic POST/GET API.</p>
+        <a href="/web">View implementation</a>
+      </article>
+      <article>
+        <h2>htmx</h2>
+        <p>A htmx CRUD API that returns HTML fragments.</p>
+        <a href="/hx">View implementation</a>
+      </article>
     </main>
   </body>
 </html>
