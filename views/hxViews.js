@@ -30,7 +30,12 @@ const htmlNewForm = (
     <h2> ${!edit ? 'New Pokemon' : 'Edit ' + pokemon.id} </h2>
   </header>
   <figure>
-    ${edit ? '<img style="max-height: 240px;" src="' + pokemon.sprite + '" alt="${name}" />' : ''}
+    ${
+    edit
+      ? '<img style="max-height: 240px;" src="' + pokemon.sprite +
+        '" alt="${name}" />'
+      : ''
+  }
   </figure>
   <hr>
   <form
@@ -394,7 +399,7 @@ export const hxDeletePokemon = async (pokemonId) => {
 
   if (code === 200) {
     const { id, name } = pokemon
-    const deletedPokemon = await JSON.stringify(pokemon, null, '<br>')
+    const deletedPokemon = await JSON.stringify(pokemon, null, '\n')
 
     const message = `<p><strong>${name} (${id}) has been deleted</strong><p>`
     const object = `<pre><code>${deletedPokemon}</code></pre>`
@@ -420,7 +425,7 @@ export const hxDeletePokemon = async (pokemonId) => {
       html,
     }
   } else {
-    const html = `<code>${error}: ${message}</code><br><br>`
+    const html = `<pre><code>${error}: ${message}</code></pre><br><br>`
     console.log(html)
 
     return { code, html }
