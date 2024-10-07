@@ -277,10 +277,10 @@ export const hxGetPokemon = async (id, pokedexLink = false) => {
     const deleteHxTarget = `hx-target="body"`
     const deleteHxConfirm = `hx-confirm="Delete ${name}?"`
     const deleteAction =
-      `<a hx-delete="/hx/pokemon/${id}" ${deleteHxSel} ${deleteHxSwap} ${deleteHxTarget} ${deleteHxConfirm} ><button form="delete-pokemon" formaction="/web/delete-pokemon/${id}" formmethod="POST" class="outline secondary">delete</button></a>`
+      `<button hx-delete="/hx/pokemon/${id}" ${deleteHxSel} ${deleteHxSwap} ${deleteHxTarget} ${deleteHxConfirm} form="delete-pokemon" formaction="/web/delete-pokemon/${id}" formmethod="POST" class="outline secondary">delete</button>`
 
     const customActions = !official
-      ? `<footer class="container grid" style="display: flex; justify-content: space-between">${deleteAction}${editAction}</footer><form style="display: none;" id="delete-pokemon"></form>`
+      ? `<footer class="container grid" style="display: flex; justify-content: space-between">${deleteAction}${editAction}</footer><form style="display: none;" id="delete-pokemon"><script>htmx.remove("#delete-pokemon")</script></form>`
       : ''
 
     const criesTr = cries
@@ -413,7 +413,7 @@ export const hxDeletePokemon = async (pokemonId) => {
 </script>`
 
     const html =
-      `<dialog open id="${dialogId}" style="position: fixed; top: 0;"><article>${message}${object}${script}${closeButton}</article></dialog>`
+      `<dialog hx-get="/hx" hx-trigger="revealed" hx-target="main" hx-select="main" hx-push-url="/hx" open id="${dialogId}" style="position: fixed; top: 0;"><article>${message}${object}${script}${closeButton}</article></dialog>`
 
     return {
       code,
