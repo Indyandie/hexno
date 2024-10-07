@@ -22,11 +22,6 @@ const home = (req) => {
 }
 router.get('/', home)
 
-const poke = (req) => {
-  return srvFl(req, './public/pokemon/index.html')
-}
-router.get('/pokemon/:id', poke)
-
 // web
 
 const webNewPokemon = (req) => {
