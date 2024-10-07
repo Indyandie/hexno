@@ -34,9 +34,15 @@ function htmlTemplate(
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>" />
   </head>
   <body>
-    <header class="container">
-      <h1><a href="/web">Pokemon (web 1.0)</a></h1>
-    </header>
+
+    ${ defaultHeader ? `<header class="container">
+      <h1>
+        <strong><a href="/">Pokemon</a></strong>
+        <small><a href="/web">(web)</a></small>
+      </h1>
+      <hr />
+    </header>` : ''}
+
     ${body}
   </body>
 </html>`
