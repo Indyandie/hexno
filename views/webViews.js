@@ -14,6 +14,7 @@ function htmlTemplate(
   meta = null,
   redirect = null,
   delay = 0,
+  defaultHeader= true
 ) {
   const html = `<!doctype html>
 <html lang="en" dir="auto">
@@ -139,11 +140,10 @@ const htmlNewForm = (
   message = false,
   edit = false,
 ) => {
-  return `</main>
-      <section class="pokelistmon container">
-        <header><h1> ${
+  return `<header class="container" style="position: sticky; top: 0"><h1> ${
     !edit ? 'New Pokemon' : 'Edit ' + pokemon.id
-  } </h1></header>
+  } </h1></header><main class="container">
+
   ${
     edit
       ? '<figure><img style="width: 240px" src="' + pokemon.sprite + '" alt="' +
@@ -222,11 +222,16 @@ const htmlNewForm = (
             />
             <small>${prop && 'sprite' === prop ? message : ''}</small>
           </label>
-          <button type="submit">${
-    !edit ? 'Create Pokemon' : 'Update Pokemon'
-  }</button>
+
+          <footer class="grid">
+            <a href="/web">
+              <button type="button" class="outline secondary">Cancel</button>
+            </a>
+            <button type="submit">${
+      !edit ? 'Create Pokemon' : 'Update Pokemon'
+    }</button>
+          </footer>
         </form>
-      </section>
     </main>`
 }
 
@@ -250,7 +255,7 @@ export async function htmlNewPokemonPost(pokemonObj = false) {
   } else {
     const title = '<title>New Pokemon</title>'
     const body = htmlNewForm(pokemonObj, prop, message)
-    const html = htmlTemplate(title, body)
+    const html = htmlTemplate(title, body, null, null, null, false)
 
     return {
       code,
@@ -332,7 +337,7 @@ export async function htmlPokemon(id = false) {
 const htmlEditForm = (pokemon, prop = false, message = false) => {
   const title = 'Edit ' + pokemon.id
   const body = htmlNewForm(pokemon, prop, message, true)
-  const html = htmlTemplate(title, body)
+  const html = htmlTemplate(title, body, null, null, null, false)
 
   return html
 }
