@@ -30,9 +30,9 @@
       <hr />
     </header>
     <main>
-      <div>
+      <div class="container-fluid">
         <div
-          class="container-fluid grid"
+          class="grid"
           style="
             display: flex;
             justify-content: space-between;
@@ -51,13 +51,14 @@
             hx-vals
           />
           <button
-            style="min-width: 220px"
+            style="min-width: auto"
             id="show-dialog-new-pokemon"
+            class="outline"
             hx-get="/hx/pokemon/new"
             hx-target="#new-pokemon-dialog"
             hx-trigger="intersect, click"
           >
-            New&nbsp;Pokemon
+            Create&nbsp;Pokemon
           </button>
         </div>
         <dialog id="new-pokemon-dialog">

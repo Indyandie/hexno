@@ -14,7 +14,7 @@ function htmlTemplate(
   meta = null,
   redirect = null,
   delay = 0,
-  defaultHeader= true
+  defaultHeader = true,
 ) {
   const html = `<!doctype html>
 <html lang="en" dir="auto">
@@ -35,7 +35,9 @@ function htmlTemplate(
   </head>
   <body>
 
-    ${ defaultHeader ? `<header
+    ${
+    defaultHeader
+      ? `<header
       class="container"
       style="display: flex; justify-content: space-between"
     >
@@ -49,7 +51,9 @@ function htmlTemplate(
         </ul>
       </nav>
       <hr />
-    </header>` : ''}
+    </header>`
+      : ''
+  }
 
     ${body}
   </body>
@@ -242,8 +246,8 @@ const htmlNewForm = (
               <button type="button" class="outline secondary">Cancel</button>
             </a>
             <button type="submit">${
-      !edit ? 'Create Pokemon' : 'Update Pokemon'
-    }</button>
+    !edit ? 'Create Pokemon' : 'Update Pokemon'
+  }</button>
           </footer>
         </form>
     </main>`
@@ -288,7 +292,7 @@ export async function htmlPageMain(query = false) {
     const pokeLiStyle =
       `style="width: 240px; list-style-type: none; margin: 0;"`
     const pokeUlStyle =
-      `style="display: flex; justify-content: space-between; flex-flow: row; flex-wrap: wrap;"`
+      `style="display: flex; justify-content: space-between; flex-flow: row; flex-wrap: wrap; padding: 0;"`
     const pokeArticleStyle =
       `style="width: 100%; height: 240px; display: flex; justify-content: center; align-items: center;"`
 
@@ -299,7 +303,7 @@ export async function htmlPageMain(query = false) {
         `<li ${pokeLiStyle} id="pokemon-${poke.id}"><a href="/web/pokemon/${poke.id}" ><article ${pokeArticleStyle}><figure style="display: flex; flex-direction: column; align-items: center; justify-content: space-between;"><img style="height: 80%; width: 100%;" src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></article></a></li>`,
     )
     pokeList.unshift(
-      `<article class="container-fluid"><ul ${pokeUlStyle} class="grid container" id="pokemon-results">`,
+      `<article class="container-fluid"><ul ${pokeUlStyle} class="grid" id="pokemon-results">`,
     )
     pokeList.push('</ul></article>')
 
@@ -309,17 +313,17 @@ export async function htmlPageMain(query = false) {
     )
   }
 
-  const form = `<div class="container grid"
-style="display: flex; justify-content: space-between;"><form style="width; 70px;" method="GET" action="/web">
+  const form = `<div class="container-fluid grid"
+style="display: flex; justify-content: space-between;"><form  method="GET" action="/web">
 <fieldset role="group">
-  <input type="search" id="q" name="q" value="${query}">
-  <button>Search</button>
+  <input type="search" id="q" name="q" value="${query}" placeholder="Search pokemon..." />
+  <input type="submit" value="search" />
 </fieldset>
 </form>
-<a href="/web/new-pokemon"><button class="outline">Create pokemon</button></a>
+<form class="conditional" action="/web/new-pokemon"><button style="min-width: auto;" class="outline">Create pokemon</button></form>
 </div>`
 
-  const html = form + results
+  const html = '<main>' + form + results + '</main>'
 
   return htmlTemplate('Pokemon', html)
 }
