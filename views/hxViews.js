@@ -26,8 +26,9 @@ const htmlNewForm = (
   const hx = `${hxTarget} ${hxSwap}`
 
   return `<article>
-  <header>
+  <header style="display: flex; justify-content: space-between; align-items: center;">
     <h2> ${!edit ? 'New Pokemon' : 'Edit ' + pokemon.id} </h2>
+    <form class="hide-dialog" method="dialog"><button onclick="closeModalUtils()" aria-label="Close" rel="prev"></button></form>
   </header>
   <figure>
     ${
@@ -135,6 +136,11 @@ function htmlTemplate(
     <script src="/public/js/htmx.min.js"></script>
     <link rel="stylesheet" href="/public/css/pico.min.css" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>" />
+    <style>
+      .hide-dialog {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <header
@@ -292,10 +298,14 @@ export const hxGetPokemon = async (id, pokedexLink = false) => {
       ? `<tr><th>cries</th><td><audio controls controlslist="nodownload"><source src="${cries}" type="audio/ogg"></source><p>audio is not supported</p></audio></td></tr>`
       : ''
 
-    pokedexLink = pokedexLink ? `&nbsp;<a href="/hx/pokedex/${id}">➔</a>` : ''
+    pokedexLink = pokedexLink
+      ? `&nbsp;<a href="/hx/pokedex/${id}">➔</a>`
+      : ''
+    const closeButton =
+      `<form class="hide-dialog" method="dialog"><button onclick="closeModalUtils()" aria-label="Close" rel="prev"></button></form>`
 
     const html =
-      `<article id="${articleID}"><header><h1>${name}${pokedexLink}</h1></header><figure style="display: flex; justify-content: center;"><img style="width: 50%; max-width: 320px;" src="${sprite}" alt="${name}" /></figure><table><tr><th scope="row">weight</th><td>${weight}</td></tr><tr><th scope="row">height</th><td>${height}</td></tr><tr><th scope="row">type</th><td>${types}</td></tr>${criesTr}</table>${customActions}</article>`
+      `<article id="${articleID}"><header style="display: flex; justify-content: space-between; align-items: center;"><h1>${name}${pokedexLink}</h1>${closeButton}</header><figure style="display: flex; justify-content: center;"><img style="width: 50%; max-width: 320px;" src="${sprite}" alt="${name}" /></figure><table><tr><th scope="row">weight</th><td>${weight}</td></tr><tr><th scope="row">height</th><td>${height}</td></tr><tr><th scope="row">type</th><td>${types}</td></tr>${criesTr}</table>${customActions}</article>`
 
     return {
       code,
