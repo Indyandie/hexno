@@ -313,14 +313,14 @@ export async function htmlPageMain(query = false) {
     )
   }
 
-  const form = `<div class="container-fluid grid"
-style="display: flex; justify-content: space-between;"><form  method="GET" action="/web">
+  const form = `<div class="container-fluid"
+style="display: flex; justify-content: space-between; gap: 32px;"><form  method="GET" action="/web" role="search">
 <fieldset role="group">
   <input type="search" id="q" name="q" value="${query}" placeholder="Search pokemon..." />
   <input type="submit" value="search" />
 </fieldset>
 </form>
-<form class="conditional" action="/web/new-pokemon"><button style="min-width: auto;" class="outline">Create pokemon</button></form>
+<form action="/web/new-pokemon"><button style="" class="outline">Create&nbsp;pokemon</button></form>
 </div>`
 
   const html = '<main>' + form + results + '</main>'
