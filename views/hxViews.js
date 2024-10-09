@@ -25,8 +25,8 @@ const htmlNewForm = (
   const hxTarget = `hx-target="closest article"`
   const hx = `${hxTarget} ${hxSwap}`
 
-  return `<article>
-  <header style="display: flex; justify-content: space-between; align-items: center;">
+  return `<article style="padding-top: 0;">
+  <header style="position: sticky; top: 0; display: flex; justify-content: space-between; align-items: center;">
     <h2> ${!edit ? 'New Pokemon' : 'Edit ' + pokemon.id} </h2>
     <form class="hide-dialog" method="dialog"><button onclick="closeModalUtils()" aria-label="Close" rel="prev"></button></form>
   </header>
@@ -298,9 +298,7 @@ export const hxGetPokemon = async (id, pokedexLink = false) => {
       ? `<tr><th>cries</th><td><audio controls controlslist="nodownload"><source src="${cries}" type="audio/ogg"></source><p>audio is not supported</p></audio></td></tr>`
       : ''
 
-    pokedexLink = pokedexLink
-      ? `&nbsp;<a href="/hx/pokedex/${id}">➔</a>`
-      : ''
+    pokedexLink = pokedexLink ? `&nbsp;<a href="/hx/pokedex/${id}">➔</a>` : ''
     const closeButton =
       `<form class="hide-dialog" method="dialog"><button onclick="closeModalUtils()" aria-label="Close" rel="prev"></button></form>`
 
