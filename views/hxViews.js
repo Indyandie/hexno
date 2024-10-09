@@ -232,7 +232,7 @@ export const hxListPokemon = async (
 
         // javascript
         const pokeScript =
-          `<script>const ${dialogId} = document.querySelector("#${dialogId}");const ${pokeUTID}ShowButton = document.querySelector("#${btnId}");const ${pokeUTID}CloseButton = document.querySelector("#${dialogId} button");${pokeUTID}ShowButton.addEventListener("click", () => {${dialogId}.showModal();});${pokeUTID}CloseButton.addEventListener("click", () => {${dialogId}.close();});</script>`
+          `<script>const ${dialogId} = document.querySelector("#${dialogId}");const ${pokeUTID}ShowButton = document.querySelector("#${btnId}");const ${pokeUTID}CloseButton = document.querySelector("#${dialogId} button");${pokeUTID}ShowButton.addEventListener("click", () => {openModalUtils(${dialogId});${dialogId}.showModal();});${pokeUTID}CloseButton.addEventListener("click", () => {${dialogId}.close();});</script>`
 
         return `<li id="pokemon-${id}-list" class="poke-${id}" ${pokeLiStyle}><button class="outline secondary" style="display: flex; flex-direction: column; flex; justify-content: flex-end; align-items: center; gap: 16px; overflow: hidden; width: 100%; height: 100%;" id="${btnId}">${pokeFigure}</button>${pokeDialog}${pokeScript}</li>`
       },
