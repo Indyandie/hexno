@@ -321,7 +321,7 @@ export async function htmlPageMain(query = false) {
   const form = `<div class="container-fluid"
 style="display: flex; justify-content: space-between; gap: 32px;"><form  method="GET" action="/web" role="search">
 <fieldset role="group">
-  <input type="search" aria-label="search" id="q" name="q" value="${query}" placeholder="Search pokemon..." />
+  <input type="search" autocomplete="off" aria-label="search" id="q" name="q" value="${query}" placeholder="Search pokemon..." />
   <input type="submit" value="search" />
 </fieldset>
 </form>
