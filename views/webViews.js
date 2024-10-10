@@ -318,8 +318,16 @@ export async function htmlPageMain(query = false) {
     )
   }
 
-  const form = `<div class="container-fluid"
-style="display: flex; justify-content: space-between; gap: 32px;"><form  method="GET" action="/web" role="search">
+  const form = `<div
+  class="container-fluid"
+  style="display: flex;
+    justify-content: space-between;
+    gap: 32px;
+    position: sticky;
+    top: 0;
+    background: var(--pico-background-color);"
+  >
+  <form  method="GET" action="/web" role="search">
 <fieldset role="group">
   <input type="search" autocomplete="off" aria-label="search" id="q" name="q" value="${query}" placeholder="Search pokemon..." />
   <input type="submit" value="search" />
