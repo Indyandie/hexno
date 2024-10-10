@@ -292,7 +292,7 @@ export async function htmlPageMain(query = false) {
 
   let results = ''
   if (pokemon.length === 0) {
-    results = `<p>No pokemon results for <b>${query}</b></p>`
+    results = `<p style="text-align: center; padding: 64px;">No pokemon results for <b>${query}</b></p>`
   } else {
     const pokeLiStyle =
       `style="width: 240px; list-style-type: none; margin: 0;"`

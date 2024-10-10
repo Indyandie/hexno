@@ -208,7 +208,7 @@ export const hxListPokemon = async (
   }
 
   if (query && pokemon < 1) {
-    return `<p id="pokemon-results">No pokemon results for <b>${query}</b></p>`
+    return `<p id="pokemon-results" style="text-align: center; padding: 64px;">No pokemon results for <b>${query}</b></p>`
   } else {
     const html = pokemon.map(
       (
