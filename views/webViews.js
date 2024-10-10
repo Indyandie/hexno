@@ -266,9 +266,9 @@ export async function htmlNewPokemonPost(pokemonObj = false) {
     const title = `New: ${pokemon.name} [${pokemon.id}]`
     const redirectUrl = `/web/pokemon/${pokemon.id}`
     const body = `<main>
-      <code>
-        ${JSON.stringify(pokemon, null, '<br>')}
-      </code>`
+      <pre><code>
+        ${JSON.stringify(pokemon, null, 2)}
+      </code></pre>`
     const html = htmlRedirect(title, body, 0, redirectUrl)
 
     return {

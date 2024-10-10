@@ -407,7 +407,7 @@ export const hxDeletePokemon = async (pokemonId) => {
 
   if (code === 200) {
     const { id, name } = pokemon
-    const deletedPokemon = await JSON.stringify(pokemon, null, '\n')
+    const deletedPokemon = await JSON.stringify(pokemon, null, 2)
 
     const message = `<p><strong>${name} (${id}) has been deleted</strong><p>`
     const object = `<pre><code>${deletedPokemon}</code></pre>`
