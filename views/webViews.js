@@ -43,7 +43,7 @@ function htmlTemplate(
     ${
     defaultHeader
       ? `<header
-      class="container"
+      class="container-fluid"
       style="display: flex; justify-content: space-between"
     >
       <h1 style="margin-right: auto">
