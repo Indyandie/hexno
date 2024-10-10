@@ -123,7 +123,6 @@
         </div>
         <dialog id="new-pokemon-dialog">
           <article></article>
-          <div></div>
         </dialog>
         <script>
           const newPokemonDialog = document.querySelector(
@@ -133,7 +132,7 @@
             "#show-dialog-new-pokemon",
           );
           showNewPokemonButton.addEventListener("click", () => {
-            openModalUtils(newPokemonDialog);
+            openModalUtils();
             newPokemonDialog.showModal();
           });
         </script>

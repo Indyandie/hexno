@@ -238,7 +238,7 @@ export const hxListPokemon = async (
 
         // javascript
         const pokeScript =
-          `<script>const ${dialogId} = document.querySelector("#${dialogId}");const ${pokeUTID}ShowButton = document.querySelector("#${btnId}");const ${pokeUTID}CloseButton = document.querySelector("#${dialogId} button");${pokeUTID}ShowButton.addEventListener("click", () => {openModalUtils(${dialogId});${dialogId}.showModal();});${pokeUTID}CloseButton.addEventListener("click", () => {${dialogId}.close();});</script>`
+          `<script>const ${dialogId} = document.querySelector("#${dialogId}");const ${pokeUTID}ShowButton = document.querySelector("#${btnId}");${pokeUTID}ShowButton.addEventListener("click", () => {openModalUtils();${dialogId}.showModal();});</script>`
 
         return `<li id="pokemon-${id}-list" class="poke-${id}" ${pokeLiStyle}><button class="outline secondary" style="display: flex; flex-direction: column; flex; justify-content: flex-end; align-items: center; gap: 16px; overflow: hidden; width: 100%; height: 100%;" id="${btnId}">${pokeFigure}</button>${pokeDialog}${pokeScript}</li>`
       },
@@ -417,8 +417,10 @@ export const hxDeletePokemon = async (pokemonId) => {
     const rmPoke${id} = document.querySelectorAll(".poke-${id}")
     rmPoke${id}.forEach(el => el.remove())
     const rmNotification${id + name} = document.querySelector("#${dialogId}")
+
     setTimeout(() => {
       rmNotification${id + name}.close()
+      closeModalUtils()
       setTimeout(() => {
         rmNotification${id + name}.remove()
       }, 1000)
@@ -426,7 +428,7 @@ export const hxDeletePokemon = async (pokemonId) => {
 </script>`
 
     const html =
-      `<dialog hx-get="/hx" hx-trigger="revealed" hx-target="main" hx-select="main" hx-push-url="/hx" open id="${dialogId}" style="position: fixed; top: 0;"><article>${message}${object}${script}${closeButton}</article></dialog>`
+      `<dialog open id="${dialogId}" style="position: fixed; top: 0;"><article>${message}${object}${script}${closeButton}</article></dialog>`
 
     return {
       code,
