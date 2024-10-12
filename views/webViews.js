@@ -146,10 +146,16 @@ export const htmlNotFound = (response = false, delay = 0, redirect = false) => {
     <main class="container">
       <dialog open>
         <article>
-          <h1>Page not found</h1>
+          <header>
+            <h1>Page not found</h1>
+          </header>
           <p>These are not the pokemon you're looking for...</p>
-          ${!response ? '' : '<code>' + response + '</code>'}
-          <a href='/'>Main page</a>
+          ${!response ? '' : '<pre><code>' + response + '</code></pre>'}
+          <footer>
+            <a style="margin-right: auto;" href='/'>
+              <button>Main page</button>
+            </a>
+          </footer>
         </article>
       <dialog>
     </main>
