@@ -11,6 +11,7 @@ import {
   hxPokedexCtrl,
   hxUpdatePokemonCtrl,
   listPokemonCtrl,
+  notFoundCtrl,
   updatePokemonCtrl,
   webDeletePokemonCtrl,
   webEditPokemonCtrl,
@@ -129,5 +130,12 @@ export const hxPokedexRtr = {
   GET: {
     route: '/hx/pokedex/:id',
     handler: hxPokedexCtrl,
+  },
+}
+
+export const notFoundRtr = {
+  GET: {
+    route: '*',
+    handler: notFoundCtrl,
   },
 }

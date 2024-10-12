@@ -5,6 +5,7 @@ import {
   hxListPokemonRtr,
   hxPokedexRtr,
   hxPokemonRtr,
+  notFoundRtr,
   webDeleletePokemonRtr,
   webEditPokemonRtr,
   webMainPokemonRtr,
@@ -64,3 +65,6 @@ router.patch(hxPokemonRtr.PATCH.route, hxPokemonRtr.PATCH.handler)
 router.delete(hxPokemonRtr.DELETE.route, hxPokemonRtr.DELETE.handler)
 
 router.get(hxPokedexRtr.GET.route, hxPokedexRtr.GET.handler)
+
+// 404
+router.get(notFoundRtr.GET.route, notFoundRtr.GET.handler)

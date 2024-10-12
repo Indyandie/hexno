@@ -10,6 +10,7 @@ import {
   htmlDeletePokemonPost,
   htmlEditPokemon,
   htmlNewPokemonPost,
+  htmlNotFound,
   htmlPageMain,
   htmlPokemon,
 } from '../views/webViews.js'
@@ -30,6 +31,19 @@ const status404 = new Response(
     statusText: 'Not Found',
   },
 )
+
+export const notFoundCtrl = (_req) => {
+  return new Response(
+    htmlNotFound(),
+    {
+      status: 404,
+      statusText: 'Not Found',
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+      },
+    },
+  )
+}
 
 // API
 
