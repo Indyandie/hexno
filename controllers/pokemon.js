@@ -1,28 +1,8 @@
-import {
-  createPokemon,
-  deletePokemon,
-  getPokemon,
-  listPokemon,
-  updatePokemon,
-} from '../services/pokemon.js'
+import { createPokemon, deletePokemon, getPokemon, listPokemon, updatePokemon } from '../services/pokemon.js'
 
-import {
-  htmlDeletePokemonPost,
-  htmlEditPokemon,
-  htmlNewPokemonPost,
-  htmlNotFound,
-  htmlPageMain,
-  htmlPokemon,
-} from '../views/webViews.js'
+import { htmlDeletePokemonPost, htmlEditPokemon, htmlNewPokemonPost, htmlNotFound, htmlPageMain, htmlPokemon } from '../views/webViews.js'
 
-import {
-  hxDeletePokemon,
-  hxEditPokemon,
-  hxGetPokemon,
-  hxListPokemon,
-  hxNewPokemon,
-  hxPokedex,
-} from '../views/hxViews.js'
+import { hxDeletePokemon, hxEditPokemon, hxGetPokemon, hxListPokemon, hxNewPokemon, hxPokedex } from '../views/hxViews.js'
 
 const status404 = new Response(
   null,

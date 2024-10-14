@@ -1,17 +1,5 @@
 import { Router } from './Router.js'
-import {
-  apiPokemonIdRtr,
-  apiPokemonRtr,
-  hxListPokemonRtr,
-  hxPokedexRtr,
-  hxPokemonRtr,
-  notFoundRtr,
-  webDeleletePokemonRtr,
-  webEditPokemonRtr,
-  webMainPokemonRtr,
-  webNewPokemonRtr,
-  webPokemonRtr,
-} from './pokemon.js'
+import { apiPokemonIdRtr, apiPokemonRtr, hxListPokemonRtr, hxPokedexRtr, hxPokemonRtr, notFoundRtr, webDeleletePokemonRtr, webEditPokemonRtr, webMainPokemonRtr, webNewPokemonRtr, webPokemonRtr } from './pokemon.js'
 import { srvFl } from '../deps.js'
 
 export const router = new Router()

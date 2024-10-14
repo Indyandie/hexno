@@ -1,17 +1,9 @@
-import {
-  createPokemon,
-  deletePokemon,
-  getPokemon,
-  KANTO_POKEDEX_OG,
-  listPokemon,
-  updatePokemon,
-} from '../services/pokemon.js'
+import { createPokemon, deletePokemon, getPokemon, KANTO_POKEDEX_OG, listPokemon, updatePokemon } from '../services/pokemon.js'
 
 import { htmlNotFound } from './webViews.js'
 
 // CSS
-const pokeLiStyle =
-  'style="cursor: pointer; margin: 0 0 32px 0; width: 240px; height: 240px; list-style-type: none;"'
+const pokeLiStyle = 'style="cursor: pointer; margin: 0 0 32px 0; width: 240px; height: 240px; list-style-type: none;"'
 const pokeImgStyle = 'style="height: auto; width: 80%;"'
 
 const htmlNewForm = (
@@ -40,19 +32,13 @@ const htmlNewForm = (
   </figure>
   <hr>
   <form
-  ${
-    !edit
-      ? 'hx-put="/hx/pokemon"'
-      : 'hx-patch="/hx/pokemon/' + pokemon.id + '"'
-  } ${hx} ${editHxSel}
+  ${!edit ? 'hx-put="/hx/pokemon"' : 'hx-patch="/hx/pokemon/' + pokemon.id + '"'} ${hx} ${editHxSel}
   >
     <label for="name">
       name
       <input
         ${prop && 'name' === prop ? 'aria-invalid="true"' : ''}
-        id="name" type="text" name="name" value="${
-    pokemon !== undefined ? pokemon.name : ''
-  }" required autocomplete="off"
+        id="name" type="text" name="name" value="${pokemon !== undefined ? pokemon.name : ''}" required autocomplete="off"
       />
       <small>${prop && 'name' === prop ? message : ''}</small>
     </label>
@@ -61,9 +47,7 @@ const htmlNewForm = (
         weight
         <input
           ${prop && 'weight' === prop ? 'aria-invalid="true"' : ''}
-          id="weight" type="number" name="weight" min="1" value="${
-    pokemon !== undefined ? pokemon.weight : ''
-  }" required
+          id="weight" type="number" name="weight" min="1" value="${pokemon !== undefined ? pokemon.weight : ''}" required
         />
         <small>${prop && 'weight' === prop ? message : ''}</small>
       </label>
@@ -71,9 +55,7 @@ const htmlNewForm = (
         height
         <input
           ${prop && 'height' === prop ? 'aria-invalid="true"' : ''}
-          id="height" type="number" name="height" min="1" value="${
-    pokemon !== undefined ? pokemon.height : ''
-  }" required
+          id="height" type="number" name="height" min="1" value="${pokemon !== undefined ? pokemon.height : ''}" required
         />
         <small>${prop && 'height' === prop ? message : ''}</small>
       </label>
@@ -82,9 +64,7 @@ const htmlNewForm = (
       types
       <input
         ${prop && 'types' === prop ? 'aria-invalid="true"' : ''}
-        id="types" type="text" name="types" list="pokemonmon-types" value="${
-    pokemon !== undefined ? pokemon.types : ''
-  }" required
+        id="types" type="text" name="types" list="pokemonmon-types" value="${pokemon !== undefined ? pokemon.types : ''}" required
       />
       <small>${prop && 'types' === prop ? message : ''}</small>
       <datalist id="pokemonmon-types">
@@ -99,15 +79,11 @@ const htmlNewForm = (
       sprite
       <input
         ${prop && 'sprite' === prop ? 'aria-invalid="true"' : ''}
-        id="sprite" type="url" name="sprite" value="${
-    pokemon !== undefined ? pokemon.sprite : ''
-  }" required
+        id="sprite" type="url" name="sprite" value="${pokemon !== undefined ? pokemon.sprite : ''}" required
       />
       <small>${prop && 'sprite' === prop ? message : ''}</small>
     </label>
-    <button type="submit">${
-    !edit ? 'Create Pokemon' : 'Update Pokemon'
-  }</button>
+    <button type="submit">${!edit ? 'Create Pokemon' : 'Update Pokemon'}</button>
   </form>
 </article>`
 }
@@ -127,10 +103,8 @@ function htmlTemplate(
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     ${meta ? meta : ''}
     ${
-    !redirect
-      ? ''
-      : '<meta http-equiv="Refresh" content="' + delay + ", url='" + redirect +
-        '\'" >'
+    !redirect ? '' : '<meta http-equiv="Refresh" content="' + delay + ", url='" + redirect +
+      '\'" >'
   }
     <title>${title}</title>
     <script src="/public/js/htmx.min.js"></script>
@@ -191,16 +165,12 @@ export const hxListPokemon = async (
       const hxSel = `hx-select="ul > li"`
       if (paging === 'button') {
         const hxSwap = `hx-swap="outerHTML show:top"`
-        const hxGet =
-          `hx-get="/hx/pokemon?offset=${offset}&limit=${limit}&paging=button"`
-        loadMoreBtn =
-          `<li ${pokeLiStyle}><button ${hxGet} ${hxSel} ${hxSwap}>Load More</button></li>`
+        const hxGet = `hx-get="/hx/pokemon?offset=${offset}&limit=${limit}&paging=button"`
+        loadMoreBtn = `<li ${pokeLiStyle}><button ${hxGet} ${hxSel} ${hxSwap}>Load More</button></li>`
       } else if (paging === 'infinite') {
         const hxSwap = `hx-swap="outerHTML"`
-        const hxGet =
-          `hx-get="/hx/pokemon?offset=${offset}&limit=${limit}&paging=infinite"`
-        loadMoreBtn =
-          `<li ${pokeLiStyle} hx-trigger="revealed delay:1s" ${hxGet} ${hxSel} ${hxSwap}><div style="margin: auto; height: 100%; text-align: center; line-height: 240px;" aria-busy="true">Loading more...</div></li>`
+        const hxGet = `hx-get="/hx/pokemon?offset=${offset}&limit=${limit}&paging=infinite"`
+        loadMoreBtn = `<li ${pokeLiStyle} hx-trigger="revealed delay:1s" ${hxGet} ${hxSel} ${hxSwap}><div style="margin: auto; height: 100%; text-align: center; line-height: 240px;" aria-busy="true">Loading more...</div></li>`
       }
     }
   } else {
@@ -223,29 +193,24 @@ export const hxListPokemon = async (
         const hxSwap = `hx-swap="innerHTML"`
         const hxTarget = `hx-target="this"`
         const hx = `${hxGet} ${hxTrigger} ${hxSel} ${hxTarget} ${hxSwap}`
-        const articleHx =
-          `<article style="display: flex; align-items: center; justify-content: center; min-height: 50vh; height: 100%;" aria-busy="true">loading...</article>`
+        const articleHx = `<article style="display: flex; align-items: center; justify-content: center; min-height: 50vh; height: 100%;" aria-busy="true">loading...</article>`
 
         const btnId = `show-dialog-${name}`
         const pokeUTID = `${name}${now}`
         const dialogId = `${pokeUTID}Dialog`
 
         // html
-        const pokeFigure =
-          `<figure><img src="${sprite}" alt="${name}" ${pokeImgStyle} /><figcaption>${name}</figcaption></figure>`
-        const pokeDialog =
-          `<dialog id="${dialogId}" ${hx}>${articleHx}</dialog>`
+        const pokeFigure = `<figure><img src="${sprite}" alt="${name}" ${pokeImgStyle} /><figcaption>${name}</figcaption></figure>`
+        const pokeDialog = `<dialog id="${dialogId}" ${hx}>${articleHx}</dialog>`
 
         // javascript
-        const pokeScript =
-          `<script>const ${dialogId} = document.querySelector("#${dialogId}");const ${pokeUTID}ShowButton = document.querySelector("#${btnId}");${pokeUTID}ShowButton.addEventListener("click", () => {openModalUtils();${dialogId}.showModal();});</script>`
+        const pokeScript = `<script>const ${dialogId} = document.querySelector("#${dialogId}");const ${pokeUTID}ShowButton = document.querySelector("#${btnId}");${pokeUTID}ShowButton.addEventListener("click", () => {openModalUtils();${dialogId}.showModal();});</script>`
 
         return `<li id="pokemon-${id}-list" class="poke-${id}" ${pokeLiStyle}><button class="outline secondary" style="display: flex; flex-direction: column; flex; justify-content: flex-end; align-items: center; gap: 16px; overflow: hidden; width: 100%; height: 100%;" id="${btnId}">${pokeFigure}</button>${pokeDialog}${pokeScript}</li>`
       },
     )
 
-    const pokeUlStyle =
-      'style="width: 100%; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; width: 100%; padding: 0;"'
+    const pokeUlStyle = 'style="width: 100%; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; width: 100%; padding: 0;"'
 
     html.unshift(
       `<ul class="container-fluid" ${pokeUlStyle} id="pokemon-results">`,
@@ -279,31 +244,23 @@ export const hxGetPokemon = async (id, pokedexLink = false) => {
 
     // edit
     const editHxSel = `hx-select="article"`
-    const editAction =
-      `<a href="/web/edit-pokemon/${id}" hx-get="/hx/pokemon/${id}/edit" ${editHxSel} ${hxSwap} ${hxTarget}"><button>edit</button></a>`
+    const editAction = `<a href="/web/edit-pokemon/${id}" hx-get="/hx/pokemon/${id}/edit" ${editHxSel} ${hxSwap} ${hxTarget}"><button>edit</button></a>`
 
     // delete
     const deleteHxSel = `hx-select="dialog"`
     const deleteHxSwap = `hx-swap="afterbegin"`
     const deleteHxTarget = `hx-target="body"`
     const deleteHxConfirm = `hx-confirm="Delete ${name}?"`
-    const deleteAction =
-      `<button hx-delete="/hx/pokemon/${id}" ${deleteHxSel} ${deleteHxSwap} ${deleteHxTarget} ${deleteHxConfirm} form="delete-pokemon" formaction="/web/delete-pokemon/${id}" formmethod="POST" class="outline secondary">delete</button>`
+    const deleteAction = `<button hx-delete="/hx/pokemon/${id}" ${deleteHxSel} ${deleteHxSwap} ${deleteHxTarget} ${deleteHxConfirm} form="delete-pokemon" formaction="/web/delete-pokemon/${id}" formmethod="POST" class="outline secondary">delete</button>`
 
-    const customActions = !official
-      ? `<footer class="container grid" style="display: flex; justify-content: space-between">${deleteAction}${editAction}</footer><form style="display: none;" id="delete-pokemon"><script>htmx.remove("#delete-pokemon")</script></form>`
-      : ''
+    const customActions = !official ? `<footer class="container grid" style="display: flex; justify-content: space-between">${deleteAction}${editAction}</footer><form style="display: none;" id="delete-pokemon"><script>htmx.remove("#delete-pokemon")</script></form>` : ''
 
-    const criesTr = cries
-      ? `<tr><th>cries</th><td><audio controls controlslist="nodownload"><source src="${cries}" type="audio/ogg"></source><p>audio is not supported</p></audio></td></tr>`
-      : ''
+    const criesTr = cries ? `<tr><th>cries</th><td><audio controls controlslist="nodownload"><source src="${cries}" type="audio/ogg"></source><p>audio is not supported</p></audio></td></tr>` : ''
 
     pokedexLink = pokedexLink ? `&nbsp;<a href="/hx/pokedex/${id}">➔</a>` : ''
-    const closeButton =
-      `<form class="hide-dialog" method="dialog"><button onclick="closeModalUtils()" aria-label="Close" rel="prev"></button></form>`
+    const closeButton = `<form class="hide-dialog" method="dialog"><button onclick="closeModalUtils()" aria-label="Close" rel="prev"></button></form>`
 
-    const html =
-      `<article id="${articleID}"><header style="display: flex; justify-content: space-between; align-items: center;"><h1>${name}${pokedexLink}</h1>${closeButton}</header><figure style="display: flex; justify-content: center;"><img style="width: 50%; max-width: 320px;" src="${sprite}" alt="${name}" /></figure><table><tr><th scope="row">weight</th><td>${weight}</td></tr><tr><th scope="row">height</th><td>${height}</td></tr><tr><th scope="row">type</th><td>${types}</td></tr>${criesTr}</table>${customActions}</article>`
+    const html = `<article id="${articleID}"><header style="display: flex; justify-content: space-between; align-items: center;"><h1>${name}${pokedexLink}</h1>${closeButton}</header><figure style="display: flex; justify-content: center;"><img style="width: 50%; max-width: 320px;" src="${sprite}" alt="${name}" /></figure><table><tr><th scope="row">weight</th><td>${weight}</td></tr><tr><th scope="row">height</th><td>${height}</td></tr><tr><th scope="row">type</th><td>${types}</td></tr>${criesTr}</table>${customActions}</article>`
 
     return {
       code,
@@ -346,9 +303,7 @@ export const hxEditPokemon = async (pokemonId, pokemonObj = null) => {
     const { code, pokemon, prop, error, message } = pokeReturn
 
     if (code === 403) {
-      const officialForbidden = !pokemon
-        ? `<h1>${error}</h1><code>${message}</code>`
-        : `<b>${pokemon.name}</b> cannot be edited`
+      const officialForbidden = !pokemon ? `<h1>${error}</h1><code>${message}</code>` : `<b>${pokemon.name}</b> cannot be edited`
       return {
         code,
         html: officialForbidden,
@@ -427,8 +382,7 @@ export const hxDeletePokemon = async (pokemonId) => {
     }, 5000)
 </script>`
 
-    const html =
-      `<dialog open id="${dialogId}" style="position: fixed; top: 0;"><article>${message}${object}${script}${closeButton}</article></dialog>`
+    const html = `<dialog open id="${dialogId}" style="position: fixed; top: 0;"><article>${message}${object}${script}${closeButton}</article></dialog>`
 
     return {
       code,

@@ -1,25 +1,4 @@
-import {
-  createPokemonCtrl,
-  deletePokemonCtrl,
-  getPokemonCtrl,
-  hxCreatePokemonCtrl,
-  hxDeletePokemonCtrl,
-  hxEditPokemonCtrl,
-  hxGetPokemonCtrl,
-  hxListPokemonCtrl,
-  hxNewPokemonCtrl,
-  hxPokedexCtrl,
-  hxUpdatePokemonCtrl,
-  listPokemonCtrl,
-  notFoundCtrl,
-  updatePokemonCtrl,
-  webDeletePokemonCtrl,
-  webEditPokemonCtrl,
-  webHomePokemonCtrl,
-  webNewPokemonCtrl,
-  webPokemonCtrl,
-  webUpdatePokemonCtrl,
-} from '../controllers/pokemon.js'
+import { createPokemonCtrl, deletePokemonCtrl, getPokemonCtrl, hxCreatePokemonCtrl, hxDeletePokemonCtrl, hxEditPokemonCtrl, hxGetPokemonCtrl, hxListPokemonCtrl, hxNewPokemonCtrl, hxPokedexCtrl, hxUpdatePokemonCtrl, listPokemonCtrl, notFoundCtrl, updatePokemonCtrl, webDeletePokemonCtrl, webEditPokemonCtrl, webHomePokemonCtrl, webNewPokemonCtrl, webPokemonCtrl, webUpdatePokemonCtrl } from '../controllers/pokemon.js'
 
 // API
 

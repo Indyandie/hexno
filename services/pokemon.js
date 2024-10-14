@@ -177,8 +177,7 @@ async function validatePokemon(pokemon, checkDuplicate = true) {
       code: 422,
       prop: 'name',
       error: 'Invalid Name Syntax',
-      message:
-        `Invalid (${pokemon.name}). Must be an alphanumerical string that start with a letter. Regex: <code>/^\w(\w\d\s)+$/</code>`,
+      message: `Invalid (${pokemon.name}). Must be an alphanumerical string that start with a letter. Regex: <code>/^\w(\w\d\s)+$/</code>`,
     }
   }
 
@@ -378,9 +377,7 @@ export async function updatePokemon(pokemon) {
   checkPokemon.types = pokemon.types
   checkPokemon.sprite = pokemon.sprite
 
-  const pokemonIndex = pokelist.findIndex((poke) =>
-    parseInt(poke.id) === parseInt(checkPokemon.id)
-  )
+  const pokemonIndex = pokelist.findIndex((poke) => parseInt(poke.id) === parseInt(checkPokemon.id))
 
   pokelist[pokemonIndex] = checkPokemon
 

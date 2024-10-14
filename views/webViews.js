@@ -1,10 +1,4 @@
-import {
-  createPokemon,
-  deletePokemon,
-  getPokemon,
-  listPokemon,
-  updatePokemon,
-} from '../services/pokemon.js'
+import { createPokemon, deletePokemon, getPokemon, listPokemon, updatePokemon } from '../services/pokemon.js'
 
 import { hxGetPokemon } from './hxViews.js'
 
@@ -24,10 +18,8 @@ function htmlTemplate(
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     ${meta ? meta : ''}
     ${
-    !redirect
-      ? ''
-      : '<meta http-equiv="Refresh" content="' + delay + ", url='" + redirect +
-        '\'" >'
+    !redirect ? '' : '<meta http-equiv="Refresh" content="' + delay + ", url='" + redirect +
+      '\'" >'
   }
     <title>${title}</title>
     <link rel="stylesheet" href="/public/css/pico.min.css" />
@@ -74,10 +66,8 @@ export const htmlRedirect = (title, body, delay = 0, redirect = false) => {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     ${
-    !redirect
-      ? ''
-      : '<meta http-equiv="Refresh" content="' + delay + ", url='" + redirect +
-        '\'" >'
+    !redirect ? '' : '<meta http-equiv="Refresh" content="' + delay + ", url='" + redirect +
+      '\'" >'
   }
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>${title}</title>
@@ -104,10 +94,8 @@ const htmlForbidden = (response, delay = 0, redirect = false) => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     ${
-    !redirect
-      ? ''
-      : '<meta http-equiv="Refresh" content="' + delay + ", url='" + redirect +
-        '\'" >'
+    !redirect ? '' : '<meta http-equiv="Refresh" content="' + delay + ", url='" + redirect +
+      '\'" >'
   }
     <title>Forbidden</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔴</text></svg>" />
@@ -132,10 +120,8 @@ export const htmlNotFound = (response = false, delay = 0, redirect = false) => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     ${
-    !redirect
-      ? ''
-      : '<meta http-equiv="Refresh" content="' + delay + ", url='" + redirect +
-        '\'" >'
+    !redirect ? '' : '<meta http-equiv="Refresh" content="' + delay + ", url='" + redirect +
+      '\'" >'
   }
     <title>Not Found</title>
     <link rel="stylesheet" href="/public/css/pico.min.css" />
@@ -169,9 +155,7 @@ const htmlNewForm = (
   message = false,
   edit = false,
 ) => {
-  return `<header class="container" style="position: sticky; top: 0"><h1> ${
-    !edit ? 'New Pokemon' : 'Edit ' + pokemon.id
-  } </h1></header><main class="container">
+  return `<header class="container" style="position: sticky; top: 0"><h1> ${!edit ? 'New Pokemon' : 'Edit ' + pokemon.id} </h1></header><main class="container">
 
   ${
     edit
@@ -180,18 +164,12 @@ const htmlNewForm = (
       : ''
   }
         <form
-          action="${
-    !edit ? '/web/new-pokemon' : '/web/edit-pokemon/' + pokemon.id
-  }"
+          action="${!edit ? '/web/new-pokemon' : '/web/edit-pokemon/' + pokemon.id}"
           method="POST">
           <label for="name">
             name
             <input
-              ${
-    prop && 'name' === prop
-      ? 'aria-invalid="true" aria-describedby="invalid-helper"'
-      : ''
-  }
+              ${prop && 'name' === prop ? 'aria-invalid="true" aria-describedby="invalid-helper"' : ''}
               id="name" type="text" name="name" value="${pokemon.name}" required autocomplete="off"
             />
             <small>${prop && 'name' === prop ? message : ''}</small>
@@ -200,22 +178,14 @@ const htmlNewForm = (
             <label for="weight">
               weight
               <input
-                ${
-    prop && 'weight' === prop
-      ? 'aria-invalid="true" aria-describedby="invalid-helper"'
-      : ''
-  }
+                ${prop && 'weight' === prop ? 'aria-invalid="true" aria-describedby="invalid-helper"' : ''}
                 id="weight" type="number" name="weight" min="1" value="${pokemon.weight}" required />
               <small>${prop && 'weight' === prop ? message : ''}</small>
             </label>
             <label for="height">
               height
               <input
-                ${
-    prop && 'height' === prop
-      ? 'aria-invalid="true" aria-describedby="invalid-helper"'
-      : ''
-  }
+                ${prop && 'height' === prop ? 'aria-invalid="true" aria-describedby="invalid-helper"' : ''}
                 id="height" type="number" name="height" min="1" value="${pokemon.height}" required />
               <small>${prop && 'height' === prop ? message : ''}</small>
             </label>
@@ -223,11 +193,7 @@ const htmlNewForm = (
           <label for="types">
             types
             <input
-              ${
-    prop && 'types' === prop
-      ? 'aria-invalid="true" aria-describedby="invalid-helper"'
-      : ''
-  }
+              ${prop && 'types' === prop ? 'aria-invalid="true" aria-describedby="invalid-helper"' : ''}
               id="types" type="text" name="types" list="pokemonmon-types" value="${pokemon.types}" required
             />
             <small>${prop && 'types' === prop ? message : ''}</small>
@@ -242,11 +208,7 @@ const htmlNewForm = (
           <label for="sprite">
             sprite
             <input
-              ${
-    prop && 'sprite' === prop
-      ? 'aria-invalid="true" aria-describedby="invalid-helper"'
-      : ''
-  }
+              ${prop && 'sprite' === prop ? 'aria-invalid="true" aria-describedby="invalid-helper"' : ''}
               id="sprite" type="url" name="sprite" value="${pokemon.sprite}" required
             />
             <small>${prop && 'sprite' === prop ? message : ''}</small>
@@ -256,9 +218,7 @@ const htmlNewForm = (
             <a href="/web">
               <button type="button" class="outline secondary">Cancel</button>
             </a>
-            <button type="submit">${
-    !edit ? 'Create Pokemon' : 'Update Pokemon'
-  }</button>
+            <button type="submit">${!edit ? 'Create Pokemon' : 'Update Pokemon'}</button>
           </footer>
         </form>
     </main>`
@@ -300,18 +260,14 @@ export async function htmlPageMain(query = false) {
   if (pokemon.length === 0) {
     results = `<p style="text-align: center; padding: 64px;">No pokemon results for <b>${query}</b></p>`
   } else {
-    const pokeLiStyle =
-      `style="width: 240px; list-style-type: none; margin: 0;"`
-    const pokeUlStyle =
-      `style="display: flex; justify-content: space-between; flex-flow: row; flex-wrap: wrap; padding: 0;"`
-    const pokeArticleStyle =
-      `style="width: 100%; height: 240px; display: flex; justify-content: center; align-items: center;"`
+    const pokeLiStyle = `style="width: 240px; list-style-type: none; margin: 0;"`
+    const pokeUlStyle = `style="display: flex; justify-content: space-between; flex-flow: row; flex-wrap: wrap; padding: 0;"`
+    const pokeArticleStyle = `style="width: 100%; height: 240px; display: flex; justify-content: center; align-items: center;"`
 
     const pokeList = pokemon.map(
       (
         poke,
-      ) =>
-        `<li ${pokeLiStyle} id="pokemon-${poke.id}"><a href="/web/pokemon/${poke.id}" ><article ${pokeArticleStyle}><figure style="display: flex; flex-direction: column; align-items: center; justify-content: space-between;"><img style="height: 80%; width: 100%;" src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></article></a></li>`,
+      ) => `<li ${pokeLiStyle} id="pokemon-${poke.id}"><a href="/web/pokemon/${poke.id}" ><article ${pokeArticleStyle}><figure style="display: flex; flex-direction: column; align-items: center; justify-content: space-between;"><img style="height: 80%; width: 100%;" src="${poke.sprite}" alt="${poke.name}" /><figcaption>${poke.name}</figcaption></figure></article></a></li>`,
     )
     pokeList.unshift(
       `<article class="container-fluid"><ul ${pokeUlStyle} class="grid" id="pokemon-results">`,
@@ -380,9 +336,7 @@ const htmlEditForm = (pokemon, prop = false, message = false) => {
 }
 
 const htmlUpdatedPokemon = (pokemon) => {
-  const body = `<h1>Updated!</h1><code>${
-    JSON.stringify(pokemon, null, '<br>')
-  }</code>`
+  const body = `<h1>Updated!</h1><code>${JSON.stringify(pokemon, null, '<br>')}</code>`
   const redirectUrl = `/web/pokemon/${pokemon.id}`
   const title = `Updated: ${pokemon.name} [${pokemon.id}`
   const html = htmlTemplate(title, body, null, redirectUrl, 0)
@@ -430,9 +384,7 @@ export const htmlEditPokemon = async (pokemonId, pokemonObj = null) => {
     const { code, pokemon, prop, error, message } = pokeReturn
 
     if (code === 403) {
-      const officialForbidden = !pokemon
-        ? `<h1>${error}</h1><code>${message}</code>`
-        : `<b>${pokemon.name}</b> cannot be edited`
+      const officialForbidden = !pokemon ? `<h1>${error}</h1><code>${message}</code>` : `<b>${pokemon.name}</b> cannot be edited`
       const redirectUrl = `/pokemon/${pokemonId}`
 
       return {
