@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" dir="auto">
   <head>
     <meta charset="UTF-8" />
@@ -19,24 +19,20 @@
     <main class="container">
       <form action="/web/new-pokemon" method="POST">
         <div>
-          <label for="name"
-            >name
+          <label for="name">name
             <input type="text" name="name" required />
           </label>
         </div>
         <fieldset class="grid">
-          <label for="weight"
-            >weight
+          <label for="weight">weight
             <input type="number" min="1" name="weight" required />
           </label>
-          <label for="height"
-            >height
+          <label for="height">height
             <br />
             <input type="number" min="1" name="height" required />
           </label>
         </fieldset>
-        <label for="types"
-          >types
+        <label for="types">types
           <input type="text" name="types" list="pokemon-types" required />
           <datalist id="pokemon-types">
             <option value="normal"></option>
@@ -46,8 +42,7 @@
             <option value="rock"></option>
           </datalist>
         </label>
-        <label for="sprite"
-          >sprite
+        <label for="sprite">sprite
           <input type="url" name="sprite" required />
         </label>
         <footer class="grid">

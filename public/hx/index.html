@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" dir="auto">
   <head>
     <meta charset="UTF-8" />
@@ -63,8 +63,8 @@
 
       // Get scrollbar width
       const getScrollbarWidth = () => {
-        const scrollbarWidth =
-          window.innerWidth - document.documentElement.clientWidth;
+        const scrollbarWidth = window.innerWidth -
+          document.documentElement.clientWidth;
         return scrollbarWidth;
       };
 
@@ -78,7 +78,7 @@
       style="display: flex; justify-content: space-between"
     >
       <h1 style="margin-right: auto">
-        <strong><a href="/hx">Pokemon</a></strong>
+        <strong><a href="/hx" aria-current="page">Pokemon</a></strong>
       </h1>
       <nav>
         <ul>
@@ -91,21 +91,11 @@
     <main>
       <div
         class="container-fluid"
-        style="
-          position: sticky;
-          top: 0;
-          background: var(--pico-background-color);
-          padding-bottom: 24px;
-        "
+        style="position: sticky; top: 0; background: var(--pico-background-color); padding-bottom: 24px"
       >
         <div
           class="grid"
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            align-content: center;
-          "
+          style="display: flex; justify-content: space-between; align-items: center; align-content: center"
         >
           <input
             style="margin: 0"
@@ -151,7 +141,8 @@
           hx-get="/hx/pokemon?limit=25&paging=infinite"
           hx-swap="outerHTML"
           hx-trigger="load"
-        ></div>
+        >
+        </div>
       </article>
     </main>
   </body>
