@@ -1,4 +1,6 @@
-# htmx Example
+# hexno
+
+htmx + deno = :heart:
 
 [pokeapi]: https://pokeapi.co/
 
@@ -13,10 +15,11 @@ This repository is a playground to test the [htmx](https://htmx.org/) library. I
 
 ### Getting started
 
+1. run `deno task seed` to populate data.
 1. run `deno task start` to start server
-2. go to [localhost:8000](http://localhost:8000/)
-3. Use [`/public`](./public/) to edit/add `html`, `css`, and `js` client files
-4. Use `mod.js`, `/models`, `/services`, `/controllers`, and `/routes` to update the server
+1. go to [localhost:8000](http://localhost:8000/)
+1. Use [`/public`](./public/) to edit/add `html`, `css`, and `js` client files
+1. Use `mod.js`, `/models`, `/services`, `/controllers`, and `/routes` to update the server
 
 ### Deno
 
@@ -26,6 +29,8 @@ This repository is a playground to test the [htmx](https://htmx.org/) library. I
 | `start` | Start server on localhost, port `8000`. Uses `--allow-net`, `--allow-read`, and `--watch` flags |
 
 ## To do
+
+### v0.1.0
 
 - [x] **Web 1.0**
   - [x] pokemon list (home)
@@ -46,6 +51,9 @@ This repository is a playground to test the [htmx](https://htmx.org/) library. I
   - [x] `PATCH` operations?
   - [x] `DELETE` operations
 - [x] Basic router
+
+### v0.1.0
+
 - [ ] Use a proper html parser
 - [ ] Try using hono or oak
 
